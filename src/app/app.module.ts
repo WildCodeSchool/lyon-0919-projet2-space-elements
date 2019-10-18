@@ -8,11 +8,15 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { RouterModule,  } from '@angular/router';
 
   
+import { OptionsComponent } from './options/options.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent
+    HomepageComponent,
+    OptionsComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
