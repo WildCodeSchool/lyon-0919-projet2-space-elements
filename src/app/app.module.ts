@@ -5,10 +5,10 @@ import {routes} from './app-routing.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomepageComponent } from './homepage/homepage.component';
+import { HomepageComponent } from './pages/homepage/homepage.component';
 import { RouterModule,  } from '@angular/router';
-import { OptionsComponent } from './options/options.component';
-import { GameComponent } from './game/game.component';
+import { OptionsComponent } from './pages/options/options.component';
+import { GameComponent } from './pages/game/game.component';
 
 @NgModule({
   declarations: [
