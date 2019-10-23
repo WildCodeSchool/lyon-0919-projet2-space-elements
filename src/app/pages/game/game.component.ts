@@ -7,8 +7,10 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  moveX : number = 250;
-  moveY : number = 250;
+  moveX : number = 0;
+  moveY : number = 0;
+
+
   shoot : boolean = false;
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
@@ -17,17 +19,19 @@ export class GameComponent implements OnInit {
       this.shoot = true;
     }
     if (event.code === 'ArrowRight') {
-      this.moveX = this.moveX + 12  ;
+      this.moveX = this.moveX + 12;
     }
-    if (event.code === 'ArrowLeft') {
-      this.moveX = this.moveX - 12  ;
+    if (event.code === 'ArrowLeft' && this.moveX > -600 ) {
+      this.moveX = this.moveX - 12;
+      
     }
     if (event.code === 'ArrowDown') {
-      this.moveY = this.moveY + 12  ;
+      this.moveY = this.moveY + 12;
     }
     if (event.code === 'ArrowUp') {
-      this.moveY = this.moveY - 12  ;
+      this.moveY = this.moveY - 12;
     }
+
   }
 
   constructor() { }
