@@ -1,0 +1,33 @@
+h2{
+    text-align: center;
+}
+.options{
+    display: flex;
+    justify-content: space-around;
+}
+.shipchoice{
+    width :45%;
+}
+.controls{
+    width :45%;
+    background-color: mediumturquoise ;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+.controls img{
+    width: 80%;
+}
+
+.code{
+    width: 100%;
+    background-color: burlywood;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+.play{
+    text-align: center;
+}
