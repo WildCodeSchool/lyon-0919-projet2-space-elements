@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Ammo } from 'src/app/shared/ammo';
 
 @Component({
   selector: 'app-game',
@@ -6,7 +7,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-
+  ammo = new Ammo;
   moveX : number = 250;
   moveY : number = 250;
   shoot : boolean = false;
@@ -15,7 +16,13 @@ export class GameComponent implements OnInit {
     
     if (event.code === 'Space') {
       this.shoot = true;
+      this.getAmmoPosition();
+      let ammoMove = setInterval(()=>this.moveAmmo(),100);
     }
+
+   
+
+
     if (event.code === 'ArrowRight') {
       this.moveX = this.moveX + 12  ;
     }
@@ -34,5 +41,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  getAmmoPosition(){
+    this.ammo.posX = this.moveX+18;
+    this.ammo.posY = this.moveY-10;
+  }
+  moveAmmo() : void {
+    this.ammo.posY = this.ammo.posY-10;
+   
+  }
+  
 }
