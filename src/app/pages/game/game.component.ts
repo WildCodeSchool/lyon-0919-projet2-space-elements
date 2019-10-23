@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Ammo } from 'src/app/shared/ammo';
 
 @Component({
   selector: 'app-game',
@@ -9,15 +10,21 @@ export class GameComponent implements OnInit {
 
   moveX : number = 0;
   moveY : number = 0;
-
-
+  ammo = new Ammo;
+  
   shoot : boolean = false;
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     
     if (event.code === 'Space') {
       this.shoot = true;
+      this.getAmmoPosition();
+      let ammoMove = setInterval(()=>this.moveAmmo(),100);
     }
+
+   
+
+
     if (event.code === 'ArrowRight') {
       this.moveX = this.moveX + 12;
     }
@@ -38,5 +45,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  getAmmoPosition(){
+    this.ammo.posX = this.moveX+18;
+    this.ammo.posY = this.moveY-10;
+  }
+  moveAmmo() : void {
+    this.ammo.posY = this.ammo.posY-10;
+   
+  }
+  
 }
