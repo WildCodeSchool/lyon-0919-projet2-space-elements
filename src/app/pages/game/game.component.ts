@@ -1,4 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Ship } from '../../shared/ship';
+import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
 
 @Component({
@@ -7,6 +9,13 @@ import { Ammo } from 'src/app/shared/ammo';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+
+  @Input() ship: Ship;
+  constructor(private shipService: ShipService) { }
+
+  ngOnInit() {
+    this.ship = this.shipService.choosenShip;
+  }
 
   moveX : number = 0;
   moveY : number = 0;
@@ -39,11 +48,6 @@ export class GameComponent implements OnInit {
       this.moveY = this.moveY - 12;
     }
 
-  }
-
-  constructor() { }
-
-  ngOnInit() {
   }
   getAmmoPosition(){
     this.ammo.posX = this.moveX+18;
