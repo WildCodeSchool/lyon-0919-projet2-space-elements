@@ -1,0 +1,23 @@
+<div class="playerChoice">
+</div>
+<div class="options">
+    <div class="shipChoice">
+        <label>Choose your ship</label>
+        <div class="ships">
+            <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)">
+                <img [style.width]= "ship.size" src="{{ ship.url }}">
+            </div>
+        </div>
+        
+    </div>
+    <div class="controls">
+        How to play
+    </div>
+</div>
+<div class="stageCode">
+    <label>Stage Code ?</label><br/>
+    <input [(ngModel)]="stageCode" type="text"><br/>
+</div>
+<div class="buttonPlay">
+    <button (click)="goToGame(id)"><a routerLink='/game'>PLAY</a></button>
+</div>
