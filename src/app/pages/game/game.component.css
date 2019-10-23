@@ -5,3 +5,33 @@
     background-color: red;
     position: absolute;
 }
+
+.frame{
+    display: flex;
+    justify-content: center;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vw;
+    background-color: salmon;
+    overflow: hidden;
+    position: fixed;
+}
+.gameContainer{
+    height: 45vw;
+    width: 60vw;
+    background-color: royalblue;
+    overflow: hidden;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    
+}
+.ship{
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    position: absolute;
+};
