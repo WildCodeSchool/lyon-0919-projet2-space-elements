@@ -9,13 +9,15 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { RouterModule,  } from '@angular/router';
 import { OptionsComponent } from './pages/options/options.component';
 import { GameComponent } from './pages/game/game.component';
+import { AmmoComponent } from './components/ammo/ammo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     OptionsComponent,
-    GameComponent
+    GameComponent,
+    AmmoComponent
   ],
   imports: [
     BrowserModule,
