@@ -1,20 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms'
+import {routes} from './app-routing.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { OptionsComponent } from './options/options.component';
-import { GameComponent } from './game/game.component';
+import { HomepageComponent } from './pages/homepage/homepage.component';
+import { RouterModule,  } from '@angular/router';
+import { OptionsComponent } from './pages/options/options.component';
+import { GameComponent } from './pages/game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomepageComponent,
     OptionsComponent,
     GameComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
