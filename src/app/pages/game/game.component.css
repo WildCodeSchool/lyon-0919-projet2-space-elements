@@ -1,11 +1,9 @@
-
 .ammo {
     height: 10px;
-    width: 4px;
+    width: 10px;
     background-color: red;
     position: absolute;
 }
-
 .frame{
     display: flex;
     justify-content: center;
@@ -13,15 +11,15 @@
     margin:0;
     top:0;
     left:0;
-    width: 100vw;
-    height: 100vw;
+    height: -webkit-fill-available;
+    width: 100%;
     background-color: salmon;
     overflow: hidden;
     position: fixed;
 }
 .gameContainer{
-    height: 45vw;
-    width: 60vw;
+    height: -webkit-fill-available;
+    width: 65%;
     background-color: royalblue;
     overflow: hidden;
     position: fixed;
@@ -33,5 +31,6 @@
     width: 40px;
     height: 60px;
     background-color: red;
-    position: absolute;
+    position: relative;
+    align-self: flex-end;
 };

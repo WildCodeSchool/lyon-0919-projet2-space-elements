@@ -7,9 +7,11 @@ import { Ammo } from 'src/app/shared/ammo';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+
+  moveX : number = 0;
+  moveY : number = 0;
   ammo = new Ammo;
-  moveX : number = 250;
-  moveY : number = 250;
+  
   shoot : boolean = false;
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
@@ -24,17 +26,19 @@ export class GameComponent implements OnInit {
 
 
     if (event.code === 'ArrowRight') {
-      this.moveX = this.moveX + 12  ;
+      this.moveX = this.moveX + 12;
     }
-    if (event.code === 'ArrowLeft') {
-      this.moveX = this.moveX - 12  ;
+    if (event.code === 'ArrowLeft' && this.moveX > -600 ) {
+      this.moveX = this.moveX - 12;
+      
     }
     if (event.code === 'ArrowDown') {
-      this.moveY = this.moveY + 12  ;
+      this.moveY = this.moveY + 12;
     }
     if (event.code === 'ArrowUp') {
-      this.moveY = this.moveY - 12  ;
+      this.moveY = this.moveY - 12;
     }
+
   }
 
   constructor() { }
