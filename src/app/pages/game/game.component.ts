@@ -18,7 +18,10 @@ export class GameComponent implements OnInit {
     this.ship = this.shipService.choosenShip;
   }
 
-
+  maxWidth : number = 430;
+  minWidth : number = -430;
+  maxHeight : number = 910;
+  minHeight : number = 0;
   moveX : number = 0 ;
   moveY : number = 0 ;
   ammo = new Ammo;
