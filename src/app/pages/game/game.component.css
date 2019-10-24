@@ -19,7 +19,7 @@
 .gameContainer{
     width: 1200px;
     height: auto;
-    background-color: royalblue;
+    background-color: black;
     display: flex;
     justify-content: center;
 

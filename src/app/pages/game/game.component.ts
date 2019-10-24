@@ -25,6 +25,8 @@ export class GameComponent implements OnInit {
   moveX : number = 0 ;
   moveY : number = 0 ;
   ammo = new Ammo;
+  shipColor = document.getElementById('color')
+  backgroundColor :string = "red";
   
   shoot : boolean = false;
   @HostListener('document:keydown', ['$event'])
@@ -36,6 +38,25 @@ export class GameComponent implements OnInit {
       let ammoMove = setInterval(()=>this.moveAmmo(),100);
     }
   
+    if (event.code === 'KeyC' && this.backgroundColor === "red"){
+      this.backgroundColor = "white";
+      return;
+    }
+    if (event.code === 'KeyC' && this.backgroundColor === "white"){
+      this.backgroundColor = "brown";
+      return;
+    }
+    if (event.code === 'KeyC'&& this.backgroundColor === "brown"){
+      this.backgroundColor = "blue";
+      return;
+    }
+    if (event.code === 'KeyC'&& this.backgroundColor === "blue"){
+    this.backgroundColor = "red";
+    return;
+  }  
+
+
+
     if (event.code === 'ArrowRight' && this.moveX < this.maxWidth ) {
       this.moveX = this.moveX + 10;
       console.log(this.moveX);
