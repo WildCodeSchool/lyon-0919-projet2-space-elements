@@ -1,6 +1,7 @@
 <div class="frame">
     <div class="gameContainer">
-        <div *ngIf="shoot" [style.left.px]="ammo.posX" [style.top.px]="ammo.posY" class='ammo'></div>
-        <div class="ship" id="color" [style.left.px]="moveX" [style.top.px]="moveY" [style.backgroundColor]='backgroundColor'></div>
+        
+        <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>
+        <app-ship [ship]='ship'></app-ship>
     </div>
 </div>

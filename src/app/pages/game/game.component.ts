@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener, } from '@angular/core';
 import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
+import { GameService } from 'src/app/shared/game.service';
 
 @Component({
   selector: 'app-game',
@@ -9,35 +10,56 @@ import { Ammo } from 'src/app/shared/ammo';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-
-  @Input() ship: Ship;
+  ammo : Ammo 
+  ammos : Ammo[] = this.gameService.ammos;
+  ship : Ship = this.gameService.ship;
+  
   gameContainerRef: any;
-  constructor(private shipService: ShipService) { }
-
-  ngOnInit() {
-    this.ship = this.shipService.choosenShip;
-  }
-
-  maxWidth : number = 580;
-  minWidth : number = -580;
-  maxHeight : number = -910;
-  minHeight : number = 0;
-  moveX : number = 0 ;
-  moveY : number = 0 ;
-  ammo = new Ammo;
+  maxWidth : number = 1160;
+  minWidth : number = 0;
+  maxHeight : number = 0;
+  minHeight : number = 910;
   shipColor = document.getElementById('color')
   backgroundColor :string = "red";
-  
-  shoot : boolean = false;
-  @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+
+  constructor(
+    public shipService: ShipService,
+    public gameService: GameService
+    ) { }
     
-    if (event.code === 'Space') {
-      this.shoot = true;
-      this.getAmmoPosition();
-      let ammoMove = setInterval(()=>this.moveAmmo(),100);
-    }
+  ngOnInit() {
+    // this.ship = this.shipService.choosenShip;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+    onKeydownHandler(event: KeyboardEvent) {
+  if (event.code === 'Space') {
+    let index = this.gameService.addAmmo();
+    this.gameService.interval(index);
+    console.log(this.ship.posX);
+  }  
   
+  
+  if (event.code === 'ArrowRight' && this.ship.posX < this.maxWidth ) {
+    this.ship.posX = this.ship.posX + 10;
+    console.log(this.ship.posX);
+    
+  }
+  if (event.code === 'ArrowLeft' && this.ship.posX > this.minWidth) {
+    this.ship.posX = this.ship.posX - 10;
+    console.log(this.ship.posX);
+  }
+  if (event.code === 'ArrowDown' && this.ship.posY < this.minHeight) {
+    this.ship.posY = this.ship.posY + 10;
+    console.log(this.ship.posY);
+    
+  }
+  if (event.code === 'ArrowUp' && this.ship.posY > this.maxHeight) {
+    this.ship.posY = this.ship.posY - 10;
+    console.log(this.ship.posY);
+    
+  }
+    
     if (event.code === 'KeyC' && this.backgroundColor === "red"){
       this.backgroundColor = "white";
       return;
@@ -53,38 +75,6 @@ export class GameComponent implements OnInit {
     if (event.code === 'KeyC'&& this.backgroundColor === "blue"){
     this.backgroundColor = "red";
     return;
-  }  
-
-
-
-    if (event.code === 'ArrowRight' && this.moveX < this.maxWidth ) {
-      this.moveX = this.moveX + 10;
-      console.log(this.moveX);
-    
-    }
-    if (event.code === 'ArrowLeft' && this.moveX > this.minWidth) {
-      this.moveX = this.moveX - 10;
-      console.log(this.moveX);
-    }
-    if (event.code === 'ArrowDown' && this.moveY < this.minHeight) {
-      this.moveY = this.moveY + 10;
-      console.log(this.moveY);
-;
-    }
-    if (event.code === 'ArrowUp' && this.moveY > this.maxHeight) {
-      this.moveY = this.moveY - 10;
-      console.log(this.moveY);
-;
-    }
-
-  }
-  getAmmoPosition(){
-    this.ammo.posX = this.moveX+18;
-    this.ammo.posY = this.moveY-10;
-  }
-  moveAmmo() : void {
-    this.ammo.posY = this.ammo.posY-10;
-   
-  }
-  
+    }      
+  } 
 }
