@@ -11,20 +11,18 @@
     margin:0;
     top:0;
     left:0;
-    height: -webkit-fill-available;
+    height: -webkit-fill-available;;
     width: 100%;
     background-color: salmon;
-    overflow: hidden;
-    position: fixed;
+
 }
 .gameContainer{
-    height: -webkit-fill-available;
-    width: 65%;
+    width: 900px;
+    height: auto;
     background-color: royalblue;
-    overflow: hidden;
-    position: fixed;
     display: flex;
     justify-content: center;
+
     
 }
 .ship{
