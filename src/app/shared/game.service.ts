@@ -13,7 +13,8 @@ export class GameService {
     posX: 0,
     posY: 0,
     HP: 100,
-    size: '' 
+    size: '',
+    backgroundColor:"red",
   };
 
   constructor() { }

@@ -8,7 +8,8 @@ export const SHIPS: Ship[] =
         posX: 0,
         posY: 0,
         HP: 0,
-        size: '100px'
+        size: '100px',
+        backgroundColor:"red",
     },
     {
         id: 2,
@@ -16,6 +17,7 @@ export const SHIPS: Ship[] =
         posX: 0,
         posY: 0,
         HP: 0,
-        size: '100px'
+        size: '100px',
+        backgroundColor:"red",
     }
 ]
