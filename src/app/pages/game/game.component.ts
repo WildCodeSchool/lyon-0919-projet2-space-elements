@@ -18,9 +18,9 @@ export class GameComponent implements OnInit {
     this.ship = this.shipService.choosenShip;
   }
 
-  maxWidth : number = 430;
-  minWidth : number = -430;
-  maxHeight : number = 910;
+  maxWidth : number = 580;
+  minWidth : number = -580;
+  maxHeight : number = -910;
   minHeight : number = 0;
   moveX : number = 0 ;
   moveY : number = 0 ;
@@ -36,21 +36,21 @@ export class GameComponent implements OnInit {
       let ammoMove = setInterval(()=>this.moveAmmo(),100);
     }
   
-    if (event.code === 'ArrowRight' && this.moveX < 430 ) {
+    if (event.code === 'ArrowRight' && this.moveX < this.maxWidth ) {
       this.moveX = this.moveX + 10;
       console.log(this.moveX);
     
     }
-    if (event.code === 'ArrowLeft' && this.moveX > -430) {
+    if (event.code === 'ArrowLeft' && this.moveX > this.minWidth) {
       this.moveX = this.moveX - 10;
       console.log(this.moveX);
     }
-    if (event.code === 'ArrowDown' && this.moveY < 0) {
+    if (event.code === 'ArrowDown' && this.moveY < this.minHeight) {
       this.moveY = this.moveY + 10;
       console.log(this.moveY);
 ;
     }
-    if (event.code === 'ArrowUp' && this.moveY > -910) {
+    if (event.code === 'ArrowUp' && this.moveY > this.maxHeight) {
       this.moveY = this.moveY - 10;
       console.log(this.moveY);
 ;
