@@ -8,21 +8,21 @@ import { Ship } from './ship';
 export class GameService {
  ammos : Ammo[] = new Array<Ammo>();
  ship : Ship = {
-  id: 1,
-  url: '',
-  posX: 250,
-  posY: 250,
-  HP: 100
-}
+    id: 1,
+    url: '',
+    posX: 0,
+    posY: 0,
+    HP: 100,
+    size: '' 
+  };
 
   constructor() { }
+
   addAmmo() {
-    let ammo = new Ammo('fire', this.ship.posX + 18,this.ship.posY - 10);
+    let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
     return this.ammos.push(ammo) - 1;
     
   }
-  
- 
   
   moveAmmo(i: number) : void {
     if (this.ammos[i]) {

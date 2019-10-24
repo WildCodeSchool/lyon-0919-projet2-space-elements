@@ -2,25 +2,21 @@
 
 
 .frame{
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
     padding:0;
     margin:0;
     top:0;
     left:0;
-    width: 100vw;
-    height: 100vw;
+    height: 100vh;
+    width: 100%;
     background-color: salmon;
-    overflow: hidden;
-    position: fixed;
+
 }
 .gameContainer{
-    height: 45vw;
-    width: 60vw;
-    background-color: royalblue;
-    overflow: hidden;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    
+    width: 1200px;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: black;
+    /* display: flex; */
+    /* justify-content: center;     */
 }

@@ -1,13 +1,49 @@
+*
+{
+    text-align: center;
+    width: 100%;
+}
+
+.options
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.shipChoice
+{
+    width :45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shipChoice img
+{
+    margin: 50px;
+}
+
+.ships
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    width: 50px;
+}
+
+.stageCode input{
+    width: 150px;
+}
 h2{
     text-align: center;
 }
-.options{
-    display: flex;
-    justify-content: space-around;
-}
-.shipchoice{
-    width :45%;
-}
+
 .controls{
     width :45%;
     background-color: mediumturquoise ;
