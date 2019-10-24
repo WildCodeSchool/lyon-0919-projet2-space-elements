@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Ammo } from 'src/app/shared/ammo';
-import { AmmoService } from 'src/app/shared/ammo.service';
+import { GameService } from 'src/app/shared/game.service';
+import { Ship } from 'src/app/shared/ship';
 
 @Component({
   selector: 'app-game',
@@ -8,48 +9,37 @@ import { AmmoService } from 'src/app/shared/ammo.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  ammo = new Ammo;
-  ammos : Ammo[] = new Array<Ammo>();
-  moveX : number = 250;
-  moveY : number = 250;
-  shoot : boolean = false;
+  ammo : Ammo 
+  ammos : Ammo[] = this.gameService.ammos;
+  ship : Ship = this.gameService.ship;
+  
 
-  @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    
-    if (event.code === 'Space') {
-      this.ammoService.addAmmo();
-      this.ammos = this.ammoService.ammos;
-      this.getAmmoPosition();
-      let ammoMove = setInterval(()=>this.moveAmmo(),100);
-    }
-
-   
-    if (event.code === 'ArrowRight') {
-      this.moveX = this.moveX + 12  ;
-    }
-    if (event.code === 'ArrowLeft') {
-      this.moveX = this.moveX - 12  ;
-    }
-    if (event.code === 'ArrowDown') {
-      this.moveY = this.moveY + 12  ;
-    }
-    if (event.code === 'ArrowUp') {
-      this.moveY = this.moveY - 12  ;
-    }
-  }
-
-  constructor(private ammoService : AmmoService) { }
+  constructor(public gameService : GameService) { }
 
   ngOnInit() {
   }
-  getAmmoPosition(){
-    this.ammo.posX = this.moveX+18;
-    this.ammo.posY = this.moveY-10;
+
+  @HostListener('document:keydown', ['$event'])
+    onKeydownHandler(event: KeyboardEvent) {
+  if (event.code === 'Space') {
+    let index = this.gameService.addAmmo();
+    this.gameService.interval(index);
+
+    
+    
   }
-  moveAmmo() : void {
-    this.ammo.posY = this.ammo.posY-10;
-   
+  else if (event.code === 'ArrowRight') {
+    this.ship.posX = this.ship.posX + 12  ;
   }
-  
+  else if (event.code === 'ArrowLeft') {
+    this.ship.posX = this.ship.posX - 12  ;
+  }
+  else if (event.code === 'ArrowDown') {
+    this.ship.posY = this.ship.posY + 12  ;
+  }
+  else if (event.code === 'ArrowUp') {
+    this.ship.posY = this.ship.posY - 12  ;
+  }
+}
+ 
 }

@@ -1,6 +1,6 @@
-.ammo {
-    height: 10px;
-    width: 4px;
+.ship{
+    width: 40px;
+    height: 60px;
     background-color: red;
     position: absolute;
-}
+};

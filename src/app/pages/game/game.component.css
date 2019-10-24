@@ -1,10 +1,5 @@
 
-.ammo {
-    height: 10px;
-    width: 4px;
-    background-color: red;
-    position: absolute;
-}
+
 
 .frame{
     display: flex;
@@ -29,9 +24,3 @@
     justify-content: center;
     
 }
-.ship{
-    width: 40px;
-    height: 60px;
-    background-color: red;
-    position: absolute;
-};

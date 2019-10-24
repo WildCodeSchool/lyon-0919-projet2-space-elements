@@ -10,6 +10,7 @@ import { RouterModule,  } from '@angular/router';
 import { OptionsComponent } from './pages/options/options.component';
 import { GameComponent } from './pages/game/game.component';
 import { AmmoComponent } from './components/ammo/ammo.component';
+import { ShipComponent } from './components/ship/ship.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AmmoComponent } from './components/ammo/ammo.component';
     HomepageComponent,
     OptionsComponent,
     GameComponent,
-    AmmoComponent
+    AmmoComponent,
+    ShipComponent
   ],
   imports: [
     BrowserModule,

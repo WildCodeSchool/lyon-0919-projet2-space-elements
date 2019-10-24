@@ -1,7 +1,7 @@
 export class Ship {
-    id: Number;
-    url: String;
-    posX: Number;
-    posY: Number;
+    id: number;
+    url: string;
+    posX: number;
+    posY: number;
     HP: number;
 }
