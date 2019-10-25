@@ -4,6 +4,6 @@ export class Ship {
     posX: number;
     posY: number;
     HP: number;
-    size: string;
+    size: number;
     backgroundColor:string;
 }

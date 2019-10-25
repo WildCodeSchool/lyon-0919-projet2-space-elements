@@ -5,7 +5,7 @@ export class Ammo {
 
     constructor(element,posX,posY){
         this.element = element;
-        this.posX = posX;
-        this.posY = posY;
+        this.posX = posX ;
+        this.posY = posY ;
     }
 }

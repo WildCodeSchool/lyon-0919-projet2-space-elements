@@ -5,7 +5,7 @@
         <label>Choose your ship</label>
         <div class="ships">
             <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)">
-                <img [style.width]= "ship.size" src="{{ ship.url }}">
+                <img [style.width.px]= "ship.size" src="{{ ship.url }}">
             </div>
         </div>
         

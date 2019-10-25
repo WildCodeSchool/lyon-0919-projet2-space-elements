@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
@@ -9,16 +9,15 @@ import { GameService } from 'src/app/shared/game.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Ammo[] = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
   
-  gameContainerRef: any;
-  maxWidth : number = 1160;
-  minWidth : number = 0;
-  maxHeight : number = 0;
-  minHeight : number = 910;
+  @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
+  sizeGameContainer : number;
+  widthTotal : number;
+  heightTotal : number;
 
   constructor(
     public shipService: ShipService,
@@ -27,6 +26,14 @@ export class GameComponent implements OnInit {
     
   ngOnInit() {
     // this.ship = this.shipService.choosenShip;
+    
+  }
+  
+  ngAfterViewInit() {
+    this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
+    this.widthTotal = window.innerWidth;
+    this.heightTotal = window.innerHeight;
+    this.gameService.maxShipX = this.gameContainerElt.nativeElement.clientWidth;
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -38,21 +45,21 @@ export class GameComponent implements OnInit {
   }  
   
   
-  if (event.code === 'ArrowRight' && this.ship.posX < this.maxWidth ) {
+  if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
     this.ship.posX = this.ship.posX + 10;
     console.log(this.ship.posX);
     
   }
-  if (event.code === 'ArrowLeft' && this.ship.posX > this.minWidth) {
+  if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.setMinShipX(this.widthTotal)) {
     this.ship.posX = this.ship.posX - 10;
     console.log(this.ship.posX);
   }
-  if (event.code === 'ArrowDown' && this.ship.posY < this.minHeight) {
+  if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.setMaxShipY(this.heightTotal)) {
     this.ship.posY = this.ship.posY + 10;
     console.log(this.ship.posY);
     
   }
-  if (event.code === 'ArrowUp' && this.ship.posY > this.maxHeight) {
+  if (event.code === 'ArrowUp' && this.ship.posY > this.gameService.setMinShipY()) {
     this.ship.posY = this.ship.posY - 10;
     console.log(this.ship.posY);
   }

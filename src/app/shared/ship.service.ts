@@ -15,10 +15,10 @@ export class ShipService {
   setChoosenShip(ship: Ship)
   {
     if (this.choosenShip) {
-      this.choosenShip.size = '100px';
+      this.choosenShip.size = 100;
     }
     this.choosenShip = ship;
-    this.choosenShip.size = '150px';
+    this.choosenShip.size = 150;
     return this.choosenShip;
   }
 }

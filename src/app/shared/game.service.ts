@@ -10,14 +10,40 @@ export class GameService {
  ship : Ship = {
     id: 1,
     url: '',
-    posX: 0,
-    posY: 0,
+    posX: 940,
+    posY: 880,
     HP: 100,
-    size: '',
+    size: 40,
     backgroundColor:"red",
   };
 
+  maxShipX : number;
+  minShipX : number;
+  maxShipY : number;
+  minShipY : number;
+
   constructor() { }
+
+  setMaxShipX(widthTotal, sizeGameContainer){
+    this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
+    console.log(this.maxShipX);
+    return this.maxShipX;
+  }
+  setMinShipX(widthTotal){
+    this.minShipX = (widthTotal*0.1);
+    console.log(this.minShipX);
+    return this.minShipX;
+  }
+  setMaxShipY(heightTotal){
+    this.maxShipY = (heightTotal) - this.ship.size - 30;
+    console.log(this.maxShipY);
+    return this.maxShipY;
+  }
+  setMinShipY(){
+    this.minShipY = 0;
+    console.log(this.minShipX);
+    return this.minShipY;
+  }
 
   addAmmo() {
     let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
