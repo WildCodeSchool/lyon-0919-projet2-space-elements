@@ -7,11 +7,12 @@ import { Ennemy } from './ennemy';
   providedIn: 'root'
 })
 export class GameService {
- ammos : Ammo[] = new Array<Ammo>();
+ 
  ennemies : Ennemy[] = new Array<Ennemy>();
 
  types : string[] = ['fire','water','air','earth'];
  
+ ammos : Set<Ammo> = new Set<Ammo>();
  ship : Ship = {
     id: 1,
     url: '',
@@ -31,7 +32,18 @@ export class GameService {
   ennemyY : number = 0;
 
 
-  constructor() { }
+  
+  
+  constructor() {
+    setInterval(() => {
+      for (let ammo of this.ammos) {
+        this.moveAmmo(ammo);
+      }
+    }, 50);
+
+  }
+
+
   //Function random
   randomNumber(min : number, max : number) {  
     return Math.floor(Math.random() * (max - min)+min);
@@ -58,27 +70,22 @@ export class GameService {
   //Ammo addition and move
   addAmmo() {
     let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
-    return this.ammos.push(ammo) - 1;
-    
+    return this.ammos.add(ammo);
   }
   
-  moveAmmo(i: number) : void {
-    if (this.ammos[i]) {
-      if (this.ammos[i].posY < 0) {
-        this.ammos.splice(i, 1);
+  moveAmmo(ammo: Ammo) : void {
+    ammo.posY = ammo.posY - 15;
+    if (ammo) {
+      if (ammo.posY < 0) {
+        this.ammos.delete(ammo);
       }
       else {
-        this.ammos[i].posY = this.ammos[i].posY - 10;
+        ammo.posY = ammo.posY - 5;
       }
-
     }
-    this.interval(i);
   }
 
-  interval(index: number) {
-    setTimeout(() => this.moveAmmo(index), 100);
-  }
-
+  
   //Ennemy addition and move
   addEnnemy(index : number, contMinX : number, contMaxX : number){
    
