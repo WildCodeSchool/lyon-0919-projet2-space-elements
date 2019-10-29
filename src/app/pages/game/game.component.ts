@@ -10,7 +10,7 @@ import { GameService } from 'src/app/shared/game.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, AfterViewInit {
-  ammo : Ammo 
+
   ammos : Ammo[] = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
   
@@ -21,8 +21,8 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   constructor(
     public shipService: ShipService,
-    public gameService: GameService
-    ) { }
+    public gameService: GameService,
+    ) {}
     
   ngOnInit() {
     // this.ship = this.shipService.choosenShip;
@@ -42,6 +42,22 @@ export class GameComponent implements OnInit, AfterViewInit {
     let index = this.gameService.addAmmo();
     this.gameService.interval(index);
     console.log(this.ship.posX);
+  if ( event.code === 'Space' && this.ship.backgroundColor === "red"){
+      //this.ammo.backgroundColor = "red"
+      return;
+    }
+  if ( event.code === 'Space' && this.ship.backgroundColor === "white"){
+      //this.ammo.backgroundColor = "white"
+      return;
+    }
+  if ( event.code === 'Space' && this.ship.backgroundColor === "brown"){
+      //this.ammo.backgroundColor = "brown"
+      return;
+    }
+  if ( event.code === 'Space' && this.ship.backgroundColor === "blue"){
+      //this.ammo.backgroundColor = "blue"
+      return;
+    }
   }  
   
   

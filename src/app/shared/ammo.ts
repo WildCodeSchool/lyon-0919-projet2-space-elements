@@ -1,10 +1,10 @@
 export class Ammo {
-    element: string;
+    backgroundColor:string;
     posX: number;
     posY: number;
 
-    constructor(element,posX,posY){
-        this.element = element;
+    constructor(backgroundColor,posX,posY){
+        this.backgroundColor = backgroundColor;
         this.posX = posX ;
         this.posY = posY ;
     }

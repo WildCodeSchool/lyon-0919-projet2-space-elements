@@ -65,7 +65,7 @@ export class GameService {
   }
 
   interval(index: number) {
-    setTimeout(() => this.moveAmmo(index), 100);
+    setTimeout(() => this.moveAmmo(index), 150);
   }
 
 }
