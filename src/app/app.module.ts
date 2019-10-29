@@ -11,6 +11,7 @@ import { OptionsComponent } from './pages/options/options.component';
 import { GameComponent } from './pages/game/game.component';
 import { AmmoComponent } from './components/ammo/ammo.component';
 import { ShipComponent } from './components/ship/ship.component';
+import { EnnemyComponent } from './components/ennemy/ennemy.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ShipComponent } from './components/ship/ship.component';
     OptionsComponent,
     GameComponent,
     AmmoComponent,
-    ShipComponent
+    ShipComponent,
+    EnnemyComponent
   ],
   imports: [
     BrowserModule,

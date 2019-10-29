@@ -1,5 +1,6 @@
 <div class="frame">
     <div class="gameContainer" #gameContainerElt>
+        <app-ennemy [ennemy]='ennemy' *ngFor = 'let ennemy of ennemies'></app-ennemy>
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>
         
         <app-ship [ship]='ship'></app-ship>
