@@ -6,7 +6,7 @@ import { Ship } from './ship';
   providedIn: 'root'
 })
 export class GameService {
- ammos : Ammo[] = new Array<Ammo>();
+ ammos : Set<Ammo> = new Set<Ammo>();
  ship : Ship = {
     id: 1,
     url: '',
@@ -22,52 +22,48 @@ export class GameService {
   maxShipY : number;
   minShipY : number;
 
-  constructor() { }
+  constructor() {
+    setInterval(() => {
+      for (let ammo of this.ammos) {
+        this.moveAmmo(ammo);
+      }
+    }, 50);
+
+  }
 
   setMaxShipX(widthTotal, sizeGameContainer){
     this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
-    console.log(this.maxShipX);
     return this.maxShipX;
   }
   setMinShipX(widthTotal){
     this.minShipX = (widthTotal*0.1);
-    console.log(this.minShipX);
     return this.minShipX;
   }
   setMaxShipY(heightTotal){
     this.maxShipY = (heightTotal) - this.ship.size - 30;
-    console.log(this.maxShipY);
     return this.maxShipY;
   }
   setMinShipY(){
     this.minShipY = 0;
-    console.log(this.minShipX);
     return this.minShipY;
   }
 
   addAmmo() {
     let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
-    return this.ammos.push(ammo) - 1;
-    
+    return this.ammos.add(ammo);
   }
   
-  moveAmmo(i: number) : void {
-    if (this.ammos[i]) {
-      if (this.ammos[i].posY < 0) {
-        this.ammos.splice(i, 1);
+  moveAmmo(ammo: Ammo) : void {
+    ammo.posY = ammo.posY - 15;
+    if (ammo) {
+      if (ammo.posY < 0) {
+        this.ammos.delete(ammo);
       }
       else {
-        this.ammos[i].posY = this.ammos[i].posY - 10;
+        ammo.posY = ammo.posY - 5;
       }
-
     }
-    this.interval(i);
   }
-
-  interval(index: number) {
-    setTimeout(() => this.moveAmmo(index), 100);
-  }
-
 }
 
 

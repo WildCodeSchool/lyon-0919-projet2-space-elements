@@ -11,7 +11,7 @@ import { GameService } from 'src/app/shared/game.service';
 })
 export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
-  ammos : Ammo[] = this.gameService.ammos;
+  ammos : Set<Ammo> = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
   
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
@@ -38,53 +38,41 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
-  if (event.code === 'Space') {
-    let index = this.gameService.addAmmo();
-    this.gameService.interval(index);
-    console.log(this.ship.posX);
-  }  
-  
-  
-  if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
-    this.ship.posX = this.ship.posX + 10;
-    console.log(this.ship.posX);
+    if (event.code === 'Space') {
+      this.gameService.addAmmo();
+    }  
     
-  }
-  if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.setMinShipX(this.widthTotal)) {
-    this.ship.posX = this.ship.posX - 10;
-    console.log(this.ship.posX);
-  }
-  if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.setMaxShipY(this.heightTotal)) {
-    this.ship.posY = this.ship.posY + 10;
-    console.log(this.ship.posY);
     
-  }
-  if (event.code === 'ArrowUp' && this.ship.posY > this.gameService.setMinShipY()) {
-    this.ship.posY = this.ship.posY - 10;
-    console.log(this.ship.posY);
-  }
-    
+    if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
+      this.ship.posX = this.ship.posX + 10;    
+    }
+    if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.setMinShipX(this.widthTotal)) {
+      this.ship.posX = this.ship.posX - 10;
+    }
+    if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.setMaxShipY(this.heightTotal)) {
+      this.ship.posY = this.ship.posY + 10;    
+    }
+    if (event.code === 'ArrowUp' && this.ship.posY > this.gameService.setMinShipY()) {
+      this.ship.posY = this.ship.posY - 10;
+    }
+      
 
-  
-  if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
-    this.ship.backgroundColor = "white";
-    console.log('ok');
-    return;
-  }
-  if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
-    this.ship.backgroundColor = "brown";
-    console.log('ca');
-    return;
-  }
-  if (event.code === 'KeyC'&& this.ship.backgroundColor === "brown"){
-    this.ship.backgroundColor = "blue";
-    console.log('fonctionne');
-    return;
-  }
-  if (event.code === 'KeyC'&& this.ship.backgroundColor === "blue"){
-    this.ship.backgroundColor = "red";
-    console.log('bien');
-    return;
-  }      
+    
+    if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
+      this.ship.backgroundColor = "white";
+      return;
+    }
+    if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
+      this.ship.backgroundColor = "brown";
+      return;
+    }
+    if (event.code === 'KeyC'&& this.ship.backgroundColor === "brown"){
+      this.ship.backgroundColor = "blue";
+      return;
+    }
+    if (event.code === 'KeyC'&& this.ship.backgroundColor === "blue"){
+      this.ship.backgroundColor = "red";
+      return;
+    }      
   } 
 }
