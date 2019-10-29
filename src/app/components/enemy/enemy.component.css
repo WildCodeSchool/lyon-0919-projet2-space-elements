@@ -1,0 +1,7 @@
+.enemy{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(229, 255, 0);
+    position: absolute;
+    /* align-self: flex-end; */
+};
