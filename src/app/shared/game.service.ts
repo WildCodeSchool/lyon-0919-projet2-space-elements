@@ -54,6 +54,7 @@ export class GameService {
     return Math.floor(Math.random() * (max - min)+min);
   }
 
+  
   //Functions to define the container size
   setMaxShipX(widthTotal, sizeGameContainer){
     this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
@@ -98,10 +99,10 @@ export class GameService {
     let ennemy = new Ennemy(this.types[this.randomNumber(0,3)], this.ennemyX,this.ennemyY )
     this.ennemies.add(ennemy);
   }
+
   moveEnnemy(ennemy:Ennemy){
-   
     if (ennemy) {
-      if (ennemy.posY>600) {
+      if (ennemy.posY>1080) {
         this.ennemies.delete(ennemy);
       }
       else {

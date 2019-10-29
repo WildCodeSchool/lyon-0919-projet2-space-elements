@@ -41,21 +41,23 @@ export class GameComponent implements OnInit, AfterViewInit {
     this.widthTotal = window.innerWidth;
     this.heightTotal = window.innerHeight;
     this.gameService.maxShipX = this.gameContainerElt.nativeElement.clientWidth;
-    
+
     // ennemy creation
    setInterval(()=>{
-      this.gameService.addEnnemy(this.getMinContainerLimit(), this.getMaxContainerLimit())},1000)
-    
-
-    
+      this.gameService.addEnnemy(this.getMinContainerLimitX(), this.getMaxContainerLimitX())},1000)
     
   }
-  getMaxContainerLimit(){
+  
+  getMaxContainerLimitX(){
     return this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer);
   }
-  getMinContainerLimit(){
+  getMinContainerLimitX(){
     return this.gameService.setMinShipX(this.widthTotal);
   }
+  getMinContainerLimitY(){
+    return this.gameService.setMaxShipY(this.heightTotal);
+  }
+
 
 //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
