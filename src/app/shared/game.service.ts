@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ammo } from './ammo';
 import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
+import { Game } from './game';
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +10,33 @@ import { Enemy} from 'src/app/shared/enemy';
 export class GameService {
  
  enemies : Set<Enemy> = new Set<Enemy>();
-
+ ammos : Set<Ammo> = new Set<Ammo>();
  types : string[] = ['fire','water','air','earth'];
  
- ammos : Set<Ammo> = new Set<Ammo>();
 
  ship : Ship = {
-    id: 1,
-    url: '',
-    posX: 940,
+    id : 0,
+    url : '',
+    posX: 0,
     posY: 880,
+    height : 60,
+    width : 40,
+    size : 0,
     HP: 100,
-    size: 40,
     backgroundColor:"red",
   };
+  game : Game = new Game;
+
   // Ship position
-  maxShipX : number;
+  /*maxShipX : number;
   minShipX : number;
   maxShipY : number;
-  minShipY : number;
+  minShipY : number;*/
 
-  enemyX : number;
-  enemyY : number = -30;
+  
   
   constructor() {
+    // Ammo moving and killing enemy
     setInterval(() => {
       for (let ammo of this.ammos) {
         this.moveAmmo(ammo);
@@ -47,6 +51,7 @@ export class GameService {
         }
       }
     }, 50);
+    // Enemy moving down
     setInterval(() => {
       for (let enemy of this.enemies) {
         this.moveEnemy(enemy);
@@ -55,7 +60,6 @@ export class GameService {
 
   }
 
-
   //Function random
   randomNumber(min : number, max : number) {  
     return Math.floor(Math.random() * (max - min)+min);
@@ -63,21 +67,29 @@ export class GameService {
 
   
   //Functions to define the container size
-  setMaxShipX(widthTotal, sizeGameContainer){
-    this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
-    return this.maxShipX;
+  setMaxX(widthTotal, sizeGameContainer){
+    this.game.maxX = (widthTotal*0.1) + sizeGameContainer;
+    return this.game.maxX;
   }
-  setMinShipX(widthTotal){
-    this.minShipX = (widthTotal*0.1);
-    return this.minShipX;
+  setMinX(widthTotal){
+    this.game.minX = (widthTotal*0.1);
+    return this.game.minX;
   }
-  setMaxShipY(heightTotal){
-    this.maxShipY = (heightTotal) - this.ship.size - 30;
-    return this.maxShipY;
+  setMaxY(heightTotal){
+    this.game.maxY = (heightTotal);
+    return this.game.maxY;
   }
-  setMinShipY(){
-    this.minShipY = 0;
-    return this.minShipY;
+  setMinY(){
+    this.game.minY = 0;
+    return this.game.minY;
+  }
+
+  //Position of the ship
+  setShipX(widthTotal){
+    this.ship.posX = widthTotal/2;
+  }
+  setShipY(heightTotal){
+    this.ship.posY = heightTotal - this.ship.height;
   }
 
   //Ammo addition and move
@@ -100,16 +112,18 @@ export class GameService {
 
   
   //Enemy addition and move
-  addEnemy(contMinX : number, contMaxX : number){
+  addEnemy(){
    
-    this.enemyX = this.randomNumber(contMinX, contMaxX)
-    let enemy = new Enemy(this.types[this.randomNumber(0,3)], this.enemyX,this.enemyY )
+    let enemyX = this.randomNumber(this.game.minX+15, this.game.maxX)
+    console.log(this.game.maxX)
+    let enemy = new Enemy(this.types[this.randomNumber(0,3)], enemyX-30 , -30)
     this.enemies.add(enemy);
+    
   }
 
   moveEnemy(enemy:Enemy){
     if (enemy) {
-      if (enemy.posY>1080) {
+      if (enemy.posY>this.game.maxY-32) {
         this.enemies.delete(enemy);
       }
       else {
