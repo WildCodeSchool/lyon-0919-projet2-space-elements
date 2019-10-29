@@ -8,7 +8,7 @@ import { Ennemy } from './ennemy';
 })
 export class GameService {
  
- ennemies : Ennemy[] = new Array<Ennemy>();
+ ennemies : Set<Ennemy> = new Set<Ennemy>();
 
  types : string[] = ['fire','water','air','earth'];
  
@@ -29,7 +29,7 @@ export class GameService {
   minShipY : number;
 
   ennemyX : number;
-  ennemyY : number = 0;
+  ennemyY : number = -30;
 
 
   
@@ -40,6 +40,11 @@ export class GameService {
         this.moveAmmo(ammo);
       }
     }, 50);
+    setInterval(() => {
+      for (let ennemy of this.ennemies) {
+        this.moveEnnemy(ennemy);
+      }
+    }, 200);
 
   }
 
@@ -87,12 +92,22 @@ export class GameService {
 
   
   //Ennemy addition and move
-  addEnnemy(index : number, contMinX : number, contMaxX : number){
+  addEnnemy(contMinX : number, contMaxX : number){
    
     this.ennemyX = this.randomNumber(contMinX, contMaxX)
     let ennemy = new Ennemy(this.types[this.randomNumber(0,3)], this.ennemyX,this.ennemyY )
-    this.ennemies.push(ennemy);
-    console.log(ennemy.posX);
+    this.ennemies.add(ennemy);
+  }
+  moveEnnemy(ennemy:Ennemy){
+   
+    if (ennemy) {
+      if (ennemy.posY>600) {
+        this.ennemies.delete(ennemy);
+      }
+      else {
+        ennemy.posY = ennemy.posY + 5;
+      }
+    }
   }
 }
 

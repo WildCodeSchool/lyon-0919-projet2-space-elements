@@ -14,10 +14,10 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Set<Ammo> = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
-  ennemies : Ennemy [] = this.gameService.ennemies;
+  ennemies : Set<Ennemy> = this.gameService.ennemies;
 
   
-  
+//game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
   widthTotal : number;
@@ -28,20 +28,24 @@ export class GameComponent implements OnInit, AfterViewInit {
     public shipService: ShipService,
     public gameService: GameService
     ) { 
-      for (let i=0; i<3; i++){
-        this.gameService.addEnnemy(i, this.getMinContainerLimit(), this.getMaxContainerLimit())}
+     
     }
     
   ngOnInit() {
     
     
   }
- //Init the game frame 
+//Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
     this.widthTotal = window.innerWidth;
     this.heightTotal = window.innerHeight;
     this.gameService.maxShipX = this.gameContainerElt.nativeElement.clientWidth;
+    
+    // ennemy creation
+   setInterval(()=>{
+      this.gameService.addEnnemy(this.getMinContainerLimit(), this.getMaxContainerLimit())},1000)
+    
 
     
     
@@ -56,11 +60,12 @@ export class GameComponent implements OnInit, AfterViewInit {
 //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
+      //space (shoot)
     if (event.code === 'Space') {
       this.gameService.addAmmo();
     }  
     
-    
+     // arrows (direction)
     if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
       this.ship.posX = this.ship.posX + 10;    
     }
@@ -75,7 +80,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     }
       
 
-    
+     // C (change type)
     if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
       this.ship.backgroundColor = "white";
       return;
@@ -94,6 +99,5 @@ export class GameComponent implements OnInit, AfterViewInit {
     }      
   } 
 
-  //ennemy creation
 
 }
