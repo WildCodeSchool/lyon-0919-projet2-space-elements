@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ammo } from './ammo';
 import { Ship } from './ship';
+import { Enemy} from 'src/app/shared/enemy'
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,31 @@ export class GameService {
     size: 40,
     backgroundColor:"red",
   };
-
+  // Ship position
   maxShipX : number;
   minShipX : number;
   maxShipY : number;
   minShipY : number;
 
+  // Ammo position
+  ammoPosX = this.ship.posX + 18;
+  ammoPosY = this.ship.posY - 10;
+  currentPosition = this.ammoPosY;
+
+
+  enemy: Enemy ={
+    id: 2,
+    url: '',
+    posX: 940,
+    posY: 80,
+    HP: 100,
+    size: 40,
+    width:80,
+    height:80,
+    backgroundColor:"blue",
+    life : true,
+
+  }
   constructor() { }
 
   setMaxShipX(widthTotal, sizeGameContainer){
@@ -45,12 +65,13 @@ export class GameService {
     return this.minShipY;
   }
 
+  //position of ammo
   addAmmo() {
-    let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
-    return this.ammos.push(ammo) - 1;
-    
+    let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10 );
+    return this.ammos.push(ammo) - 1;    
   }
   
+
   moveAmmo(i: number) : void {
     if (this.ammos[i]) {
       if (this.ammos[i].posY < 0) {
@@ -58,6 +79,9 @@ export class GameService {
       }
       else {
         this.ammos[i].posY = this.ammos[i].posY - 10;
+        this.currentPosition -= 10;
+        
+        
       }
 
     }
@@ -66,8 +90,12 @@ export class GameService {
 
   interval(index: number) {
     setTimeout(() => this.moveAmmo(index), 100);
+   
   }
 
+
+
+  
 }
 
 

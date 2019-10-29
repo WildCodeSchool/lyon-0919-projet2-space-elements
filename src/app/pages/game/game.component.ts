@@ -3,6 +3,7 @@ import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
+import { Enemy } from 'src/app/shared/enemy';
 
 @Component({
   selector: 'app-game',
@@ -13,11 +14,19 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Ammo[] = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
+  enemy : Enemy = this.gameService.enemy;
   
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
   widthTotal : number;
   heightTotal : number;
+  
+
+  // Ammo position
+  ammoPosX = this.ship.posX + 18;
+  ammoPosY = this.ship.posY - 10;
+  currentPosition = this.ammoPosY;
+  
 
   constructor(
     public shipService: ShipService,
@@ -40,10 +49,15 @@ export class GameComponent implements OnInit, AfterViewInit {
     onKeydownHandler(event: KeyboardEvent) {
   if (event.code === 'Space') {
     let index = this.gameService.addAmmo();
-    this.gameService.interval(index);
-    console.log(this.ship.posX);
+    this.gameService.interval(index); 
+    console.log(this.ammoPosX, this.enemy.posX);
+    if (this.ammoPosX < (this.enemy.posX )){
+    { 
+        this.enemy.life = false;}
+      }   
   }  
   
+
   
   if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
     this.ship.posX = this.ship.posX + 10;
@@ -86,5 +100,6 @@ export class GameComponent implements OnInit, AfterViewInit {
     console.log('bien');
     return;
   }      
-  } 
+}
+    
 }

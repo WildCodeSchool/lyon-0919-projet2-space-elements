@@ -1,0 +1,9 @@
+<div *ngIf="enemy?.life">
+<div class="enemy" 
+[style.left.px]="enemy?.posX" 
+[style.top.px]="enemy?.posY" 
+[style.width.px]="enemy?.width" 
+[style.height.px]="enemy?.height" 
+[style.backgroundColor]='enemy?.backgroundColor'>
+</div>
+</div>
