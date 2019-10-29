@@ -5,6 +5,7 @@ export class Enemy {
     posY : number;
     life: boolean = true;
     width: number = 30;
+    height:number = 30;
 
     
     constructor(type : string , posX : number, posY: number){
