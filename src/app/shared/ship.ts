@@ -5,5 +5,7 @@ export class Ship {
     posY: number;
     HP: number;
     size: number;
+    width: number;
+    height : number;
     backgroundColor:string;
 }

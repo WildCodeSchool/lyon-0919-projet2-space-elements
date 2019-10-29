@@ -21,6 +21,8 @@ export class GameService {
     posY: 880,
     HP: 100,
     size: 40,
+    width : 40,
+    height : 60,
     backgroundColor:"red",
   };
   // Ship position
@@ -42,15 +44,13 @@ export class GameService {
             this.enemies.delete(enemy);
             this.ammos.delete(ammo);
           }
+        }
         if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
           if(ammo.posY < enemy.posY + enemy.height){       
             this.enemies.delete(enemy);
             this.ammos.delete(ammo);
           }
-
-        }          
-          
-        }
+        }        
 
       }
       }
@@ -58,6 +58,26 @@ export class GameService {
     setInterval(() => {
       for (let enemy of this.enemies) {
         this.moveEnemy(enemy);
+          if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+              this.enemies.delete(enemy);
+            }
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+              this.enemies.delete(enemy);
+            }
+          }    
       }
     }, 200);
 
