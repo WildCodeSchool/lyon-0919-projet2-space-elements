@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Ammo } from './ammo';
 import { Ship } from './ship';
-import { Enemy} from 'src/app/shared/enemy'
+import { Enemy} from 'src/app/shared/enemy';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
+ 
+ enemies : Set<Enemy> = new Set<Enemy>();
 
+ types : string[] = ['fire','water','air','earth'];
+ 
  ammos : Set<Ammo> = new Set<Ammo>();
 
  ship : Ship = {
@@ -25,37 +29,40 @@ export class GameService {
   maxShipY : number;
   minShipY : number;
 
-
-  enemy: Enemy ={
-    id: 2,
-    url: '',
-    posX: 940,
-    posY: 80,
-    HP: 100,
-    size: 40,
-    width:80,
-    height:80,
-    backgroundColor:"blue",
-    life : true,
-
-  }
- 
+  enemyX : number;
+  enemyY : number = -30;
+  
   constructor() {
     setInterval(() => {
       for (let ammo of this.ammos) {
         this.moveAmmo(ammo);
-        if((ammo.posX > this.enemy.posX) && (ammo.posX < this.enemy.posX + this.enemy.width)){
-          if(ammo.posY < this.enemy.posY){
-          this.enemy.life = false;
+        for (let enemy of this.enemies){
+          if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
+          if(ammo.posY < enemy.posY){
+          this.enemies.delete(enemy);
           this.ammos.delete(ammo);
+          }
 
           }
         }
       }
     }, 50);
+    setInterval(() => {
+      for (let enemy of this.enemies) {
+        this.moveEnemy(enemy);
+      }
+    }, 200);
 
   }
 
+
+  //Function random
+  randomNumber(min : number, max : number) {  
+    return Math.floor(Math.random() * (max - min)+min);
+  }
+
+  
+  //Functions to define the container size
   setMaxShipX(widthTotal, sizeGameContainer){
     this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
     return this.maxShipX;
@@ -73,7 +80,7 @@ export class GameService {
     return this.minShipY;
   }
 
-  //position of ammo
+  //Ammo addition and move
   addAmmo() {
     let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
     return this.ammos.add(ammo);
@@ -87,6 +94,26 @@ export class GameService {
       }
       else {
         ammo.posY = ammo.posY - 5;
+      }
+    }
+  }
+
+  
+  //Enemy addition and move
+  addEnemy(contMinX : number, contMaxX : number){
+   
+    this.enemyX = this.randomNumber(contMinX, contMaxX)
+    let enemy = new Enemy(this.types[this.randomNumber(0,3)], this.enemyX,this.enemyY )
+    this.enemies.add(enemy);
+  }
+
+  moveEnemy(enemy:Enemy){
+    if (enemy) {
+      if (enemy.posY>1080) {
+        this.enemies.delete(enemy);
+      }
+      else {
+        enemy.posY = enemy.posY + 5;
       }
     }
   }

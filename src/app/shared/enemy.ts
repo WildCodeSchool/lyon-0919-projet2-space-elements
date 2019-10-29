@@ -1,12 +1,15 @@
 export class Enemy {
-    id: number;
-    url: string;
-    posX: number;
-    posY: number;
-    HP: number;
-    size: number; 
-    width: number;
-    height: number;
-    backgroundColor: string;    
-    life: boolean;
+    types : string[] = ['fire','water','air','earth']
+    type : string;
+    posX : number;
+    posY : number;
+    life: boolean = true;
+    width: number = 30;
+
+    
+    constructor(type : string , posX : number, posY: number){
+        this.type = type;
+        this.posX = posX;
+        this.posY = posY;
+    }
 }
