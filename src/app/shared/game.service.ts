@@ -9,12 +9,12 @@ import { Game } from './game';
 })
 export class GameService {
  
- enemies : Set<Enemy> = new Set<Enemy>();
- ammos : Set<Ammo> = new Set<Ammo>();
- types : string[] = ['fire','water','air','earth'];
+  enemies : Set<Enemy> = new Set<Enemy>();
+  ammos : Set<Ammo> = new Set<Ammo>();
+  types : string[] = ['fire','water','air','earth'];
  
 
- ship : Ship = {
+  ship : Ship = {
     id : 0,
     url : '',
     posX: 0,
@@ -27,13 +27,6 @@ export class GameService {
   };
   game : Game = new Game;
 
-  // Ship position
-  /*maxShipX : number;
-  minShipX : number;
-  maxShipY : number;
-  minShipY : number;*/
-
-  
   
   constructor() {
     // Ammo moving and killing enemy
@@ -56,6 +49,7 @@ export class GameService {
         }
       }
     }, 50);
+
     // Enemy moving down
     setInterval(() => {
       for (let enemy of this.enemies) {
@@ -120,7 +114,7 @@ export class GameService {
   addEnemy(){
    
     let enemyX = this.randomNumber(this.game.minX+15, this.game.maxX)
-    console.log(this.game.maxX)
+  
     let enemy = new Enemy(this.types[this.randomNumber(0,3)], enemyX-30 , -30)
     this.enemies.add(enemy);
     

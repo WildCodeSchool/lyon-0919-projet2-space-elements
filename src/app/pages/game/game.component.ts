@@ -19,7 +19,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   game :Game = new Game;
 
   
-//game frame  
+  //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
   widthTotal : number;
@@ -44,7 +44,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     
     
   }
-//Get the game mensurations
+  //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
     this.widthTotal = window.innerWidth;
@@ -58,9 +58,9 @@ export class GameComponent implements OnInit, AfterViewInit {
     this.gameService.setShipY(this.heightTotal);
 
     
-    // ennemy creation
-   setInterval(()=>{
-      this.gameService.addEnemy()},2000)
+  // ennemy creation
+  setInterval(()=>{
+    this.gameService.addEnemy()},2000)
     
   }
   
@@ -107,6 +107,4 @@ export class GameComponent implements OnInit, AfterViewInit {
       return;
     }      
   } 
-
-
 }
