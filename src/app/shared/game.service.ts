@@ -31,6 +31,8 @@ export class GameService {
 
   enemyX : number;
   enemyY : number = -30;
+
+  
   
   constructor() {
     setInterval(() => {
@@ -42,25 +44,24 @@ export class GameService {
             this.enemies.delete(enemy);
             this.ammos.delete(ammo);
           }
+        }
         if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
           if(ammo.posY < enemy.posY + enemy.height){       
             this.enemies.delete(enemy);
             this.ammos.delete(ammo);
           }
 
-        }          
-          
-        }
+        }           
 
       }
       }
+
     }, 50);
     setInterval(() => {
       for (let enemy of this.enemies) {
         this.moveEnemy(enemy);
       }
     }, 200);
-
   }
 
 
@@ -71,6 +72,7 @@ export class GameService {
 
   
   //Functions to define the container size
+
   setMaxShipX(widthTotal, sizeGameContainer){
     this.maxShipX = (widthTotal*0.1) + sizeGameContainer - this.ship.size -10;
     return this.maxShipX;
