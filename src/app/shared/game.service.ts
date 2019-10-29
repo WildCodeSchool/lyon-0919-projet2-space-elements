@@ -7,7 +7,9 @@ import { Enemy} from 'src/app/shared/enemy'
   providedIn: 'root'
 })
 export class GameService {
+
  ammos : Set<Ammo> = new Set<Ammo>();
+
  ship : Ship = {
     id: 1,
     url: '',
@@ -22,11 +24,6 @@ export class GameService {
   minShipX : number;
   maxShipY : number;
   minShipY : number;
-
-  // Ammo position
-  ammoPosX = this.ship.posX + 18;
-  ammoPosY = this.ship.posY - 10;
-  currentPosition = this.ammoPosY;
 
 
   enemy: Enemy ={
@@ -47,6 +44,13 @@ export class GameService {
     setInterval(() => {
       for (let ammo of this.ammos) {
         this.moveAmmo(ammo);
+        if((ammo.posX > this.enemy.posX) && (ammo.posX < this.enemy.posX + this.enemy.width)){
+          if(ammo.posY < this.enemy.posY){
+          this.enemy.life = false;
+          this.ammos.delete(ammo);
+
+          }
+        }
       }
     }, 50);
 
