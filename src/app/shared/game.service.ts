@@ -39,24 +39,21 @@ export class GameService {
     // Ammo moving and killing enemy
     setInterval(() => {
       for (let ammo of this.ammos) {
-            this.moveAmmo(ammo);
-      for (let enemy of this.enemies){
-        if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
-          if(ammo.posY < enemy.posY + enemy.height){       
-            this.enemies.delete(enemy);
-            this.ammos.delete(ammo);
+        this.moveAmmo(ammo);
+        for (let enemy of this.enemies){
+          if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
+            if(ammo.posY < enemy.posY + enemy.height){       
+              this.enemies.delete(enemy);
+              this.ammos.delete(ammo);
+            }
           }
-        if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
-          if(ammo.posY < enemy.posY + enemy.height){       
-            this.enemies.delete(enemy);
-            this.ammos.delete(ammo);
-          }
-
-        }          
-          
+          if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
+            if(ammo.posY < enemy.posY + enemy.height){       
+              this.enemies.delete(enemy);
+              this.ammos.delete(ammo);
+            }
+          }          
         }
-
-      }
       }
     }, 50);
     // Enemy moving down
