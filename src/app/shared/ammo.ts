@@ -1,11 +1,13 @@
+
 export class Ammo {
-    backgroundColor:string;
+    element:[];
     posX: number;
     posY: number;
     width:number = 4;
 
-    constructor(backgroundColor,posX,posY){
-        this.backgroundColor = backgroundColor;
+
+    constructor(element,posX,posY){
+        this.element = element;
         this.posX = posX ;
         this.posY = posY ;
     }

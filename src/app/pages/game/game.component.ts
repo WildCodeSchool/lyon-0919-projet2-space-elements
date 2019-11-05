@@ -30,6 +30,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammoPosX = this.ship.posX + 18;
   ammoPosY = this.ship.posY - 10;
   currentPosition = this.ammoPosY;
+  type = "fire"
   
 
 
@@ -92,6 +93,7 @@ export class GameComponent implements OnInit, AfterViewInit {
      // C (change type)
     if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
       this.ship.backgroundColor = "white";
+      this.ammo
       return;
     }
     if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
