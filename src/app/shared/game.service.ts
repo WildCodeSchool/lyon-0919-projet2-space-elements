@@ -3,8 +3,6 @@ import { Ammo } from './ammo';
 import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
 import { Game } from './game';
-import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
-import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
