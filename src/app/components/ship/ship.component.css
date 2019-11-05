@@ -1,7 +1,6 @@
 .ship{
     width: 40px;
     height: 60px;
-    background-color: red;
     position: absolute;
     /* align-self: flex-end; */
 };

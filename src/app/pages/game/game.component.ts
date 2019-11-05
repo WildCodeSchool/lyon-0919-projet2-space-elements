@@ -4,6 +4,7 @@ import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
+import { Game } from 'src/app/shared/game';
 
 @Component({
   selector: 'app-game',
@@ -15,9 +16,10 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammos : Set<Ammo> = this.gameService.ammos;
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
+  game :Game = new Game;
 
   
-//game frame  
+  //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
   widthTotal : number;
@@ -42,29 +44,26 @@ export class GameComponent implements OnInit, AfterViewInit {
     
     
   }
-//Get the game mensurations
+  //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
     this.widthTotal = window.innerWidth;
     this.heightTotal = window.innerHeight;
-    this.gameService.maxShipX = this.gameContainerElt.nativeElement.clientWidth;
 
-    // ennemy creation
-   setInterval(()=>{
-      this.gameService.addEnemy(this.getMinContainerLimitX(), this.getMaxContainerLimitX())},1000)
+    this.game.minX = this.gameService.setMinX(this.widthTotal);
+    this.game.maxX = this.gameService.setMaxX(this.widthTotal, this.sizeGameContainer);
+    this.game.maxY = this.gameService.setMaxY(this.heightTotal);
+
+    this.gameService.setShipX(this.widthTotal);
+    this.gameService.setShipY(this.heightTotal);
+
+    
+  // ennemy creation
+  setInterval(()=>{
+    this.gameService.addEnemy()},2000)
     
   }
   
-  getMaxContainerLimitX(){
-    return this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer);
-  }
-  getMinContainerLimitX(){
-    return this.gameService.setMinShipX(this.widthTotal);
-  }
-  getMinContainerLimitY(){
-    return this.gameService.setMaxShipY(this.heightTotal);
-  }
-
 
 //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
@@ -75,16 +74,17 @@ export class GameComponent implements OnInit, AfterViewInit {
     }  
     
      // arrows (direction)
-    if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.setMaxShipX(this.widthTotal, this.sizeGameContainer) ) {
+    if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
       this.ship.posX = this.ship.posX + 10;    
     }
-    if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.setMinShipX(this.widthTotal)) {
+    if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
+      console.log(this.gameService.game.minX)
       this.ship.posX = this.ship.posX - 10;
     }
-    if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.setMaxShipY(this.heightTotal)) {
+    if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
       this.ship.posY = this.ship.posY + 10;    
     }
-    if (event.code === 'ArrowUp' && this.ship.posY > this.gameService.setMinShipY()) {
+    if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
       this.ship.posY = this.ship.posY - 10;
     }
       
@@ -107,6 +107,4 @@ export class GameComponent implements OnInit, AfterViewInit {
       return;
     }      
   } 
-
-
 }

@@ -1,9 +1,11 @@
 export class Ship {
     id: number;
-    url: string;
+    url : string;
     posX: number;
     posY: number;
+    height : number;
+    width : number;
+    size : number;
     HP: number;
-    size: number;
     backgroundColor:string;
 }

@@ -9,6 +9,8 @@ export const SHIPS: Ship[] =
         posY: 0,
         HP: 0,
         size: 100,
+        width : 40,
+        height :  60,
         backgroundColor:"red",
     },
     {
@@ -18,6 +20,8 @@ export const SHIPS: Ship[] =
         posY: 0,
         HP: 0,
         size: 100,
+        width : 40,
+        height :  60,
         backgroundColor:"red",
     }
 ]

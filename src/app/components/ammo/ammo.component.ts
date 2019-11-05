@@ -11,6 +11,7 @@ export class AmmoComponent implements OnInit {
   constructor() { }
 
   @Input() ammo: Ammo;
+  
   ngOnInit() {
   }
 
