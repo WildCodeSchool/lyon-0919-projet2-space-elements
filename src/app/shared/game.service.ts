@@ -12,7 +12,16 @@ export class GameService {
   enemies : Set<Enemy> = new Set<Enemy>();
   ammos : Set<Ammo> = new Set<Ammo>();
   types : string[] = ['fire','water','air','earth'];
- 
+  isShoot: boolean = false;
+  mvLeft: boolean = false;
+  mvRight: boolean = false;
+  mvUp: boolean = false;
+  mvDown: boolean = false;
+  mvUpRight: boolean = false;
+  mvUpLeft: boolean = false;
+  mvDownRight: boolean = false;
+  mvDownLeft: boolean = false;
+
 
   ship : Ship = {
     id : 0,
@@ -29,6 +38,29 @@ export class GameService {
 
   
   constructor() {
+    // multi actions
+    setInterval(() => {
+      if (this.isShoot) {
+        this.addAmmo();
+      }
+    }, 120);
+
+    // mouvement
+    setInterval(() => {
+      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
+        this.ship.posX = this.ship.posX + 10;
+      }
+      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+        this.ship.posX = this.ship.posX - 10;
+      }
+      if (this.mvUp && this.ship.posY > 0) {
+        this.ship.posY = this.ship.posY - 10;
+      }
+      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+        this.ship.posY = this.ship.posY + 10;
+      }
+    }, 50);
+
     // Ammo moving and killing enemy
     setInterval(() => {
       for (let ammo of this.ammos) {
@@ -49,7 +81,7 @@ export class GameService {
 
         }
       }
-    }, 50);
+    }, 100);
 
     // Enemy moving down and colision of the ship with enemy
     setInterval(() => {
