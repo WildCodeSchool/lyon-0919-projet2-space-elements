@@ -36,14 +36,12 @@ export class GameComponent implements OnInit, AfterViewInit {
   constructor(
     public shipService: ShipService,
     public gameService: GameService
-    ) { 
-     
-    }
+    ) { }
     
   ngOnInit() {
     
-    
   }
+
   //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
@@ -78,7 +76,6 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.ship.posX = this.ship.posX + 10;    
     }
     if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
-      console.log(this.gameService.game.minX)
       this.ship.posX = this.ship.posX - 10;
     }
     if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
