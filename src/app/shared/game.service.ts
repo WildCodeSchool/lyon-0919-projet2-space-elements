@@ -122,7 +122,7 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
-    let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
+    let ammo = new Ammo(this.ship.backgroundColor, this.ship.posX + 18, this.ship.posY - 10);
     return this.ammos.add(ammo);
   }
   
