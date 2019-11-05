@@ -22,6 +22,13 @@ export class GameService {
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
 
+  enemyTypes : Object[] = [
+    {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
+    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
+    {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
+    ]
+ 
 
   ship : Ship = {
     id : 0,
@@ -146,7 +153,7 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
-    let ammo = new Ammo('fire', this.ship.posX + 18, this.ship.posY - 10);
+    let ammo = new Ammo(this.ship.backgroundColor, this.ship.posX + 18, this.ship.posY - 10);
     return this.ammos.add(ammo);
   }
   
@@ -166,16 +173,17 @@ export class GameService {
   //Enemy addition and move
   addEnemy(){
    
-    let enemyX = this.randomNumber(this.game.minX+15, this.game.maxX)
+    let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);
   
-    let enemy = new Enemy(this.types[this.randomNumber(0,3)], enemyX-30 , -30)
+    let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
     this.enemies.add(enemy);
+    console.log(enemy.type['url'])
     
   }
 
   moveEnemy(enemy:Enemy){
     if (enemy) {
-      if (enemy.posY>this.game.maxY-32) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
       }
       else {

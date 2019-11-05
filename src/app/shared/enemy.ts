@@ -1,14 +1,13 @@
 export class Enemy {
-    types : string[] = ['fire','water','air','earth']
-    type : string;
+    type : Object;
     posX : number;
     posY : number;
     life: boolean = true;
-    width: number = 30;
-    height:number = 30;
+    width: number = 60;
+    height:number = 40;
 
     
-    constructor(type : string , posX : number, posY: number){
+    constructor(type : Object , posX : number, posY: number){
         this.type = type;
         this.posX = posX;
         this.posY = posY;
