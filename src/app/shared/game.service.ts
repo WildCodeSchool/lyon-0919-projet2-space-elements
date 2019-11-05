@@ -3,6 +3,8 @@ import { Ammo } from './ammo';
 import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
 import { Game } from './game';
+import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
+import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,12 @@ export class GameService {
   enemies : Set<Enemy> = new Set<Enemy>();
   ammos : Set<Ammo> = new Set<Ammo>();
   types : string[] = ['fire','water','air','earth'];
+  enemyTypes : Object[] = [
+    {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
+    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
+    {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
+    ]
  
 
   ship : Ship = {
@@ -134,16 +142,17 @@ export class GameService {
   //Enemy addition and move
   addEnemy(){
    
-    let enemyX = this.randomNumber(this.game.minX+15, this.game.maxX)
+    let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);
   
-    let enemy = new Enemy(this.types[this.randomNumber(0,3)], enemyX-30 , -30)
+    let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
     this.enemies.add(enemy);
+    console.log(enemy.type['url'])
     
   }
 
   moveEnemy(enemy:Enemy){
     if (enemy) {
-      if (enemy.posY>this.game.maxY-32) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
       }
       else {
