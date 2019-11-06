@@ -2,7 +2,6 @@
 
 
 .frame{
-    /* display: flex; */
     padding:0;
     margin:0;
     top:0;
@@ -10,6 +9,7 @@
     height: 100vh;
     width: 100%;
     background-color: burlywood;
+    
 
 }
 .gameContainer{
@@ -28,7 +28,7 @@ h2{
     font-size: 32px;
 }
 .Life{
-    margin-top: 12%;
+    margin-top: 5%;
     margin-left: -9%;
 }
 mat-progress-bar{
@@ -36,6 +36,15 @@ mat-progress-bar{
     height: 30px;
     background-color: red;
     transform: rotate(270deg);
-    margin-top: 22%;
+    margin-top: 17%;
     margin-left: -23%;
 }
+
+
+.weelOfElements{
+    position: relative;
+    top:30%;
+    left:-10%;
+}
+
+

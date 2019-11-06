@@ -98,6 +98,38 @@ export class GameService {
     }, 100);
 
     // Enemy moving down and colision of the ship with enemy
+
+    setInterval(() => {
+      for (let enemy of this.enemies) {
+        this.moveEnemy(enemy);
+          if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }
+          }    
+      }
+    }, 200);
+
+
     this.moveEnemyAndCollision()    
 
   }
