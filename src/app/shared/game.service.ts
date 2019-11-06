@@ -32,6 +32,7 @@ export class GameService {
     backgroundColor:"red",
   };
   game : Game = new Game;
+  enemykill = 0;
 
   
   constructor() {
@@ -43,12 +44,16 @@ export class GameService {
           if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
             if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
               this.ammos.delete(ammo);
+              return;
             }
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
             if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+              console.log(this.enemykill);
               this.ammos.delete(ammo);
             }
           }        
@@ -64,21 +69,25 @@ export class GameService {
           if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }  
           }
           if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }  
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }
           }    
       }
@@ -144,7 +153,7 @@ export class GameService {
   
     let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
     this.enemies.add(enemy);
-    console.log(enemy.type['url'])
+    
     
   }
 

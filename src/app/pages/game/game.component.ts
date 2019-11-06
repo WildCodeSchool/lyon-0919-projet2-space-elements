@@ -17,6 +17,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
+  score : Number = this.gameService.enemykill;
 
   
   //game frame  
@@ -78,7 +79,6 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.ship.posX = this.ship.posX + 10;    
     }
     if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
-      console.log(this.gameService.game.minX)
       this.ship.posX = this.ship.posX - 10;
     }
     if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
@@ -106,5 +106,9 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.ship.backgroundColor = "red";
       return;
     }      
-  } 
+  }
+
+  getScore() {
+    return this.gameService.enemykill;
+  }
 }
