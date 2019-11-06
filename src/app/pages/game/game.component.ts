@@ -37,14 +37,12 @@ export class GameComponent implements OnInit, AfterViewInit {
   constructor(
     public shipService: ShipService,
     public gameService: GameService
-    ) { 
-     
-    }
+    ) { }
     
   ngOnInit() {
     
-    
   }
+
   //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
@@ -71,21 +69,21 @@ export class GameComponent implements OnInit, AfterViewInit {
     onKeydownHandler(event: KeyboardEvent) {
       //space (shoot)
     if (event.code === 'Space') {
-      this.gameService.addAmmo();
+      this.gameService.isShoot = true;
     }  
     
      // arrows (direction)
     if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
-      this.ship.posX = this.ship.posX + 10;    
+      this.gameService.mvRight = true;    
     }
     if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
-      this.ship.posX = this.ship.posX - 10;
+      this.gameService.mvLeft = true;
     }
     if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
-      this.ship.posY = this.ship.posY + 10;    
+      this.gameService.mvDown = true;    
     }
     if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
-      this.ship.posY = this.ship.posY - 10;
+      this.gameService.mvUp = true;
     }
       
 
@@ -110,5 +108,26 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   getScore() {
     return this.gameService.enemykill;
-  }
+  };
+
+   
+  @HostListener('document:keyup', ['$event'])
+      onKeyupHandler(event: KeyboardEvent) {
+        if (event.code === 'Space') {
+          this.gameService.isShoot = false;
+        }
+        if (event.code === 'ArrowRight') {
+          this.gameService.mvRight = false;
+        }
+        if (event.code === 'ArrowLeft') {
+          this.gameService.mvLeft = false;
+        }
+        if (event.code === 'ArrowDown') {
+          this.gameService.mvDown = false;
+        }
+        if (event.code === 'ArrowUp') {
+          this.gameService.mvUp = false;
+        }
+      }
 }
+
