@@ -1,7 +1,7 @@
 <div class="frame">
     <div class="gameContainer" #gameContainerElt>
         <h2>Score : {{ getScore() }} </h2>
-        <h2 class='Life'> Life : </h2>
+        <h2 class='Life'>  Life : </h2>
         <div class="progressBar">
             <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
         </div>
