@@ -100,33 +100,17 @@ export class GameService {
         for (let enemy of this.enemies){
           if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
             if(ammo.posY < enemy.posY + enemy.height){
-              //
-              if(ammo.type = this.enemyTypes[0]){
-                switch(enemy.type){
-                  case this.enemyTypes[1]:
-                    enemy.HP -= 3;
-                    break;
-                  case this.enemyTypes[2]:
-                    enemy.HP -= 2;
-                    break;
-                  case this.enemyTypes[3]:
-                    enemy.HP -= 1;
-                    break;
-                }
-                if(enemy.HP<=0){
-                  this.enemies.delete(enemy);
-                }
-              }
-
-              this.enemykill = this.enemykill + 1;
+              //Switch Damages
+              enemy.HP = this.doDamage(ammo,enemy)
+              
               this.ammos.delete(ammo);
               return;
             }
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
             if(ammo.posY < enemy.posY + enemy.height){
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
+              enemy.HP = this.doDamage(ammo,enemy)
+
               this.ammos.delete(ammo);
             }
           }
@@ -140,6 +124,47 @@ export class GameService {
 
   }
 
+  //Function to do damage
+  doDamage(ammo,enemy){
+   let tab = [0,1,2,3];
+    switch(ammo.type){
+      case this.ammoTypes[0]:
+      switch(enemy.type){
+        case this.enemyTypes[1]:
+          enemy.HP -= 3;
+          break;
+        case this.enemyTypes[2]:
+          enemy.HP -= 2;
+          break;
+        case this.enemyTypes[3]:
+          enemy.HP -= 1;
+          break;
+      }
+      if(enemy.HP<=0){
+        this.enemies.delete(enemy);
+      }
+      break;
+
+      case this.ammoTypes[1]:
+      switch(enemy.type){
+        case this.enemyTypes[2]:
+          enemy.HP -= 3;
+          break;
+        case this.enemyTypes[3]:
+          enemy.HP -= 2;
+          break;
+        case this.enemyTypes[0]:
+          enemy.HP -= 1;
+          break;
+      }
+      if(enemy.HP<=0){
+        this.enemies.delete(enemy);
+        this.enemykill = this.enemykill + 1;
+      }
+      break;
+    }
+    return enemy.HP;
+  }
   //Function random
   randomNumber(min : number, max : number) {  
     return Math.floor(Math.random() * (max - min)+min);
