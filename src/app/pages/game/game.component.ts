@@ -17,6 +17,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
+  score : Number = this.gameService.enemykill;
 
   
   //game frame  
@@ -103,7 +104,13 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.ship.backgroundColor = "red";
       return;
     }      
-  } 
+  }
+
+  getScore() {
+    return this.gameService.enemykill;
+  };
+
+   
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
