@@ -58,8 +58,7 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     
   // ennemy creation
-  setInterval(()=>{
-    this.gameService.addEnemy()},2000)
+    this.gameService.addEnemy();
     
   }
   
@@ -110,7 +109,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     return this.gameService.enemykill;
   };
 
-  getLife(){
+  getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0){
         this.valueLifePercentage = 0;
@@ -118,6 +117,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     }
     return this.valueLifePercentage;
   }
+  
 
    
   @HostListener('document:keyup', ['$event'])
