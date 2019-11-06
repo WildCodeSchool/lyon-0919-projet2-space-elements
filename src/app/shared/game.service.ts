@@ -126,43 +126,30 @@ export class GameService {
 
   //Function to do damage
   doDamage(ammo,enemy){
-   let tab = [0,1,2,3];
-    switch(ammo.type){
-      case this.ammoTypes[0]:
-      switch(enemy.type){
-        case this.enemyTypes[1]:
-          enemy.HP -= 3;
-          break;
-        case this.enemyTypes[2]:
-          enemy.HP -= 2;
-          break;
-        case this.enemyTypes[3]:
-          enemy.HP -= 1;
-          break;
-      }
-      if(enemy.HP<=0){
-        this.enemies.delete(enemy);
-      }
-      break;
+    let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
+   for(let i=0; i<4; i++){
+    console.log(truc[i[0]])
 
-      case this.ammoTypes[1]:
+    switch(ammo.type){
+      case this.ammoTypes[i]:
       switch(enemy.type){
-        case this.enemyTypes[2]:
+        case this.enemyTypes[truc[i][0]]:
           enemy.HP -= 3;
           break;
-        case this.enemyTypes[3]:
+        case this.enemyTypes[truc[i][1]]:
           enemy.HP -= 2;
           break;
-        case this.enemyTypes[0]:
+        case this.enemyTypes[truc[i][2]]:
           enemy.HP -= 1;
           break;
       }
+     
       if(enemy.HP<=0){
         this.enemies.delete(enemy);
-        this.enemykill = this.enemykill + 1;
       }
       break;
     }
+  }
     return enemy.HP;
   }
   //Function random
