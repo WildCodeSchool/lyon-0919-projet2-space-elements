@@ -155,16 +155,16 @@ export class GameService {
   
   //Enemy addition
   addEnemy(){
-    if  (this.enemyCount < 21) {
+    if  (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
-    else if (this.enemyCount < 51) {
+    else if (this.enemyCount < 36) {
       this.addEnemyLvl2();
     }
-    else if (this.enemyCount < 96) {
+    else if (this.enemyCount < 61) {
       this.addEnemyLvl3();
     }
-    else if (this.enemyCount < 163) {
+    else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
   }
@@ -175,11 +175,11 @@ export class GameService {
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
       this.enemies.add(enemy);
       this.enemyCount++;
-      if (this.enemyCount === 21) {
+      if (this.enemyCount === 16) {
         clearInterval(this.intervalNumberEnemyLvl1);
         this.addEnemy();
       }
-    }, 2000);
+    }, 1700);
   }
   
   addEnemyLvl2() {
@@ -188,11 +188,11 @@ export class GameService {
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
       this.enemies.add(enemy);
       this.enemyCount++;      
-      if (this.enemyCount === 51) {
+      if (this.enemyCount === 36) {
         clearInterval(this.intervalNumberEnemyLvl2);
         this.addEnemy();
       }
-    }, 1000);
+    }, 1400);
   }
 
   addEnemyLvl3() {
@@ -201,11 +201,11 @@ export class GameService {
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
       this.enemies.add(enemy);
       this.enemyCount++;      
-      if (this.enemyCount === 96) {
+      if (this.enemyCount === 61) {
         clearInterval(this.intervalNumberEnemyLvl3);
         this.addEnemy();
       }
-    }, 800);
+    }, 1100);
   }
 
   addEnemyLvl4() {
@@ -214,25 +214,25 @@ export class GameService {
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
       this.enemies.add(enemy);
       this.enemyCount++;      
-      if (this.enemyCount === 163) {
+      if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
         this.addEnemy();
       }
-    }, 400);
+    }, 800);
   }
 
   // Enemy moves
   moveEnemy(enemy: Enemy){
-    if  (this.enemyCount < 21) {
+    if  (this.enemyCount < 16) {
       this.moveEnemyLvl1(enemy);
     }
-    else if (this.enemyCount < 51) {
+    else if (this.enemyCount < 36) {
       this.moveEnemyLvl2(enemy);
     }
-    else if (this.enemyCount < 96) {
+    else if (this.enemyCount < 61) {
       this.moveEnemyLvl3(enemy);
     }
-    else if (this.enemyCount <= 163) {
+    else if (this.enemyCount <= 91) {
       this.moveEnemyLvl4(enemy);
     }
   }
@@ -253,7 +253,7 @@ export class GameService {
         this.enemies.delete(enemy);
       }
       else {
-        enemy.posY = enemy.posY + 10;
+        enemy.posY = enemy.posY + 8;
       }
     }
   }
@@ -263,7 +263,7 @@ export class GameService {
         this.enemies.delete(enemy);
       }
       else {
-        enemy.posY = enemy.posY + 15;
+        enemy.posY = enemy.posY + 11;
       }
     }
   }
@@ -273,7 +273,7 @@ export class GameService {
         this.enemies.delete(enemy);
       }
       else {
-        enemy.posY = enemy.posY + 20;
+        enemy.posY = enemy.posY + 14;
       }
     }
   }
