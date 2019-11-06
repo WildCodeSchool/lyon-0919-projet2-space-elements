@@ -22,13 +22,28 @@ export class GameService {
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
 
+  shipTypes : Object[] = [
+    {'name' : 'fire', 'url' : '../../../assets/img/ship_fire.png'},
+    {'name': 'air', 'url' : '../../../assets/img/ship_air.png'},
+    {'name': 'earth', 'url' : '../../../assets/img/ship_earth.png'},
+    {'name' : 'water', 'url' : '../../../assets/img/ship_water.png'},
+    ];
   enemyTypes : Object[] = [
-    {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
-    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    {'name' : 'fire', 'url' :[ '../../../assets/img/enemy_fire.png']},
     {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
     {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
-    ]
- 
+    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    ];
+  ammoTypes : Object[] = [
+    {'name' : 'fire', 'url' : '../../../assets/img/ammo_fire.png'},
+    {'name': 'air', 'url' : '../../../assets/img/ammo_air.png'},
+    {'name': 'earth', 'url' : '../../../assets/img/ammo_earth.png'},
+    {'name' : 'water', 'url' : '../../../assets/img/ammo_water.png'},
+    ];
+  
+  enemyHP : Object [] = [
+    {'HP' : 3, 'url' : '../../../assets/img/ammo_fire.png'},
+  ]  
 
   ship : Ship = {
     id : 0,
@@ -39,7 +54,7 @@ export class GameService {
     width : 40,
     size : 0,
     HP: 100,
-    backgroundColor:"red",
+    type: this.shipTypes[0],
   };
   game : Game = new Game;
   enemykill = 0;
@@ -69,32 +84,51 @@ export class GameService {
       }
     }, 50);
 
+     //function dead
+    
+
     // Ammo moving and killing enemy
     setInterval(() => {
       for (let ammo of this.ammos) {
             this.moveAmmo(ammo);
         for (let enemy of this.enemies){
           if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
-            if(ammo.posY < enemy.posY + enemy.height){       
-              this.enemies.delete(enemy);
+            if(ammo.posY < enemy.posY + enemy.height){
+              //
+              if(ammo.type = this.enemyTypes[0]){
+                switch(enemy.type){
+                  case this.enemyTypes[1]:
+                    enemy.HP -= 3;
+                    break;
+                  case this.enemyTypes[2]:
+                    enemy.HP -= 2;
+                    break;
+                  case this.enemyTypes[3]:
+                    enemy.HP -= 1;
+                    break;
+                }
+                if(enemy.HP<=0){
+                  this.enemies.delete(enemy);
+                }
+              }
+
               this.enemykill = this.enemykill + 1;
               this.ammos.delete(ammo);
               return;
             }
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
-            if(ammo.posY < enemy.posY + enemy.height){       
+            if(ammo.posY < enemy.posY + enemy.height){
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
-              console.log(this.enemykill);
               this.ammos.delete(ammo);
             }
-          }        
-
+          }
         }
       }
     }, 100);
 
+ 
     // Enemy moving down and colision of the ship with enemy
     setInterval(() => {
       for (let enemy of this.enemies) {
@@ -162,8 +196,23 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
-    let ammo = new Ammo(this.ship.backgroundColor, this.ship.posX + 18, this.ship.posY - 10);
-    return this.ammos.add(ammo);
+    let ammo : Ammo;
+    switch(this.ship.type){
+      case this.shipTypes[0] :
+          ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 18, this.ship.posY - 10);
+          break;
+      case this.shipTypes[1] :
+          ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 18, this.ship.posY - 10);
+          break;
+     case this.shipTypes[2] :
+          ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 18, this.ship.posY - 10);
+          break;
+     case this.shipTypes[3] :
+          ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 18, this.ship.posY - 10);
+          break;
+    }
+      return this.ammos.add(ammo);
+    
   }
   
   moveAmmo(ammo: Ammo) : void {

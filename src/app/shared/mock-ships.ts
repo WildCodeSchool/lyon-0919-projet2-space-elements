@@ -11,7 +11,7 @@ export const SHIPS: Ship[] =
         size: 100,
         width : 40,
         height :  60,
-        backgroundColor:"red",
+        type : {} ,
     },
     {
         id: 2,
@@ -22,6 +22,6 @@ export const SHIPS: Ship[] =
         size: 100,
         width : 40,
         height :  60,
-        backgroundColor:"red",
+        type : {},
     }
 ]

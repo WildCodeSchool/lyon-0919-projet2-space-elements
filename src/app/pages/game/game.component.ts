@@ -88,20 +88,20 @@ export class GameComponent implements OnInit, AfterViewInit {
       
 
      // C (change type)
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
-      this.ship.backgroundColor = "white";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[0]){
+      this.ship.type = this.gameService.shipTypes[1];
       return;
     }
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
-      this.ship.backgroundColor = "brown";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[1]){
+      this.ship.type = this.gameService.shipTypes[2];
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "brown"){
-      this.ship.backgroundColor = "blue";
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[2]){
+      this.ship.type = this.gameService.shipTypes[3];
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "blue"){
-      this.ship.backgroundColor = "red";
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[3]){
+      this.ship.type = this.gameService.shipTypes[0];
       return;
     }      
   }
