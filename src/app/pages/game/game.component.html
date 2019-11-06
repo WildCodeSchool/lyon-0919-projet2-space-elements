@@ -1,10 +1,13 @@
 <div class="frame">
     <div class="gameContainer" #gameContainerElt>
+        <h2>Score : {{ getScore() }}</h2>
         <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
-       
-    </div>
 </div>
 
+<div class="weelOfElements">
+    <img [@animateWeel]=currentState src = "../../../assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
+    </div>
+</div>
 

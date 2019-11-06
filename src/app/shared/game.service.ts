@@ -12,6 +12,22 @@ export class GameService {
   enemies : Set<Enemy> = new Set<Enemy>();
   ammos : Set<Ammo> = new Set<Ammo>();
   types : string[] = ['fire','water','air','earth'];
+  isShoot: boolean = false;
+  mvLeft: boolean = false;
+  mvRight: boolean = false;
+  mvUp: boolean = false;
+  mvDown: boolean = false;
+  mvUpRight: boolean = false;
+  mvUpLeft: boolean = false;
+  mvDownRight: boolean = false;
+  mvDownLeft: boolean = false;
+
+  enemyTypes : Object[] = [
+    {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
+    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
+    {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
+    ]
  
 
   ship : Ship = {
@@ -26,9 +42,33 @@ export class GameService {
     backgroundColor:"red",
   };
   game : Game = new Game;
+  enemykill = 0;
 
   
   constructor() {
+    // multi actions
+    setInterval(() => {
+      if (this.isShoot) {
+        this.addAmmo();
+      }
+    }, 120);
+
+    // mouvement
+    setInterval(() => {
+      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
+        this.ship.posX = this.ship.posX + 10;
+      }
+      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+        this.ship.posX = this.ship.posX - 10;
+      }
+      if (this.mvUp && this.ship.posY > 0) {
+        this.ship.posY = this.ship.posY - 10;
+      }
+      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+        this.ship.posY = this.ship.posY + 10;
+      }
+    }, 50);
+
     // Ammo moving and killing enemy
     setInterval(() => {
       for (let ammo of this.ammos) {
@@ -37,20 +77,23 @@ export class GameService {
           if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
             if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
               this.ammos.delete(ammo);
+              return;
             }
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
             if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+              console.log(this.enemykill);
               this.ammos.delete(ammo);
             }
           }        
 
         }
       }
-
-    }, 50);
+    }, 100);
 
     // Enemy moving down and colision of the ship with enemy
     setInterval(() => {
@@ -59,21 +102,25 @@ export class GameService {
           if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }  
           }
           if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }  
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
               this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
             }
           }    
       }
@@ -134,16 +181,17 @@ export class GameService {
   //Enemy addition and move
   addEnemy(){
    
-    let enemyX = this.randomNumber(this.game.minX+15, this.game.maxX)
+    let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);
   
-    let enemy = new Enemy(this.types[this.randomNumber(0,3)], enemyX-30 , -30)
+    let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
     this.enemies.add(enemy);
+    
     
   }
 
   moveEnemy(enemy:Enemy){
     if (enemy) {
-      if (enemy.posY>this.game.maxY-32) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
       }
       else {

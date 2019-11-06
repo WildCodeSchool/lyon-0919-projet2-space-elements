@@ -2,7 +2,6 @@
 
 
 .frame{
-    /* display: flex; */
     padding:0;
     margin:0;
     top:0;
@@ -10,6 +9,7 @@
     height: 100vh;
     width: 100%;
     background-color: burlywood;
+    
 
 }
 .gameContainer{
@@ -20,3 +20,19 @@
     /* display: flex; */
     /* justify-content: center;     */
 }
+
+h2{
+    color: white;
+    margin: auto;
+    margin-left: -12%;
+    font-size: 32px;
+}
+
+
+.weelOfElements{
+    position: relative;
+    top:-20%;
+    left:1%;
+}
+
+
