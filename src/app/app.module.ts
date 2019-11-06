@@ -12,6 +12,7 @@ import { GameComponent } from './pages/game/game.component';
 import { AmmoComponent } from './components/ammo/ammo.component';
 import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
+import { BossComponent } from './components/boss/boss.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { EnemyComponent } from './components/enemy/enemy.component';
     GameComponent,
     AmmoComponent,
     ShipComponent,
-    EnemyComponent
+    EnemyComponent,
+    BossComponent
   ],
   imports: [
     BrowserModule,

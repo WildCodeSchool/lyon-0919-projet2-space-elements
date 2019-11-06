@@ -5,6 +5,7 @@ import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
+import { Boss } from '../../shared/boss';
 
 @Component({
   selector: 'app-game',
@@ -18,7 +19,8 @@ export class GameComponent implements OnInit, AfterViewInit {
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
   score : Number = this.gameService.enemykill;
-
+  boss: Boss = this.gameService.boss;
+  bossCreated: boolean = this.gameService.bossCreated;
   
   //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
