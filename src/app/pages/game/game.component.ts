@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, Input, } from '@angular/core';
 import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
@@ -18,8 +18,8 @@ export class GameComponent implements OnInit, AfterViewInit {
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
   score : Number = this.gameService.enemykill;
+  valueLifePercentage : Number = 100;
 
-  
   //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
@@ -109,6 +109,15 @@ export class GameComponent implements OnInit, AfterViewInit {
   getScore() {
     return this.gameService.enemykill;
   };
+
+  getLife(){
+    this.valueLifePercentage = (this.gameService.ship.HP*10);
+      if ( this.valueLifePercentage <= 0){
+        this.valueLifePercentage = 0;
+      return;
+    }
+    return this.valueLifePercentage;
+  }
 
    
   @HostListener('document:keyup', ['$event'])

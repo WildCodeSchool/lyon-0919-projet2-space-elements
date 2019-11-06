@@ -38,7 +38,7 @@ export class GameService {
     height : 60,
     width : 40,
     size : 0,
-    HP: 100,
+    HP: 10,
     backgroundColor:"red",
   };
   game : Game = new Game;
@@ -103,24 +103,32 @@ export class GameService {
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
+              this.ship.HP = this.ship.HP -1 ;
+              return;
             }  
           }
           if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
             if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
+              this.ship.HP = this.ship.HP -1 ;
+              return;
             }  
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
+              this.ship.HP = this.ship.HP -1 ;
+              return;
             }
           }
           if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
             if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
+              this.ship.HP = this.ship.HP -1 ;
+              return;
             }
           }    
       }
@@ -194,6 +202,7 @@ export class GameService {
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
+        this.ship.HP = this.ship.HP -3 ;
       }
       else {
         enemy.posY = enemy.posY + 5;

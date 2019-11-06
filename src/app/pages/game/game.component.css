@@ -27,3 +27,15 @@ h2{
     margin-left: -12%;
     font-size: 32px;
 }
+.Life{
+    margin-top: 12%;
+    margin-left: -9%;
+}
+mat-progress-bar{
+    width:500px;
+    height: 30px;
+    background-color: red;
+    transform: rotate(270deg);
+    margin-top: 22%;
+    margin-left: -23%;
+}
