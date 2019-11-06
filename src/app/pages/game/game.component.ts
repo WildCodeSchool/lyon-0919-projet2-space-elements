@@ -58,8 +58,7 @@ export class GameComponent implements OnInit, AfterViewInit {
 
     
   // ennemy creation
-  setInterval(()=>{
-    this.gameService.addEnemy()},2000)
+    this.gameService.addEnemy();
     
   }
   
