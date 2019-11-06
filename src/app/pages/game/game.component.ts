@@ -122,8 +122,7 @@ switch (this.currentState)
 
     
   // ennemy creation
-  setInterval(()=>{
-    this.gameService.addEnemy()},2000)
+    this.gameService.addEnemy();
     
   }
   

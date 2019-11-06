@@ -21,15 +21,17 @@ export class GameService {
   mvUpLeft: boolean = false;
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
-
+  enemyCount: number = 1;
+  intervalNumberEnemyLvl1: any;
+  intervalNumberEnemyLvl2: any;
+  intervalNumberEnemyLvl3: any;
+  intervalNumberEnemyLvl4: any;
   enemyTypes : Object[] = [
     {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
     {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
     {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
     {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
     ]
- 
-
   ship : Ship = {
     id : 0,
     url : '',
@@ -96,6 +98,7 @@ export class GameService {
     }, 100);
 
     // Enemy moving down and colision of the ship with enemy
+<<<<<<< HEAD
     setInterval(() => {
       for (let enemy of this.enemies) {
         this.moveEnemy(enemy);
@@ -125,6 +128,10 @@ export class GameService {
           }    
       }
     }, 200);
+=======
+    this.moveEnemyAndCollision()    
+
+>>>>>>> 41db9f5ff80b18c527e8475bea2c75611c141755
   }
 
   //Function random
@@ -178,18 +185,91 @@ export class GameService {
   }
 
   
-  //Enemy addition and move
+  //Enemy addition
   addEnemy(){
-   
-    let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);
-  
-    let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
-    this.enemies.add(enemy);
-    
-    
+    if  (this.enemyCount < 16) {
+      this.addEnemyLvl1();
+    }
+    else if (this.enemyCount < 36) {
+      this.addEnemyLvl2();
+    }
+    else if (this.enemyCount < 61) {
+      this.addEnemyLvl3();
+    }
+    else if (this.enemyCount < 91) {
+      this.addEnemyLvl4();
+    }
   }
 
-  moveEnemy(enemy:Enemy){
+  addEnemyLvl1() {
+    this.intervalNumberEnemyLvl1 = setInterval(() => {
+      let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.enemies.add(enemy);
+      this.enemyCount++;
+      if (this.enemyCount === 16) {
+        clearInterval(this.intervalNumberEnemyLvl1);
+        this.addEnemy();
+      }
+    }, 1700);
+  }
+  
+  addEnemyLvl2() {
+    this.intervalNumberEnemyLvl2 = setInterval(() => {
+      let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.enemies.add(enemy);
+      this.enemyCount++;      
+      if (this.enemyCount === 36) {
+        clearInterval(this.intervalNumberEnemyLvl2);
+        this.addEnemy();
+      }
+    }, 1400);
+  }
+
+  addEnemyLvl3() {
+    this.intervalNumberEnemyLvl3 = setInterval(() => {
+      let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.enemies.add(enemy);
+      this.enemyCount++;      
+      if (this.enemyCount === 61) {
+        clearInterval(this.intervalNumberEnemyLvl3);
+        this.addEnemy();
+      }
+    }, 1100);
+  }
+
+  addEnemyLvl4() {
+    this.intervalNumberEnemyLvl4 = setInterval(() => {
+      let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.enemies.add(enemy);
+      this.enemyCount++;      
+      if (this.enemyCount === 91) {
+        clearInterval(this.intervalNumberEnemyLvl4);
+        this.addEnemy();
+      }
+    }, 800);
+  }
+
+  // Enemy moves
+  moveEnemy(enemy: Enemy){
+    if  (this.enemyCount < 16) {
+      this.moveEnemyLvl1(enemy);
+    }
+    else if (this.enemyCount < 36) {
+      this.moveEnemyLvl2(enemy);
+    }
+    else if (this.enemyCount < 61) {
+      this.moveEnemyLvl3(enemy);
+    }
+    else if (this.enemyCount <= 91) {
+      this.moveEnemyLvl4(enemy);
+    }
+  }
+
+  moveEnemyLvl1(enemy:Enemy){
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
@@ -198,6 +278,68 @@ export class GameService {
         enemy.posY = enemy.posY + 5;
       }
     }
+  }
+  moveEnemyLvl2(enemy:Enemy){
+    if (enemy) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
+        this.enemies.delete(enemy);
+      }
+      else {
+        enemy.posY = enemy.posY + 8;
+      }
+    }
+  }
+  moveEnemyLvl3(enemy:Enemy){
+    if (enemy) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
+        this.enemies.delete(enemy);
+      }
+      else {
+        enemy.posY = enemy.posY + 11;
+      }
+    }
+  }
+  moveEnemyLvl4(enemy:Enemy){
+    if (enemy) {
+      if (enemy.posY>this.game.maxY - enemy.height*2) {
+        this.enemies.delete(enemy);
+      }
+      else {
+        enemy.posY = enemy.posY + 14;
+      }
+    }
+  }
+
+  moveEnemyAndCollision() {
+    setInterval(() => {
+      for (let enemy of this.enemies) {
+        this.moveEnemy(enemy);
+          if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
+            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }
+          }
+          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+            if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+              this.enemies.delete(enemy);
+              this.enemykill = this.enemykill + 1;
+            }
+          }    
+      }
+    }, 200);
   }
 }
 
