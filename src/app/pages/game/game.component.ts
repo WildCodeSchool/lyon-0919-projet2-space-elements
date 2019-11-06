@@ -45,6 +45,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     
     
   }
+  
   //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
