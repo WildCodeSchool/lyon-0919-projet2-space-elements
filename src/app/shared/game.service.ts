@@ -98,7 +98,7 @@ export class GameService {
     }, 100);
 
     // Enemy moving down and colision of the ship with enemy
-<<<<<<< HEAD
+
     setInterval(() => {
       for (let enemy of this.enemies) {
         this.moveEnemy(enemy);
@@ -128,10 +128,10 @@ export class GameService {
           }    
       }
     }, 200);
-=======
+
+
     this.moveEnemyAndCollision()    
 
->>>>>>> 41db9f5ff80b18c527e8475bea2c75611c141755
   }
 
   //Function random
