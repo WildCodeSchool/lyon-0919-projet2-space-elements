@@ -263,7 +263,7 @@ export class GameService {
         this.enemies.delete(enemy);
       }
       else {
-        enemy.posY = enemy.posY + 10;
+        enemy.posY = enemy.posY + 15;
       }
     }
   }
