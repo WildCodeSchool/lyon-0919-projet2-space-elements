@@ -1,9 +1,16 @@
 <div class="frame">
     <div class="gameContainer" #gameContainerElt>
-        <h2>Score : {{ getScore() }}</h2>
+        <h2>Score : {{ getScore() }} </h2>
+        <h2 class='Life'> Life : </h2>
+        <div class="progressBar">
+            <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+        </div>
         <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
+        <div class="weelOfElements">
+            <img [@animateWeel]=currentState src = "../../../assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
+            </div>
     </div>
 </div>
 

@@ -1,3 +1,4 @@
+
 export class Ammo {
     posX: number;
     posY: number;
