@@ -8,7 +8,7 @@ import { Game } from 'src/app/shared/game';
 import { Boss } from '../../shared/boss';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
-import { url } from 'inspector';
+
 
 @Component({
   selector: 'app-game',
