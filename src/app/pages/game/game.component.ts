@@ -5,8 +5,12 @@ import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
+<<<<<<< HEAD
+import { Boss } from '../../shared/boss';
+=======
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
+>>>>>>> main
 
 @Component({
   selector: 'app-game',
@@ -52,37 +56,15 @@ export class GameComponent implements OnInit, AfterViewInit {
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
   score : Number = this.gameService.enemykill;
+  boss: Boss = this.gameService.boss;
+  bossCreated: boolean = this.gameService.bossCreated;
   valueLifePercentage : Number = 100;
- 
 
-  //Weel animation:
+//Weel animation:
 
 currentState = 'fire';
 
-changeState() {
 
-  this.currentState=this.currentState;
-
-switch (this.currentState) 
-{
-    case "fire":
-      this.currentState = this.currentState === 'fire' ? 'air' : 'fire';
-        break;
-
-    case "air":
-      this.currentState = this.currentState === 'air' ? 'earth' : 'air';
-        break;
-
-    case "earth":
-      this.currentState = this.currentState === 'earth' ? 'water' : 'earth';
-        break;
-
-    case "water":
-      this.currentState = this.currentState === 'water' ? 'fire' : 'water';
-        break;
-
-}
-}
 
   //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
@@ -106,7 +88,9 @@ switch (this.currentState)
     
   ngOnInit() {
     
+    
   }
+
   //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
@@ -126,8 +110,7 @@ switch (this.currentState)
     
   }
   
-
-//Get the keyborad key
+  //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
       //space (shoot)
@@ -186,8 +169,6 @@ switch (this.currentState)
     return this.valueLifePercentage;
   }
   
-
-   
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
@@ -206,5 +187,27 @@ switch (this.currentState)
           this.gameService.mvUp = false;
         }
       }
+  changeState() {
+
+    this.currentState=this.currentState;
+  
+  switch (this.currentState) {
+      case "fire":
+        this.currentState = this.currentState === 'fire' ? 'air' : 'fire';
+          break;
+  
+      case "air":
+        this.currentState = this.currentState === 'air' ? 'earth' : 'air';
+          break;
+  
+      case "earth":
+        this.currentState = this.currentState === 'earth' ? 'water' : 'earth';
+          break;
+  
+      case "water":
+        this.currentState = this.currentState === 'water' ? 'fire' : 'water';
+          break;
+    }
+  }
 }
 

@@ -3,6 +3,7 @@ import { Ammo } from './ammo';
 import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
 import { Game } from './game';
+import { Boss } from './boss';
 
 @Injectable({
   providedIn: 'root'
@@ -62,8 +63,10 @@ export class GameService {
     HP: 10,
     type: this.shipTypes[0],
   };
+  boss: Boss;
   game : Game = new Game;
   enemykill = 0;
+  bossCreated: boolean = false;
 
   
   constructor() {
@@ -230,6 +233,12 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
+    else if (this.enemyCount === 91) {
+      setTimeout(() => {
+        let bossX = this.randomNumber(this.game.minX+300, this.game.maxX);
+        this.boss = new Boss(bossX-300, 0, 'red');
+      }, 5000);
+    }
   }
 
   addEnemyLvl1() {
@@ -279,6 +288,7 @@ export class GameService {
       this.enemyCount++;      
       if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
+        console.log(this.enemyCount);
         this.addEnemy();
       }
     }, 800);
