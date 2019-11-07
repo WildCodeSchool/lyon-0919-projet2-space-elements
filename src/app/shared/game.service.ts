@@ -59,11 +59,7 @@ export class GameService {
     height : 60,
     width : 40,
     size : 0,
-<<<<<<< HEAD
-    HP: 100,
-=======
     HP: 10,
->>>>>>> 48a5411b3047f8f53cbdc6a048d0b4e04b70216d
     type: this.shipTypes[0],
   };
   game : Game = new Game;
@@ -121,13 +117,7 @@ export class GameService {
         }
       }
     }, 100);
-<<<<<<< HEAD
-
- 
-    // Enemy moving down and colision of the ship with enemy
-=======
     
->>>>>>> 48a5411b3047f8f53cbdc6a048d0b4e04b70216d
     this.moveEnemyAndCollision()    
 
   }
