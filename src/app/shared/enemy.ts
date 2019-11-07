@@ -3,6 +3,7 @@ export class Enemy {
     posX : number;
     posY : number;
     life: boolean = true;
+    HP : number = 3;
     width: number = 60;
     height:number = 40;
 

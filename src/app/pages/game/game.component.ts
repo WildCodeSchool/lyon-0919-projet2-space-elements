@@ -1,16 +1,53 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, Input, } from '@angular/core';
 import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
+<<<<<<< HEAD
 import { Boss } from '../../shared/boss';
+=======
+import {trigger, state, style, animate, transition} from '@angular/animations';
+import { RouterState } from '@angular/router';
+>>>>>>> main
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
+  animations: [
+    trigger('animateWeel', [
+
+      state('fire', style({
+        transform: 'rotate(0deg)',
+        width: '100px',
+        height: '100px',
+      })),  
+      state('air', style({      
+        transform: 'rotate(90deg)',
+        width: '100px',
+        height: '100px',
+      })),
+
+      state('earth', style({
+        transform: 'rotate(270deg)',
+        width: '100px',
+        height: '100px',
+      })),
+
+      state('water', style({
+        transform: 'rotate(180deg)',
+        width: '100px',
+        height: '100px',
+      })),
+   
+      transition ('fire=>air', animate('000ms')),
+      transition ('air=>earth', animate('000ms')),
+      transition ('earth=>water', animate('000ms')),
+      transition ('water=>fire', animate('000ms')),
+    ]),
+  ]
 })
 export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
@@ -21,7 +58,14 @@ export class GameComponent implements OnInit, AfterViewInit {
   score : Number = this.gameService.enemykill;
   boss: Boss = this.gameService.boss;
   bossCreated: boolean = this.gameService.bossCreated;
-  
+  valueLifePercentage : Number = 100;
+
+//Weel animation:
+
+currentState = 'fire';
+
+
+
   //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
   sizeGameContainer : number;
@@ -33,6 +77,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammoPosX = this.ship.posX + 18;
   ammoPosY = this.ship.posY - 10;
   currentPosition = this.ammoPosY;
+  type = "fire"
   
 
 
@@ -65,8 +110,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     
   }
   
-
-//Get the keyborad key
+  //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
       //space (shoot)
@@ -87,23 +131,27 @@ export class GameComponent implements OnInit, AfterViewInit {
     if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
       this.gameService.mvUp = true;
     }
-      
+    
 
      // C (change type)
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
-      this.ship.backgroundColor = "white";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[0]){
+      this.ship.type = this.gameService.shipTypes[1];
+      this.changeState();
       return;
     }
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
-      this.ship.backgroundColor = "brown";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[1]){
+      this.ship.type = this.gameService.shipTypes[2];
+      this.changeState();
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "brown"){
-      this.ship.backgroundColor = "blue";
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[2]){
+      this.ship.type = this.gameService.shipTypes[3];
+      this.changeState();
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "blue"){
-      this.ship.backgroundColor = "red";
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[3]){
+      this.ship.type = this.gameService.shipTypes[0];
+      this.changeState();
       return;
     }      
   }
@@ -112,7 +160,15 @@ export class GameComponent implements OnInit, AfterViewInit {
     return this.gameService.enemykill;
   };
 
-   
+  getLifePercentage(){
+    this.valueLifePercentage = (this.gameService.ship.HP*10);
+      if ( this.valueLifePercentage <= 0){
+        this.valueLifePercentage = 0;
+      return;
+    }
+    return this.valueLifePercentage;
+  }
+  
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
@@ -131,5 +187,27 @@ export class GameComponent implements OnInit, AfterViewInit {
           this.gameService.mvUp = false;
         }
       }
+  changeState() {
+
+    this.currentState=this.currentState;
+  
+  switch (this.currentState) {
+      case "fire":
+        this.currentState = this.currentState === 'fire' ? 'air' : 'fire';
+          break;
+  
+      case "air":
+        this.currentState = this.currentState === 'air' ? 'earth' : 'air';
+          break;
+  
+      case "earth":
+        this.currentState = this.currentState === 'earth' ? 'water' : 'earth';
+          break;
+  
+      case "water":
+        this.currentState = this.currentState === 'water' ? 'fire' : 'water';
+          break;
+    }
+  }
 }
 

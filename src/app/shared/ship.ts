@@ -7,5 +7,5 @@ export class Ship {
     width : number;
     size : number;
     HP: number;
-    backgroundColor:string;
+    type:Object;
 }
