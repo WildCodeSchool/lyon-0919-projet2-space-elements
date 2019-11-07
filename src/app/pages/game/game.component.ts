@@ -7,6 +7,7 @@ import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-game',
@@ -105,7 +106,7 @@ switch (this.currentState)
     ) { }
     
   ngOnInit() {
-    
+ 
   }
   //Get the game mensurations
   ngAfterViewInit() {

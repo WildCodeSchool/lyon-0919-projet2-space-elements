@@ -35,10 +35,19 @@ export class GameService {
     ];
   
   enemyTypes : Object[] = [
-    {'name' : 'fire', 'url' :[ '../../../assets/img/enemy_fire.png']},
-    {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
-    {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
-    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
+    {'name' : 'fire', 'url' :[ '../../../assets/img/enemy_fire.png',
+                               '../../../assets/img/enemy_fireHP2.png',
+                               '../../../assets/img/enemy_fireHP1.png'
+                              ]},
+    {'name': 'air', 'url' : ['../../../assets/img/enemy_air.png',
+                             '../../../assets/img/enemy_airHP2.png',
+                             '../../../assets/img/enemy_airHP1.png']},
+    {'name': 'earth', 'url' : ['../../../assets/img/enemy_earth.png',
+                              '../../../assets/img/enemy_earthHP2.png',
+                              '../../../assets/img/enemy_earthHP1.png']},
+    {'name' : 'water', 'url' : ['../../../assets/img/enemy_water.png',
+                                '../../../assets/img/enemy_waterHP2.png',
+                                '../../../assets/img/enemy_waterHP1.png']},
     ];
   ammoTypes : Object[] = [
     {'name' : 'fire', 'url' : '../../../assets/img/ammo_fire.png'},
@@ -102,6 +111,9 @@ export class GameService {
             if(ammo.posY < enemy.posY + enemy.height){
               //Switch Damages
               enemy.HP = this.doDamage(ammo,enemy)
+              enemy.pic = this.VisuDamage(enemy);
+              
+              
               
               this.ammos.delete(ammo);
               return;
@@ -109,9 +121,11 @@ export class GameService {
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
             if(ammo.posY < enemy.posY + enemy.height){
-              enemy.HP = this.doDamage(ammo,enemy)
+              enemy.HP = this.doDamage(ammo,enemy);
+              enemy.pic = this.VisuDamage(enemy);
 
               this.ammos.delete(ammo);
+              
             }
           }
         }
@@ -123,11 +137,10 @@ export class GameService {
   }
 
   //Function to do damage
-  doDamage(ammo,enemy){
+  doDamage(ammo : Ammo,enemy: Enemy){
     let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
    for(let i=0; i<4; i++){
-    console.log(truc[i[0]])
-
+   
     switch(ammo.type){
       case this.ammoTypes[i]:
       switch(enemy.type){
@@ -149,6 +162,24 @@ export class GameService {
     }
   }
     return enemy.HP;
+  }
+  //Function ToSeeDamage
+  VisuDamage(enemy : Enemy){
+
+   for(let i=0; i<4; i++){
+     switch(enemy.type){
+       case this.enemyTypes[i]:
+         switch(enemy.HP){
+          case 2 :
+            enemy.pic = this.enemyTypes[i]['url'][1];
+            break; 
+          case 1 :
+            enemy.pic = this.enemyTypes[i]['url'][2];
+            break; 
+         }
+     }
+   }
+   return enemy.pic;
   }
   //Function random
   randomNumber(min : number, max : number) {  
@@ -236,6 +267,10 @@ export class GameService {
     this.intervalNumberEnemyLvl1 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      for (let i =0; i<4; i++){
+        if (enemy.type === this.enemyTypes[i]){
+          enemy.pic=this.enemyTypes[i]['url'][0]}
+        }
       this.enemies.add(enemy);
       this.enemyCount++;
       if (this.enemyCount === 16) {
@@ -274,7 +309,9 @@ export class GameService {
   addEnemyLvl4() {
     this.intervalNumberEnemyLvl4 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
-      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)] , enemyX-60 , -20);
+      for (let i =0; i<4; i++){
+        if (enemy.type = this.enemyTypes[i]){enemy.pic=this.enemyTypes[0]['url'][0]}}
       this.enemies.add(enemy);
       this.enemyCount++;      
       if (this.enemyCount === 91) {
