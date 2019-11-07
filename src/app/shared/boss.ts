@@ -3,13 +3,13 @@ export class Boss {
     posX : number;
     posY : number;
     life: boolean = true;
-    width: number = 300;
-    height:number = 70;
-    backgroundColor:string;
+    width: number;
+    height:number;
+    backgroundColor: string;
     
     constructor(posX : number, posY: number, backgroundColor: string){
         this.posX = posX;
         this.posY = posY;
-        this.backgroundColor=backgroundColor
+        this.backgroundColor = backgroundColor;
     }
 }

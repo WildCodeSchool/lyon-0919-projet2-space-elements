@@ -43,6 +43,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     
   ngOnInit() {
     
+    
   }
 
   //Get the game mensurations

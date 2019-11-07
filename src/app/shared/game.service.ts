@@ -171,9 +171,10 @@ export class GameService {
       this.addEnemyLvl4();
     }
     else if (this.enemyCount === 91) {
-      this.bossCreated = true;
-      let bossX = this.randomNumber(this.game.minX+60, this.game.maxX);
-      let boss = new Boss(bossX-300, 600, 'red');
+      setTimeout(() => {
+        let bossX = this.randomNumber(this.game.minX+300, this.game.maxX);
+        this.boss = new Boss(bossX-300, 0, 'red');
+      }, 5000);
     }
   }
 
@@ -224,6 +225,7 @@ export class GameService {
       this.enemyCount++;      
       if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
+        console.log(this.enemyCount);
         this.addEnemy();
       }
     }, 800);
