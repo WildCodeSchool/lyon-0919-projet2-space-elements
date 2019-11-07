@@ -153,18 +153,25 @@ switch (this.currentState)
      // C (change type)
     if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[0]){
       this.ship.type = this.gameService.shipTypes[1];
+      this.changeState();
       return;
     }
     if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[1]){
       this.ship.type = this.gameService.shipTypes[2];
+      this.changeState();
       return;
     }
     if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[2]){
       this.ship.type = this.gameService.shipTypes[3];
+      this.changeState();
       return;
     }
     if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[3]){
       this.ship.type = this.gameService.shipTypes[0];
+<<<<<<< HEAD
+=======
+      this.changeState();
+>>>>>>> 48a5411b3047f8f53cbdc6a048d0b4e04b70216d
       return;
     }      
   }
