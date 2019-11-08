@@ -9,8 +9,18 @@
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
         <div class="weelOfElements">
-            <img [@animateWeel]=currentState src = "../../../assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
-            </div>
+            <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
+        </div>
+        <div>
+            <p *ngIf='gamePaused' class='Pause'>PAUSE</p>
+        </div>
+<!--         <aside id='GameOver' class='modal'>
+            <div class='modal-wrapper'>
+                <p>Game Over</p>
+                <p>Votre score est de : {{ getScore() }}</p>
+                <button routerLink="">Revenir au debut</button>
+            </div>       
+        </aside> -->
     </div>
 </div>
 

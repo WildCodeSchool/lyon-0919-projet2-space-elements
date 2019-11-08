@@ -7,6 +7,9 @@ import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { HomepageComponent } from '../homepage/homepage.component';
+
 
 @Component({
   selector: 'app-game',
@@ -53,6 +56,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   game :Game = new Game;
   score : Number = this.gameService.enemykill;
   valueLifePercentage : Number = 100;
+  gamePaused : boolean = false;
  
 
   //Weel animation:
@@ -101,7 +105,8 @@ switch (this.currentState)
 
   constructor(
     public shipService: ShipService,
-    public gameService: GameService
+    public gameService: GameService,
+    public dialog : MatDialog,
     ) { }
     
   ngOnInit() {
@@ -148,6 +153,18 @@ switch (this.currentState)
     if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
       this.gameService.mvUp = true;
     }
+
+     //Pause Game
+    if (event.code === 'Enter' && this.gamePaused === false) {
+      this.gameService.pauseGame();
+      this.gamePaused = true;
+      return;
+    }
+    if(event.code === 'Enter' && this.gamePaused === true){
+      this.gameService.pauseGameReprise();
+      this.gamePaused = false;
+      return;
+    }
     
 
      // C (change type)
@@ -174,19 +191,21 @@ switch (this.currentState)
     }      
   }
 
+  //Affichage du score
   getScore() {
     return this.gameService.enemykill;
   };
 
+  //Affichage Barre de Vie
   getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0){
         this.valueLifePercentage = 0;
+        //this.gameService.fenetreModale(); En attente creation US-GAMEOVER
       return;
     }
     return this.valueLifePercentage;
   }
-  
 
    
   @HostListener('document:keyup', ['$event'])
@@ -205,7 +224,7 @@ switch (this.currentState)
         }
         if (event.code === 'ArrowUp') {
           this.gameService.mvUp = false;
-        }
+        }        
       }
 }
 

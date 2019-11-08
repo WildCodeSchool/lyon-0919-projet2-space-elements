@@ -45,58 +45,22 @@ export class GameService {
   };
   game : Game = new Game;
   enemykill = 0;
+  PausemoveEnemy ;
+  PauseaddEnemy;
+  PauseFireAmmo;
+  PauseShip;
+  PauseAmmoMove;
 
   
   constructor() {
-    // multi actions
-    setInterval(() => {
-      if (this.isShoot) {
-        this.addAmmo();
-      }
-    }, 120);
 
     // mouvement
-    setInterval(() => {
-      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
-        this.ship.posX = this.ship.posX + 10;
-      }
-      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
-        this.ship.posX = this.ship.posX - 10;
-      }
-      if (this.mvUp && this.ship.posY > 0) {
-        this.ship.posY = this.ship.posY - 10;
-      }
-      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
-        this.ship.posY = this.ship.posY + 10;
-      }
-    }, 50);
-
+    this.movementShip();
+    // multi actions
+    this.multiAction();
     // Ammo moving and killing enemy
-    setInterval(() => {
-      for (let ammo of this.ammos) {
-            this.moveAmmo(ammo);
-        for (let enemy of this.enemies){
-          if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
-            if(ammo.posY < enemy.posY + enemy.height){       
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
-              this.ammos.delete(ammo);
-              return;
-            }
-          }
-          if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
-            if(ammo.posY < enemy.posY + enemy.height){       
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
-              console.log(this.enemykill);
-              this.ammos.delete(ammo);
-            }
-          }        
-
-        }
-      }
-    }, 100);
-    
+    this.ammoMove();
+    //Move Enemy and Collision
     this.moveEnemyAndCollision()    
 
   }
@@ -280,46 +244,128 @@ export class GameService {
       }
     }
   }
-
-  moveEnemyAndCollision() {
-    setInterval(() => {
-      for (let enemy of this.enemies) {
-        this.moveEnemy(enemy);
-          if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
-            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
-              this.ship.HP = this.ship.HP -1 ;
-              return;
-            }  
-          }
-          if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
-            if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
-              this.ship.HP = this.ship.HP -1 ;
-              return;
-            }  
-          }
-          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+//moveEnemyAndCollision
+moveEnemyAndCollision() {
+    this.PausemoveEnemy =   setInterval(() => {
+        for (let enemy of this.enemies) {
+          this.moveEnemy(enemy);
             if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+              if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+                this.enemies.delete(enemy);
+                this.enemykill = this.enemykill + 1;
+                this.ship.HP = this.ship.HP -1 ;
+                return;
+              }  
+            }
+            if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
+              if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+                this.enemies.delete(enemy);
+                this.enemykill = this.enemykill + 1;
+                this.ship.HP = this.ship.HP -1 ;
+                return;
+              }  
+            }
+            if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+              if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
+                this.enemies.delete(enemy);
+                this.enemykill = this.enemykill + 1;
+                this.ship.HP = this.ship.HP -1 ;
+                return;
+              }
+            }
+            if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
+              if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+                this.enemies.delete(enemy);
+                this.enemykill = this.enemykill + 1;
+                this.ship.HP = this.ship.HP -1 ;
+                return;
+              }
+            }    
+        }
+      }, 200);
+    
+  }
+  //DeclarationMethode movementShip
+  movementShip(){
+    this.PauseShip = setInterval(() => {
+                        if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
+                          this.ship.posX = this.ship.posX + 10;
+                        }
+                        if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+                          this.ship.posX = this.ship.posX - 10;
+                        }
+                        if (this.mvUp && this.ship.posY > 0) {
+                          this.ship.posY = this.ship.posY - 10;
+                        }
+                        if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+                          this.ship.posY = this.ship.posY + 10;
+                        }
+                      }, 50);
+    }
+
+  //DeclarationMethode multiAction
+  multiAction(){
+  this.PauseFireAmmo = setInterval(() => {
+    if (this.isShoot) {
+      this.addAmmo();
+    }
+  }, 120);
+  }
+  //DeclarationMethode multiAction
+  ammoMove(){
+    this.PauseAmmoMove =  setInterval(() => {
+      for (let ammo of this.ammos) {
+            this.moveAmmo(ammo);
+        for (let enemy of this.enemies){
+          if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
+            if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
-              this.ship.HP = this.ship.HP -1 ;
+              this.ammos.delete(ammo);
               return;
             }
           }
-          if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
-            if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+          if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
+            if(ammo.posY < enemy.posY + enemy.height){       
               this.enemies.delete(enemy);
               this.enemykill = this.enemykill + 1;
-              this.ship.HP = this.ship.HP -1 ;
-              return;
+              console.log(this.enemykill);
+              this.ammos.delete(ammo);
             }
-          }    
+          }        
+
+        }
       }
-    }, 200);
+    }, 100);
   }
+
+  //Ouverture fenetre Modale GameOver
+  fenetreModale(): void {
+    let modaleGameOver = document.getElementById('GameOver');
+    modaleGameOver.style.display="block";
+    this.pauseGame();
+  }
+  
+  //Pause du game
+  pauseGame(){
+    clearTimeout(this.PausemoveEnemy);
+    clearTimeout(this.intervalNumberEnemyLvl1);
+    clearTimeout(this.intervalNumberEnemyLvl2);
+    clearTimeout(this.intervalNumberEnemyLvl3);
+    clearTimeout(this.intervalNumberEnemyLvl4);
+    clearTimeout(this.PauseFireAmmo);
+    clearTimeout(this.PauseShip);
+    clearTimeout(this.PauseAmmoMove);
+  };
+
+  //Reprise du game
+  pauseGameReprise(){
+    this.moveEnemyAndCollision();
+    this.addEnemy();
+    this.movementShip();
+    this.multiAction();
+    this.ammoMove();
+  };
 }
 
 
