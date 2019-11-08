@@ -3,8 +3,10 @@ export class Enemy {
     posX : number;
     posY : number;
     life: boolean = true;
+    HP : number = 3;
     width: number = 60;
     height:number = 40;
+    pic : string;
 
     
     constructor(type : Object , posX : number, posY: number){

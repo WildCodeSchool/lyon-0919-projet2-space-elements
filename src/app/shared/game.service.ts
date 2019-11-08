@@ -3,6 +3,7 @@ import { Ammo } from './ammo';
 import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
 import { Game } from './game';
+import { Boss } from './boss';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +27,43 @@ export class GameService {
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
+  PausemoveEnemy : any;
+  PauseFireAmmo : any;
+  PauseShip : any;
+  PauseAmmoMove : any;
+
+  shipTypes : Object[] = [
+    {'name' : 'fire', 'url' : '/assets/img/ship_fire.png'},
+    {'name': 'air', 'url' : '/assets/img/ship_air.png'},
+    {'name': 'earth', 'url' : '/assets/img/ship_earth.png'},
+    {'name' : 'water', 'url' : '/assets/img/ship_water.png'},
+    ];
+  
   enemyTypes : Object[] = [
-    {'name' : 'fire', 'url' : '../../../assets/img/enemy_fire.png'},
-    {'name' : 'water', 'url' : '../../../assets/img/enemy_water.png'},
-    {'name': 'air', 'url' : '../../../assets/img/enemy_air.png'},
-    {'name': 'earth', 'url' : '../../../assets/img/enemy_earth.png'},
-    ]
+    {'name' : 'fire', 'url' :[ '/assets/img/enemy_fire.png',
+                               '/assets/img/enemy_fire_HP2.png',
+                               '/assets/img/enemy_fire_HP1.png']},
+    {'name': 'air', 'url' : ['/assets/img/enemy_air.png',
+                             '/assets/img/enemy_air_HP2.png',
+                             '/assets/img/enemy_air_HP1.png']},
+    {'name': 'earth', 'url' : ['/assets/img/enemy_earth.png',
+                              '/assets/img/enemy_earth_HP2.png',
+                              '/assets/img/enemy_earth_HP1.png']},
+    {'name' : 'water', 'url' : ['/assets/img/enemy_water.png',
+                                '/assets/img/enemy_water_HP2.png',
+                                '/assets/img/enemy_water_HP1.png']},
+    ];
+  ammoTypes : Object[] = [
+    {'name' : 'fire', 'url' : '/assets/img/ammo_fire.png'},
+    {'name': 'air', 'url' : '/assets/img/ammo_air.png'},
+    {'name': 'earth', 'url' : '/assets/img/ammo_earth.png'},
+    {'name' : 'water', 'url' : '/assets/img/ammo_water.png'},
+    ];
+  
+  enemyHP : Object [] = [
+    {'HP' : 3, 'url' : '/assets/img/ammo_fire.png'},
+  ]  
+
   ship : Ship = {
     id : 0,
     url : '',
@@ -41,15 +73,13 @@ export class GameService {
     width : 40,
     size : 0,
     HP: 10,
-    backgroundColor:"red",
+    type: this.shipTypes[0],
   };
+
+  boss: Boss;
   game : Game = new Game;
   enemykill = 0;
-  PausemoveEnemy ;
-  PauseaddEnemy;
-  PauseFireAmmo;
-  PauseShip;
-  PauseAmmoMove;
+  bossCreated: boolean = false;
 
   
   constructor() {
@@ -65,11 +95,61 @@ export class GameService {
 
   }
 
+  //Function to do damage
+  doDamage(ammo : Ammo,enemy: Enemy){
+    let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
+    for(let i=0; i<4; i++){
+   
+      switch(ammo.type){
+        case this.ammoTypes[i]:
+          switch(enemy.type){
+            case this.enemyTypes[truc[i][0]]:
+              enemy.HP -= 3;
+              break;
+            case this.enemyTypes[truc[i][1]]:
+              enemy.HP -= 2;
+              break;
+            case this.enemyTypes[truc[i][2]]:
+              enemy.HP -= 1;
+              break;
+          }
+      
+        if(enemy.HP<=0){
+          this.enemies.delete(enemy);
+          this.enemykill = this.enemykill + 1;
+        }
+        break;
+      }
+  }
+    return enemy.HP;
+  }
+  //Function ToSeeDamage
+  VisuDamage(enemy : Enemy){
+
+   for(let i=0; i<4; i++){
+     switch(enemy.type){
+       case this.enemyTypes[i]:
+         switch(enemy.HP){
+          case 2 :
+            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][1]);
+            break; 
+          case 1 :
+            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][2]);
+            break; 
+         }
+     }
+   }
+   return enemy.pic;
+  }
   //Function random
   randomNumber(min : number, max : number) {  
     return Math.floor(Math.random() * (max - min)+min);
   }
 
+  //get enemy pic url 
+  getEnnemyPicture(url) {
+    return `url('${url}')`;
+  }
   
   //Functions to define the container size
   setMaxX(widthTotal, sizeGameContainer){
@@ -99,8 +179,22 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
-    let ammo = new Ammo(this.ship.backgroundColor, this.ship.posX + 18, this.ship.posY - 10);
-    return this.ammos.add(ammo);
+    let ammo : Ammo;
+    switch(this.ship.type){
+      case this.shipTypes[0] :
+        ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 18, this.ship.posY - 10);
+        break;
+      case this.shipTypes[1] :
+        ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 18, this.ship.posY - 10);
+        break;
+     case this.shipTypes[2] :
+        ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 18, this.ship.posY - 10);
+        break;
+     case this.shipTypes[3] :
+        ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 18, this.ship.posY - 10);
+        break;
+    }
+      return this.ammos.add(ammo);
   }
   
   moveAmmo(ammo: Ammo) : void {
@@ -130,12 +224,27 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
+    else if (this.enemyCount === 91) {
+      setTimeout(() => {
+        let bossX = this.randomNumber(this.game.minX+300, this.game.maxX);
+        this.boss = new Boss(bossX-300, 0, 'red');
+      }, 5000);
+    }
+  }
+  //Function to set enemy first pic
+  setEnemyPic(enemy){
+    for (let i =0; i<4; i++){
+      if (enemy.type === this.enemyTypes[i]){
+        enemy.pic=this.getEnnemyPicture(this.enemyTypes[i]['url'][0]);
+      }
+    }
   }
 
   addEnemyLvl1() {
     this.intervalNumberEnemyLvl1 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.setEnemyPic(enemy);
       this.enemies.add(enemy);
       this.enemyCount++;
       if (this.enemyCount === 16) {
@@ -149,6 +258,7 @@ export class GameService {
     this.intervalNumberEnemyLvl2 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.setEnemyPic(enemy);
       this.enemies.add(enemy);
       this.enemyCount++;      
       if (this.enemyCount === 36) {
@@ -162,6 +272,7 @@ export class GameService {
     this.intervalNumberEnemyLvl3 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      this.setEnemyPic(enemy);
       this.enemies.add(enemy);
       this.enemyCount++;      
       if (this.enemyCount === 61) {
@@ -174,11 +285,13 @@ export class GameService {
   addEnemyLvl4() {
     this.intervalNumberEnemyLvl4 = setInterval(() => {
       let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
-      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
+      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)] , enemyX-60 , -20);
+      this.setEnemyPic(enemy);
       this.enemies.add(enemy);
       this.enemyCount++;      
       if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
+        console.log(this.enemyCount);
         this.addEnemy();
       }
     }, 800);
@@ -319,17 +432,16 @@ moveEnemyAndCollision() {
         for (let enemy of this.enemies){
           if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
             if(ammo.posY < enemy.posY + enemy.height){       
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
+              enemy.HP = this.doDamage(ammo,enemy)
+              enemy.pic = this.VisuDamage(enemy);
               this.ammos.delete(ammo);
               return;
             }
           }
           if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
             if(ammo.posY < enemy.posY + enemy.height){       
-              this.enemies.delete(enemy);
-              this.enemykill = this.enemykill + 1;
-              console.log(this.enemykill);
+              enemy.HP = this.doDamage(ammo,enemy)
+              enemy.pic = this.VisuDamage(enemy);
               this.ammos.delete(ammo);
             }
           }        

@@ -3,10 +3,11 @@ export class Ammo {
     posX: number;
     posY: number;
     width:number = 4;
-    backgroundColor : string;
+    type: Object;
 
-    constructor(backgroundColor, posX, posY){
-        this.backgroundColor = backgroundColor;
+
+    constructor(type : Object, posX : number, posY : number){
+        this.type = type;
         this.posX = posX ;
         this.posY = posY ;
     }

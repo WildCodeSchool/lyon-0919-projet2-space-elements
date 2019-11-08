@@ -14,6 +14,7 @@ import { GameComponent } from './pages/game/game.component';
 import { AmmoComponent } from './components/ammo/ammo.component';
 import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
+import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     GameComponent,
     AmmoComponent,
     ShipComponent,
-    EnemyComponent
+    EnemyComponent,
+    BossComponent
   ],
   imports: [
     BrowserModule,

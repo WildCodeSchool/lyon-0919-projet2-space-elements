@@ -5,10 +5,12 @@ import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
+import { Boss } from '../../shared/boss';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
+
 
 
 @Component({
@@ -55,38 +57,17 @@ export class GameComponent implements OnInit, AfterViewInit {
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
   score : Number = this.gameService.enemykill;
+  boss: Boss = this.gameService.boss;
+  bossCreated: boolean = this.gameService.bossCreated;
   valueLifePercentage : Number = 100;
   gamePaused : boolean = false;
  
 
-  //Weel animation:
+//Weel animation:
 
 currentState = 'fire';
 
-changeState() {
 
-  this.currentState=this.currentState;
-
-switch (this.currentState) 
-{
-    case "fire":
-      this.currentState = this.currentState === 'fire' ? 'air' : 'fire';
-        break;
-
-    case "air":
-      this.currentState = this.currentState === 'air' ? 'earth' : 'air';
-        break;
-
-    case "earth":
-      this.currentState = this.currentState === 'earth' ? 'water' : 'earth';
-        break;
-
-    case "water":
-      this.currentState = this.currentState === 'water' ? 'fire' : 'water';
-        break;
-
-}
-}
 
   //game frame  
   @ViewChild('gameContainerElt', {static: false}) gameContainerElt: ElementRef;
@@ -110,8 +91,9 @@ switch (this.currentState)
     ) { }
     
   ngOnInit() {
-    
+ 
   }
+
   //Get the game mensurations
   ngAfterViewInit() {
     this.sizeGameContainer = this.gameContainerElt.nativeElement.clientWidth;
@@ -131,8 +113,7 @@ switch (this.currentState)
     
   }
   
-
-//Get the keyborad key
+  //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
       //space (shoot)
@@ -168,24 +149,23 @@ switch (this.currentState)
     
 
      // C (change type)
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "red"){
-      this.ship.backgroundColor = "white";
-      this.changeState();
-      this.ammo
-      return;
-    }
-    if (event.code === 'KeyC' && this.ship.backgroundColor === "white"){
-      this.ship.backgroundColor = "green";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[0]){
+      this.ship.type = this.gameService.shipTypes[1];
       this.changeState();
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "green"){
-      this.ship.backgroundColor = "blue";
+    if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[1]){
+      this.ship.type = this.gameService.shipTypes[2];
       this.changeState();
       return;
     }
-    if (event.code === 'KeyC'&& this.ship.backgroundColor === "blue"){
-      this.ship.backgroundColor = "red";
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[2]){
+      this.ship.type = this.gameService.shipTypes[3];
+      this.changeState();
+      return;
+    }
+    if (event.code === 'KeyC'&& this.ship.type === this.gameService.shipTypes[3]){
+      this.ship.type = this.gameService.shipTypes[0];
       this.changeState();
       return;
     }      
@@ -226,5 +206,27 @@ switch (this.currentState)
           this.gameService.mvUp = false;
         }        
       }
+  changeState() {
+
+    this.currentState=this.currentState;
+  
+  switch (this.currentState) {
+      case "fire":
+        this.currentState = this.currentState === 'fire' ? 'air' : 'fire';
+          break;
+  
+      case "air":
+        this.currentState = this.currentState === 'air' ? 'earth' : 'air';
+          break;
+  
+      case "earth":
+        this.currentState = this.currentState === 'earth' ? 'water' : 'earth';
+          break;
+  
+      case "water":
+        this.currentState = this.currentState === 'water' ? 'fire' : 'water';
+          break;
+    }
+  }
 }
 
