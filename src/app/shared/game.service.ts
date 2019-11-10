@@ -69,7 +69,7 @@ export class GameService {
     url : '',
     posX: 0,
     posY: 880,
-    height : 92.232,
+    height : 93,
     width : 100,
     size : 0,
     HP: 10,
