@@ -125,7 +125,7 @@ export class GameService {
         else if (this.ship.type['url'] === '/assets/img/ship_air1.png') {
           this.ship.type['url'] = '/assets/img/ship_air.png';
         }  
-    }, 150); 
+    }, 200); 
   }
 
   //Function to do damage
