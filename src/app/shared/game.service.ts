@@ -174,7 +174,7 @@ export class GameService {
     this.ship.posX = widthTotal/2;
   }
   setShipY(heightTotal){
-    this.ship.posY = heightTotal - this.ship.height;
+    this.ship.posY = heightTotal - this.ship.height - 10;
   }
 
   //Ammo addition and move
@@ -182,16 +182,16 @@ export class GameService {
     let ammo : Ammo;
     switch(this.ship.type){
       case this.shipTypes[0] :
-        ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 45.116, this.ship.posY - 10);
+        ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 42.116, this.ship.posY - 10);
         break;
       case this.shipTypes[1] :
-        ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 45.116, this.ship.posY - 10);
+        ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 42.116, this.ship.posY - 10);
         break;
      case this.shipTypes[2] :
-        ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 45.116, this.ship.posY - 10);
+        ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 42.116, this.ship.posY - 10);
         break;
      case this.shipTypes[3] :
-        ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 45.116, this.ship.posY - 10);
+        ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 42.116, this.ship.posY - 10);
         break;
     }
       return this.ammos.add(ammo);
