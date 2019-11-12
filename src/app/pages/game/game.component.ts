@@ -198,9 +198,6 @@ currentState = 'fire';
     this.dialog.open(GameOverComponent);
    }
 
-   reload(){
-     location.reload()
-   }
    
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
