@@ -79,7 +79,7 @@ currentState = 'fire';
   
 
   // Ammo position
-  ammoPosX = this.ship.posX + 18;
+  ammoPosX = this.ship.posX + 45.116;
   ammoPosY = this.ship.posY - 10;
   currentPosition = this.ammoPosY;
   type = "fire"
