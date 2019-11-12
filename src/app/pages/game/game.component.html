@@ -14,14 +14,8 @@
         </div>
         <div>
             <p *ngIf='gamePaused' class='Pause'>PAUSE</p>
+            <button *ngIf='gamePaused'><a href="/option">Revenir au Options</a></button>
         </div>
-<!--         <aside id='GameOver' class='modal'>
-            <div class='modal-wrapper'>
-                <p>Game Over</p>
-                <p>Votre score est de : {{ getScore() }}</p>
-                <button routerLink="">Revenir au debut</button>
-            </div>       
-        </aside> -->
     </div>
 </div>
 

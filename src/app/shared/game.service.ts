@@ -72,7 +72,7 @@ export class GameService {
     height : 133,
     width : 124,
     size : 0,
-    HP: 10,
+    HP: 1,
     type: this.shipTypes[0],
   };
   
