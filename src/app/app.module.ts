@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { routes } from './app-routing.module'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,8 @@ import { GameOverComponent } from './components/game-over/game-over.component';
     BrowserAnimationsModule,
     MatProgressBarModule,
     MatDialogModule,
+    MatButtonModule,
+    
   ],
   entryComponents: [
     GameOverComponent,
