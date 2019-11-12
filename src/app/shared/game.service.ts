@@ -41,17 +41,17 @@ export class GameService {
   
   enemyTypes : Object[] = [
     {'name' : 'fire', 'url' :[ '/assets/img/enemy_fire.png',
-                              '/assets/img/enemy_fire_HP2.png',
-                              '/assets/img/enemy_fire_HP1.png']},
+                              '/assets/img/enemy_fire_HP1.png',
+                              '/assets/img/enemy_fire_HP2.png']},
     {'name': 'air', 'url' : ['/assets/img/enemy_air.png',
-                            '/assets/img/enemy_air_HP2.png',
-                            '/assets/img/enemy_air_HP1.png']},
+                            '/assets/img/enemy_air_HP1.png',
+                            '/assets/img/enemy_air_HP2.png']},
     {'name': 'earth', 'url' : ['/assets/img/enemy_earth.png',
-                              '/assets/img/enemy_earth_HP2.png',
-                              '/assets/img/enemy_earth_HP1.png']},
+                              '/assets/img/enemy_earth_HP1.png',
+                              '/assets/img/enemy_earth_HP2.png']},
     {'name' : 'water', 'url' : ['/assets/img/enemy_water.png',
-                                '/assets/img/enemy_water_HP2.png',
-                                '/assets/img/enemy_water_HP1.png']},
+                                '/assets/img/enemy_water_HP1.png',
+                                '/assets/img/enemy_water_HP2.png']},
     ];
   ammoTypes : Object[] = [
     {'name' : 'fire', 'url' : '/assets/img/ammo_fire.png'},
@@ -91,11 +91,11 @@ export class GameService {
     // Ammo moving and killing enemy
     this.ammoMove();
     //Move Enemy and Collision
-    this.moveEnemyAndCollision() 
+    this.moveEnemyAndCollision(); 
     // Ship animation   
-    this.animShip()
-    console.log(this.shipTypes[0]['url'][1]);
-    console.log(this.ship.type['url']);
+    this.animShip();
+    // Enemy animation
+    this.animEnemy();
   }
 
   // ship animation
@@ -172,6 +172,39 @@ export class GameService {
   }
   return enemy.pic;
   }
+
+  // anim Enemies
+  animEnemy() {
+    setInterval(() => {
+      for (let enemy of this.enemies) {
+        if (enemy.pic === "url('/assets/img/enemy_air.png')") {
+          enemy.pic = "url('/assets/img/enemy_air1.png')";
+        }
+        else if (enemy.pic === "url('/assets/img/enemy_air1.png')") {
+          enemy.pic = "url('/assets/img/enemy_air.png')";
+        }  
+        if (enemy.pic === "url('/assets/img/enemy_fire.png')") {
+          enemy.pic = "url('/assets/img/enemy_fire1.png')";
+        }
+        else if (enemy.pic === "url('/assets/img/enemy_fire1.png')") {
+          enemy.pic = "url('/assets/img/enemy_fire.png')";
+        }  
+        if (enemy.pic === "url('/assets/img/enemy_water.png')") {
+          enemy.pic = "url('/assets/img/enemy_water1.png')";
+        }
+        else if (enemy.pic === "url('/assets/img/enemy_water1.png')") {
+          enemy.pic = "url('/assets/img/enemy_water.png')";
+        }  
+        if (enemy.pic === "url('/assets/img/enemy_earth.png')") {
+          enemy.pic = "url('/assets/img/enemy_earth1.png')";
+        }
+        else if (enemy.pic === "url('/assets/img/enemy_earth1.png')") {
+          enemy.pic = "url('/assets/img/enemy_earth.png')";
+        }  
+      }
+    }, 200); 
+  }
+
   //Function random
   randomNumber(min : number, max : number) {  
     return Math.floor(Math.random() * (max - min)+min);
