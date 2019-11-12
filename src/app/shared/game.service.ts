@@ -317,14 +317,14 @@ export class GameService {
 
    moveEnemyX(enemy: Enemy)
    {
-     enemy.posX = enemy.posX + Math.floor(Math.random()*100) - 50;
-     if(enemy.posX<this.game.minX+60)
+    enemy.posX = enemy.posX + Math.floor(Math.random()*20) - 10;
+     if(enemy.posX<this.game.minX)
      {
-       enemy.posX = this.game.minX+60;
+       enemy.posX = this.game.minX;
      }
-     if(enemy.posX>this.game.maxX)
+     if(enemy.posX>this.game.maxX-60)
      {
-       enemy.posX = this.game.maxX-enemy.width;
+       enemy.posX = this.game.maxX - (enemy.width+60*2);
      }
    }
 
@@ -336,6 +336,7 @@ export class GameService {
       }
       else {
         enemy.posY = enemy.posY + 5;
+        this.moveEnemyX(enemy);
       }
     }
   }
