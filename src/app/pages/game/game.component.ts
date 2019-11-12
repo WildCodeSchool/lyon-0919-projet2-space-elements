@@ -5,12 +5,13 @@ import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
-<<<<<<< HEAD
 import { Boss } from '../../shared/boss';
-=======
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
->>>>>>> main
+import {MatDialog} from '@angular/material/dialog';
+import { HomepageComponent } from '../homepage/homepage.component';
+
+
 
 @Component({
   selector: 'app-game',
@@ -59,6 +60,8 @@ export class GameComponent implements OnInit, AfterViewInit {
   boss: Boss = this.gameService.boss;
   bossCreated: boolean = this.gameService.bossCreated;
   valueLifePercentage : Number = 100;
+  gamePaused : boolean = false;
+ 
 
 //Weel animation:
 
@@ -83,12 +86,12 @@ currentState = 'fire';
 
   constructor(
     public shipService: ShipService,
-    public gameService: GameService
+    public gameService: GameService,
+    public dialog : MatDialog,
     ) { }
     
   ngOnInit() {
-    
-    
+ 
   }
 
   //Get the game mensurations
@@ -131,6 +134,18 @@ currentState = 'fire';
     if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
       this.gameService.mvUp = true;
     }
+
+     //Pause Game
+    if (event.code === 'Enter' && this.gamePaused === false) {
+      this.gameService.pauseGame();
+      this.gamePaused = true;
+      return;
+    }
+    if(event.code === 'Enter' && this.gamePaused === true){
+      this.gameService.pauseGameReprise();
+      this.gamePaused = false;
+      return;
+    }
     
 
      // C (change type)
@@ -156,19 +171,23 @@ currentState = 'fire';
     }      
   }
 
+  //Affichage du score
   getScore() {
     return this.gameService.enemykill;
   };
 
+  //Affichage Barre de Vie
   getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0){
         this.valueLifePercentage = 0;
+        //this.gameService.fenetreModale(); En attente creation US-GAMEOVER
       return;
     }
     return this.valueLifePercentage;
   }
-  
+
+   
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
@@ -185,7 +204,7 @@ currentState = 'fire';
         }
         if (event.code === 'ArrowUp') {
           this.gameService.mvUp = false;
-        }
+        }        
       }
   changeState() {
 
