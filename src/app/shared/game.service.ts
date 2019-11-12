@@ -310,6 +310,21 @@ export class GameService {
     }
   }
 
+   //test Fonction bouger l'ennemi horizontalement
+
+   moveEnemyX(enemy: Enemy)
+   {
+     enemy.posX = enemy.posX + Math.floor(Math.random()*100) - 50;
+     if(enemy.posX<this.game.minX+60)
+     {
+       enemy.posX = this.game.minX+60;
+     }
+     if(enemy.posX>this.game.maxX)
+     {
+       enemy.posX = this.game.maxX-enemy.width;
+     }
+   }
+
   moveEnemyLvl1(enemy:Enemy){
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
@@ -321,6 +336,7 @@ export class GameService {
       }
     }
   }
+
   moveEnemyLvl2(enemy:Enemy){
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
@@ -329,6 +345,7 @@ export class GameService {
       }
       else {
         enemy.posY = enemy.posY + 8;
+        this.moveEnemyX(enemy);
       }
     }
   }
@@ -340,6 +357,7 @@ export class GameService {
       }
       else {
         enemy.posY = enemy.posY + 11;
+        this.moveEnemyX(enemy);
       }
     }
   }
@@ -351,6 +369,7 @@ export class GameService {
       }
       else {
         enemy.posY = enemy.posY + 14;
+        this.moveEnemyX(enemy);
       }
     }
   }

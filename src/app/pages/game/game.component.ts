@@ -5,12 +5,9 @@ import { Ammo } from 'src/app/shared/ammo';
 import { GameService } from 'src/app/shared/game.service';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from 'src/app/shared/game';
-<<<<<<< HEAD
-import { Boss } from '../../shared/boss';
-=======
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
->>>>>>> main
+import { Boss } from 'src/app/shared/boss';
 
 @Component({
   selector: 'app-game',
