@@ -437,12 +437,7 @@ moveEnemyAndCollision() {
     }, 100);
   }
 
-  //Ouverture fenetre Modale GameOver
-  fenetreModale(): void {
-    let modaleGameOver = document.getElementById('GameOver');
-    modaleGameOver.style.display="block";
-    this.pauseGame();
-  }
+  
   
   //Pause du game
   pauseGame(){
@@ -454,6 +449,7 @@ moveEnemyAndCollision() {
     clearTimeout(this.PauseFireAmmo);
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
+
   };
 
   //Reprise du game
