@@ -12,6 +12,7 @@ export class GameService {
  
   enemies : Set<Enemy> = new Set<Enemy>();
   ammos : Set<Ammo> = new Set<Ammo>();
+  bossAmmos : Set<Ammo> = new Set<Ammo>();
   types : string[] = ['fire','water','air','earth'];
   isShoot: boolean = false;
   mvLeft: boolean = false;
@@ -31,6 +32,7 @@ export class GameService {
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
+  PauseBossAmmoMove : any;
 
   shipTypes : Object[] = [
     {'name' : 'fire', 'url' : '/assets/img/ship_fire.png' },
@@ -72,7 +74,7 @@ export class GameService {
     height : 133,
     width : 124,
     size : 0,
-    HP: 1,
+    HP: 10,
     type: this.shipTypes[0],
   };
   
@@ -90,12 +92,12 @@ export class GameService {
     this.multiAction();
     // Ammo moving and killing enemy
     this.ammoMove();
+    // BossAmmo moving and damaging ship
+    this.bossAmmoMove();
     //Move Enemy and Collision
     this.moveEnemyAndCollision() 
     // Ship animation   
     this.animShip()
-    console.log(this.shipTypes[0]['url'][1]);
-    console.log(this.ship.type['url']);
   }
 
   // ship animation
@@ -128,7 +130,7 @@ export class GameService {
     }, 200); 
   }
 
-  //Function to do damage
+  //Function to do damage to enemies
   doDamage(ammo : Ammo,enemy: Enemy){
     let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
     for(let i=0; i<4; i++){   
@@ -154,9 +156,31 @@ export class GameService {
   }
     return enemy.HP;
   }
-  //Function ToSeeDamage
-  VisuDamage(enemy : Enemy){
+  //Function to do damage to ship with boss
+  doShipDamage(ammo : Ammo){
+    let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
+    for(let i=0; i<4; i++){   
+      switch(ammo.type){
+        case this.ammoTypes[i]:
+          switch(this.ship.type){
+            case this.shipTypes[truc[i][0]]:
+              this.ship.HP -= 3;
+              break;
+            case this.shipTypes[truc[i][1]]:
+              this.ship.HP -= 2;
+              break;
+            case this.shipTypes[truc[i][2]]:
+              this.ship.HP -= 1;
+              break;
+          }      
+        break;
+      }
+    }
+    return this.ship.HP;
+  }
 
+  //Function ToSeeDamage on enemies
+  VisuDamage(enemy : Enemy){
   for(let i=0; i<4; i++){
     switch(enemy.type){
       case this.enemyTypes[i]:
@@ -228,6 +252,7 @@ export class GameService {
       return this.ammos.add(ammo);
   }
   
+  
   moveAmmo(ammo: Ammo) : void {
     ammo.posY = ammo.posY - 15;
     if (ammo) {
@@ -239,11 +264,22 @@ export class GameService {
       }
     }
   }
+  moveBossAmmo(bossAmmo: Ammo) : void {
+    bossAmmo.posY = bossAmmo.posY + 30;
+    if (bossAmmo) {
+      if (bossAmmo.posY >  this.game.maxY) {
+        this.bossAmmos.delete(bossAmmo);
+      }
+      else {
+        bossAmmo.posY = bossAmmo.posY + 5;
+      }
+    }
+  }
 
   
   //Enemy addition
   addEnemy(){
-    if  (this.enemyCount < 16) {
+    /* if  (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -255,13 +291,47 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else if (this.enemyCount === 91) {
+    else */ if (this.enemyCount === 1) {
       setTimeout(() => {
         let bossX = this.randomNumber(this.game.minX+300, this.game.maxX);
         this.boss = new Boss(bossX-300, 0, 'red');
+
+        setInterval(() => {
+        this.bossShoot()},1500)
       }, 5000);
     }
   }
+
+  bossShoot(){
+    
+      let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0,4)], this.boss.posX+150 , this.boss.posY+60 );
+      this.bossAmmos.add(bossAmmo);
+
+    }
+
+  bossAmmoMove(){
+    this.PauseBossAmmoMove =  setInterval(() => {
+      for (let bossAmmo of this.bossAmmos) {
+        this.moveBossAmmo(bossAmmo);
+        if((bossAmmo.posX > this.ship.posX) && (bossAmmo.posX < this.ship.posX + this.ship.width)){
+            if(bossAmmo.posY < this.ship.posY + this.ship.height){       
+              this.ship.HP = this.doShipDamage(bossAmmo)
+              this.bossAmmos.delete(bossAmmo);
+              return;
+            }
+          }
+          if(bossAmmo.posX + bossAmmo.width > this.ship.posX && bossAmmo.posX + bossAmmo.width < this.ship.posX + this.ship.width){
+            if(bossAmmo.posY < this.ship.posY + this.ship.height){       
+              this.ship.HP = this.doShipDamage(bossAmmo)
+              this.bossAmmos.delete(bossAmmo);
+            }
+          }        
+
+        
+      }
+    }, 100);
+  }
+
   //Function to set enemy first pic
   setEnemyPic(enemy){
     for (let i =0; i<4; i++){
@@ -410,6 +480,7 @@ moveEnemyAndCollision() {
       }
     }, 120);
   }
+
   //DeclarationMethode multiAction
   ammoMove(){
     this.PauseAmmoMove =  setInterval(() => {

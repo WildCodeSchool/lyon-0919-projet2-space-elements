@@ -19,6 +19,7 @@ import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameOverComponent } from './components/game-over/game-over.component';
 import { PauseComponent } from './components/pause/pause.component';
+import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { PauseComponent } from './components/pause/pause.component';
     EnemyComponent,
     BossComponent,
     GameOverComponent,
-    PauseComponent
+    PauseComponent,
+    BossAmmoComponent
   ],
   imports: [
     BrowserModule,

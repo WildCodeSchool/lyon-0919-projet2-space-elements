@@ -55,6 +55,7 @@ import { PauseComponent } from 'src/app/components/pause/pause.component';
 export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Set<Ammo> = this.gameService.ammos;
+  bossAmmos : Set<Ammo> = this.gameService.bossAmmos;
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
@@ -85,6 +86,7 @@ currentState = 'fire';
   currentPosition = this.ammoPosY;
   type = "fire"
   
+  // bossAmmo position
 
 
   constructor(
