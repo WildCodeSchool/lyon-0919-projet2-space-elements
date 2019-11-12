@@ -6,6 +6,7 @@ export class Enemy {
     HP : number = 3;
     width: number = 60;
     height:number = 40;
+    pic : string;
 
     
     constructor(type : Object , posX : number, posY: number){
