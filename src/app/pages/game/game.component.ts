@@ -197,7 +197,7 @@ currentState = 'fire';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.hasBackdrop = true;
-    this.dialog.open(GameOverComponent);
+    this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
    }
 
    openPause() {

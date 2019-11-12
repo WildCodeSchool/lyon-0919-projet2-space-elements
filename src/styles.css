@@ -5,6 +5,13 @@ body{
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+<<<<<<< HEAD
 .custom-dialog-container .mat-dialog-container {
    background-color: orange;
 }
+=======
+.custom-dialogGameOver-container .mat-dialog-container {
+    background-color: orange;
+    padding: 0;
+ }
+>>>>>>> main
