@@ -8,8 +8,9 @@ import { Game } from 'src/app/shared/game';
 import { Boss } from '../../shared/boss';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
+import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 
 
 
@@ -56,11 +57,12 @@ export class GameComponent implements OnInit, AfterViewInit {
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
-  score : Number = this.gameService.enemykill;
+  score : number = this.gameService.enemykill;
   boss: Boss = this.gameService.boss;
   bossCreated: boolean = this.gameService.bossCreated;
-  valueLifePercentage : Number = 100;
+  valueLifePercentage : number = 100;
   gamePaused : boolean = false;
+  gameOver : number = 0;
  
 
 //Weel animation:
@@ -88,9 +90,11 @@ currentState = 'fire';
     public shipService: ShipService,
     public gameService: GameService,
     public dialog : MatDialog,
-    ) { }
+    ) {}
+    
     
   ngOnInit() {
+    
  
   }
 
@@ -179,14 +183,24 @@ currentState = 'fire';
   //Affichage Barre de Vie
   getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
-      if ( this.valueLifePercentage <= 0){
-        this.valueLifePercentage = 0;
-        //this.gameService.fenetreModale(); En attente creation US-GAMEOVER
-      return;
-    }
+      if ( this.valueLifePercentage <= 0 && this.gameOver < 1){
+          this.gameOver  = this.gameOver + 1;
+          this.openGameOver();
+          }
     return this.valueLifePercentage;
   }
 
+  openGameOver() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.hasBackdrop = true;
+    this.dialog.open(GameOverComponent);
+   }
+
+   reload(){
+     location.reload()
+   }
    
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {

@@ -16,6 +16,7 @@ import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
 import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GameOverComponent } from './components/game-over/game-over.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AmmoComponent,
     ShipComponent,
     EnemyComponent,
-    BossComponent
+    BossComponent,
+    GameOverComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +38,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatProgressBarModule,
     MatDialogModule,
+  ],
+  entryComponents: [
+    GameOverComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
