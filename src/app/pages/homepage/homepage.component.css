@@ -1,0 +1,22 @@
+ 
+.homepageContainer {
+  background-image: url(src/backgroundMainpage.jpg);
+  overflow: hidden;
+  position: fixed;
+  background-size: cover;
+  height:100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+  
+}
+
+button{
+ margin-top: 35%;
+ height: 100px;
+ width: 300px;
+ border-radius: 10%;  
+ font-size: 200%; 
+}
+

@@ -1,0 +1,8 @@
+.ship{
+    width: 124px;
+    height: 133px;
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* align-self: flex-end; */
+};

@@ -1,0 +1,71 @@
+
+
+
+.frame{
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    height: 100vh;
+    width: 100%;
+    background-color: burlywood;
+    
+
+}
+.gameContainer{
+    width: 80%;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: black;
+    /* display: flex; */
+    /* justify-content: center;     */
+}
+
+h2{
+    color: white;
+    margin: auto;
+    margin-left: -12%;
+    font-size: 32px;
+}
+.Life{
+    margin-top: 5%;
+    margin-left: -9%;
+}
+mat-progress-bar{
+    width:500px;
+    height: 30px;
+    background-color: red;
+    transform: rotate(270deg);
+    margin-top: 17%;
+    margin-left: -23%;
+}
+
+
+.weelOfElements{
+    position: relative;
+    top:30%;
+    left:-10%;
+}
+
+.modal{
+    position: fixed;
+    top : 0;
+    left : 0;
+    width : 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, 0.8);
+    display:none;
+}
+.modal-wrapper{
+    width: 900px;
+    height: 900px;
+    margin : auto;
+    background-color: rgb(115, 143, 113);
+   }
+.Pause{
+    color: white;
+    font-size: 150px;
+    margin: auto;
+    text-align: center;
+    margin-top: -15%;
+}
