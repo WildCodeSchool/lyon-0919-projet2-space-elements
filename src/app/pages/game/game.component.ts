@@ -65,6 +65,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   valueLifePercentage : number = 100;
   gamePaused : boolean = false;
   gameOver : number = 0;
+  wonLevel1 : number = 0;
  
 
 //Weel animation:
@@ -179,12 +180,12 @@ currentState = 'fire';
     }      
   }
 
-  //Affichage du score
+  //Score display
   getScore() {
     return this.gameService.enemykill;
   };
 
-  //Affichage Barre de Vie
+  //Display Ship lifeBar
   getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0 && this.gameOver < 1){
@@ -194,6 +195,9 @@ currentState = 'fire';
     return this.valueLifePercentage;
   }
 
+ 
+
+  //Game Over Modal
   openGameOver() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -201,7 +205,7 @@ currentState = 'fire';
     dialogConfig.hasBackdrop = true;
     this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
    }
-
+   //Pause Modal
    openPause() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -209,6 +213,7 @@ currentState = 'fire';
     dialogConfig.hasBackdrop = true;
     this.dialog.open(PauseComponent, { panelClass: 'custom-dialog-container' });
    }
+   
    
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {

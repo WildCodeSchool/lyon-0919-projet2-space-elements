@@ -28,42 +28,50 @@ export class GameService {
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
-  PausemoveEnemy : any;
-  PauseFireAmmo : any;
-  PauseShip : any;
-  PauseAmmoMove : any;
+  PausemoveEnemy: any;
+  PauseFireAmmo: any;
+  PauseShip: any;
+  PauseAmmoMove: any;
   PauseBossAmmoMove: any;
 
-  shipTypes : Object[] = [
-    {'name' : 'fire', 'url' : '/assets/img/ship_fire.png' },
-    {'name': 'air', 'url' : '/assets/img/ship_air.png'},
-    {'name': 'earth', 'url' : '/assets/img/ship_earth.png'},
-    {'name' : 'water', 'url' : '/assets/img/ship_water.png'},
-    ];
-  
-  enemyTypes : Object[] = [
-    {'name' : 'fire', 'url' :[ '/assets/img/enemy_fire.png',
-                              '/assets/img/enemy_fire_HP1.png',
-                              '/assets/img/enemy_fire_HP2.png']},
-    {'name': 'air', 'url' : ['/assets/img/enemy_air.png',
-                            '/assets/img/enemy_air_HP1.png',
-                            '/assets/img/enemy_air_HP2.png']},
-    {'name': 'earth', 'url' : ['/assets/img/enemy_earth.png',
-                              '/assets/img/enemy_earth_HP1.png',
-                              '/assets/img/enemy_earth_HP2.png']},
-    {'name' : 'water', 'url' : ['/assets/img/enemy_water.png',
-                                '/assets/img/enemy_water_HP1.png',
-                                '/assets/img/enemy_water_HP2.png']},
-    ];
-  ammoTypes : Object[] = [
-    {'name' : 'fire', 'url' : '/assets/img/ammo_fire.png'},
-    {'name': 'air', 'url' : '/assets/img/ammo_air.png'},
-    {'name': 'earth', 'url' : '/assets/img/ammo_earth.png'},
-    {'name' : 'water', 'url' : '/assets/img/ammo_water.png'},
-    ];
-  
-  enemyHP : Object [] = [
-    {'HP' : 3, 'url' : '/assets/img/ammo_fire.png'},
+  shipTypes: Object[] = [
+    { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
+    { 'name': 'air', 'url': '/assets/img/ship_air.png' },
+    { 'name': 'earth', 'url': '/assets/img/ship_earth.png' },
+    { 'name': 'water', 'url': '/assets/img/ship_water.png' },
+  ];
+
+  enemyTypes: Object[] = [
+    {
+      'name': 'fire', 'url': ['/assets/img/enemy_fire.png',
+        '/assets/img/enemy_fire_HP1.png',
+        '/assets/img/enemy_fire_HP2.png']
+    },
+    {
+      'name': 'air', 'url': ['/assets/img/enemy_air.png',
+        '/assets/img/enemy_air_HP1.png',
+        '/assets/img/enemy_air_HP2.png']
+    },
+    {
+      'name': 'earth', 'url': ['/assets/img/enemy_earth.png',
+        '/assets/img/enemy_earth_HP1.png',
+        '/assets/img/enemy_earth_HP2.png']
+    },
+    {
+      'name': 'water', 'url': ['/assets/img/enemy_water.png',
+        '/assets/img/enemy_water_HP1.png',
+        '/assets/img/enemy_water_HP2.png']
+    },
+  ];
+  ammoTypes: Object[] = [
+    { 'name': 'fire', 'url': '/assets/img/ammo_fire.png' },
+    { 'name': 'air', 'url': '/assets/img/ammo_air.png' },
+    { 'name': 'earth', 'url': '/assets/img/ammo_earth.png' },
+    { 'name': 'water', 'url': '/assets/img/ammo_water.png' },
+  ];
+
+  enemyHP: Object[] = [
+    { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
   ]
   shipSkin: string[][] = [
     ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
@@ -86,9 +94,9 @@ export class GameService {
     ["url('/assets/img/enemy_water_HP2.png')", "url('/assets/img/enemy_water_HP21.png')"],
   ]
 
-  ship : Ship = {
-    id : 0,
-    url : '',
+  ship: Ship = {
+    id: 0,
+    url: '',
     posX: 0,
     posY: 880,
     height: 133,
@@ -115,7 +123,7 @@ export class GameService {
     // BossAmmo moving and damaging ship
     this.bossAmmoMove();
     //Move Enemy and Collision
-    this.moveEnemyAndCollision(); 
+    this.moveEnemyAndCollision();
     // Ship animation   
     this.animShip();
     // Enemy animation
@@ -125,15 +133,15 @@ export class GameService {
   // ship animation
   animShip() {
     setInterval(() => {
-      for ( let i = 0; i < this.shipSkin.length; i++) {
+      for (let i = 0; i < this.shipSkin.length; i++) {
         if (this.ship.type['url'] === this.shipSkin[i][0]) {
           this.ship.type['url'] = this.shipSkin[i][1];
         }
         else if (this.ship.type['url'] === this.shipSkin[i][1]) {
           this.ship.type['url'] = this.shipSkin[i][0];
-        } 
-      }  
-    }, 200); 
+        }
+      }
+    }, 200);
   }
 
   //Function to do damage to enemies
@@ -185,6 +193,7 @@ export class GameService {
     return this.ship.HP;
   }
 
+
   //Function ToSeeDamage on enemies
   VisuDamage(enemy: Enemy) {
     for (let i = 0; i < 4; i++) {
@@ -207,16 +216,16 @@ export class GameService {
   animEnemy() {
     setInterval(() => {
       for (let enemy of this.enemies) {
-        for ( let i = 0; i < this.enemySkin.length; i++) {
+        for (let i = 0; i < this.enemySkin.length; i++) {
           if (enemy.pic === this.enemySkin[i][0]) {
             enemy.pic = this.enemySkin[i][1];
           }
           else if (enemy.pic === this.enemySkin[i][1]) {
             enemy.pic = this.enemySkin[i][0];
-          } 
-        }  
-      }  
-    }, 200); 
+          }
+        }
+      }
+    }, 200);
   }
 
   //Function random
@@ -275,7 +284,7 @@ export class GameService {
     return this.ammos.add(ammo);
   }
 
-
+  //Ammo movement and delete
   moveAmmo(ammo: Ammo): void {
     ammo.posY = ammo.posY - 15;
     if (ammo) {
@@ -302,7 +311,7 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if  (this.enemyCount < 16) {
+    /* if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -314,7 +323,7 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else if (this.enemyCount === 1) {
+    else  */if (this.enemyCount === 1) {
       setTimeout(() => {
         let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         this.boss = new Boss(bossX - 300, 0, 'red');
@@ -355,6 +364,7 @@ export class GameService {
       }
     }, 100);
   }
+
 
   //Function to set enemy first pic
   setEnemyPic(enemy) {
@@ -458,6 +468,7 @@ export class GameService {
             return;
           }
         }
+
         if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
           if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
             this.enemies.delete(enemy);
@@ -474,7 +485,9 @@ export class GameService {
             return;
           }
         }
+
       }
+
     }, 200);
 
   }
@@ -505,11 +518,12 @@ export class GameService {
     }, 120);
   }
 
-  //DeclarationMethode multiAction
+  //Ammo collision
   ammoMove() {
     this.PauseAmmoMove = setInterval(() => {
       for (let ammo of this.ammos) {
         this.moveAmmo(ammo);
+        // with enemies
         for (let enemy of this.enemies) {
           if ((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)) {
             if (ammo.posY < enemy.posY + enemy.height) {
@@ -526,9 +540,28 @@ export class GameService {
               this.ammos.delete(ammo);
             }
           }
-
+        }
+        // with boss
+        if (this.boss) {
+        console.log(this.boss.HP)
+        if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+            return;
+          }
+        }
+        if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+          }
+        }
+        if (this.boss.HP <= 0) {
+          this.boss = undefined;
         }
       }
+    }
     }, 100);
   }
 
