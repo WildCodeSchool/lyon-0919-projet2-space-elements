@@ -64,6 +64,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   boss: Boss = this.gameService.boss;
   bossCreated: boolean = this.gameService.bossCreated;
   valueLifePercentage : number = 100;
+  valueLifePercentageBoss : number = 100;
   gamePaused : boolean = false;
   gameOver : number = 0;
   wonLevel1 : number = 0;
@@ -196,6 +197,16 @@ currentState = 'fire';
           }
     return this.valueLifePercentage;
   }
+  //Display Boss lifeBar
+  getLifePercentageBoss(){
+    this.valueLifePercentageBoss;
+      // if ( this.valueLifePercentageBoss <= 0 && this.gameOver < 1){
+      //     this.gameOver  = this.gameOver + 1;
+      //     //this.openGameOver();
+      //     }
+    return this.valueLifePercentageBoss;
+  }
+
 
  
 

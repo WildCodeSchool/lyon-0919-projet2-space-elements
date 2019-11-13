@@ -320,7 +320,7 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    /* if (this.enemyCount < 16) {
+    if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -332,10 +332,10 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else  */if (this.enemyCount === 1) {
+    else  if (this.enemyCount === 1) {
       setTimeout(() => {
         let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
-        this.boss = new Boss(bossX - 300, 0, 'red');
+        this.boss = new Boss(bossX - 300, 0, 'red', 100);
 
         setInterval(() => {
           this.bossShoot()
