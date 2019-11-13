@@ -17,6 +17,8 @@ import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
 import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ObstacleComponent } from './components/obstacle/obstacle.component';
+import { BonusComponent } from '../app/components/bonus/bonus.component';
 import { GameOverComponent } from './components/game-over/game-over.component';
 import { PauseComponent } from './components/pause/pause.component';
 import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
@@ -31,6 +33,8 @@ import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
     ShipComponent,
     EnemyComponent,
     BossComponent,
+    ObstacleComponent,
+    BonusComponent,
     GameOverComponent,
     PauseComponent,
     BossAmmoComponent

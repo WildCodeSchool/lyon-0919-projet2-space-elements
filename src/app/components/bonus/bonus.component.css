@@ -1,0 +1,7 @@
+.bonus{
+    width: 65px;
+    height: 65px;
+    position: absolute;
+    z-index: 99;
+    /* align-self: flex-end; */
+};

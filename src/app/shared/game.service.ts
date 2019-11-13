@@ -4,16 +4,20 @@ import { Ship } from './ship';
 import { Enemy } from 'src/app/shared/enemy';
 import { Game } from './game';
 import { Boss } from './boss';
+import { Obstacle } from './obstacle';
+import { Bonus } from './bonus';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-
-  enemies: Set<Enemy> = new Set<Enemy>();
-  ammos: Set<Ammo> = new Set<Ammo>();
+ 
+  enemies : Set<Enemy> = new Set<Enemy>();
+  obstacles : Set<Obstacle> = new Set<Obstacle>();
+  ammos : Set<Ammo> = new Set<Ammo>();
+  bonusArray : Set<Bonus> = new Set<Bonus>();
+  types : string[] = ['fire','water','air','earth'];
   bossAmmos: Set<Ammo> = new Set<Ammo>();
-  types: string[] = ['fire', 'water', 'air', 'earth'];
   isShoot: boolean = false;
   mvLeft: boolean = false;
   mvRight: boolean = false;
@@ -24,10 +28,14 @@ export class GameService {
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
   enemyCount: number = 1;
+  obstacleCount: number = 1;
+  bonusCount: number = 1;
+  bonusType: number;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
+  intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
   PauseFireAmmo : any;
   PauseShip : any;
@@ -73,6 +81,14 @@ export class GameService {
     { 'name': 'water', 'url': '/assets/img/ammo_water.png' },
   ];
 
+  obstaclesImg: String[] = [
+    '/assets/img/asteroid2.png',
+    '/assets/img/asteroid3.png'
+  ]
+
+  typeBonus: number[] = [0,1];
+
+ 
   enemyHP: Object[] = [
     { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
   ]
@@ -127,10 +143,74 @@ export class GameService {
     this.bossAmmoMove();
     //Move Enemy and Collision
     this.moveEnemyAndCollision();
+    this.moveObstacleAndCollision(); 
+    this.moveBonusAndCollision();
     // Ship animation   
     this.animShip();
     // Enemy animation
     this.animEnemy();
+
+  }
+
+  //Gestion des points de vie
+  getShipHP(ship: Ship, value: number){
+    ship.HP = ship.HP + value;
+    if(ship.HP < 0)
+    {
+      ship.HP = 0;
+    }
+    if(ship.HP > 10)
+    { ship.HP = 10}
+    return ship.HP;
+  }
+
+  //Function to add obstacles
+  addObstacle() {
+    setInterval(() => {
+      let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
+      let obstacle = new Obstacle(obstacleX-100 , -100);
+      obstacle.pic = this.setObstaclePic(obstacle);
+      this.obstacles.add(obstacle);
+      this.obstacleCount++;
+    }, 10000);
+  }
+
+  //function to add bonus or malus
+  addBonusMalus() {
+    setInterval(() => {
+      let bonusX = this.randomNumber(this.game.minX+100, this.game.maxX-100*2);    
+      let bonus = new Bonus(bonusX-100 , -100);
+      bonus.pic = this.setBonusPic(bonus);
+      console.log(bonus.pic)
+      this.bonusArray.add(bonus);
+      this.bonusCount++;
+    }, 5000);
+  }
+
+
+  //Function to move obstacles
+  moveObstacle(obstacle: Obstacle){
+    if (obstacle) {
+      if (obstacle.posY>this.game.maxY - obstacle.height) {
+        this.obstacles.delete(obstacle);
+      }
+      else {
+        obstacle.posY = obstacle.posY + 10;
+      }
+    }
+  }
+
+  //Function to move bonus
+  moveBonus(bonus: Bonus){
+    if (bonus) {
+      if (bonus.posY>this.game.maxY - bonus.height) {
+        this.bonusArray.delete(bonus);
+      }
+      else {
+        bonus.posY = bonus.posY + 2;
+      }
+    }
+  
   }
 
   // ship animation
@@ -210,10 +290,10 @@ export class GameService {
         case this.enemyTypes[i]:
           switch (enemy.HP) {
             case 2:
-              enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][1]);
+              enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][1]);
               break;
             case 1:
-              enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][2]);
+              enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][2]);
               break;
           }
       }
@@ -243,7 +323,7 @@ export class GameService {
   }
 
   //get enemy pic url 
-  getEnnemyPicture(url) {
+  getUrlPicture(url) {
     return `url('${url}')`;
   }
 
@@ -376,14 +456,23 @@ export class GameService {
 
 
   //Function to set enemy first pic
-  setEnemyPic(enemy) {
-    for (let i = 0; i < 4; i++) {
-      if (enemy.type === this.enemyTypes[i]) {
-        enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][0]);
+  setEnemyPic(enemy){
+    for (let i =0; i<4; i++){
+      if (enemy.type === this.enemyTypes[i]){
+        enemy.pic=this.getUrlPicture(this.enemyTypes[i]['url'][0]);
       }
     }
   }
 
+  setObstaclePic(obstacle){
+    let index = this.randomNumber(0, this.obstaclesImg.length+1)
+        return obstacle.pic=this.getUrlPicture(this.obstaclesImg[index]);
+  }
+
+  setBonusPic(bonus){
+        return bonus.pic = this.getUrlPicture(bonus.pic);
+  }
+  
   addEnemmies() {
     let enemyX = this.randomNumber(this.game.minX + 60, this.game.maxX);
     let enemy = new Enemy(this.enemyTypes[this.randomNumber(0, 4)], enemyX - 60, -20);
@@ -433,6 +522,22 @@ export class GameService {
   }
 
   // Enemy moves
+   //test Fonction bouger l'ennemi horizontalement
+
+   moveEnemyX(enemy: Enemy)
+   {
+    enemy.posX = enemy.posX + Math.floor(Math.random()*20) - 10;
+     if(enemy.posX<this.game.minX)
+     {
+       enemy.posX = this.game.minX;
+     }
+     if(enemy.posX>this.game.maxX-60)
+     {
+       enemy.posX = this.game.maxX - (enemy.width+60*2);
+     }
+   }
+
+ 
   moveEnemy(enemy: Enemy) {
     if (enemy) {
       if (enemy.posY > this.game.maxY - enemy.height * 2) {
@@ -442,15 +547,19 @@ export class GameService {
       else {
         if (this.enemyCount < 16) {
           enemy.posY = enemy.posY + 5;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount < 36) {
           enemy.posY = enemy.posY + 8;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount < 61) {
           enemy.posY = enemy.posY + 11;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount <= 91) {
           enemy.posY = enemy.posY + 14;
+          this.moveEnemyX(enemy);
         }
       }
     }
@@ -466,7 +575,7 @@ export class GameService {
             this.enemies.delete(enemy);
             this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP - 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
         }
@@ -475,7 +584,7 @@ export class GameService {
             this.enemies.delete(enemy);
             this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP - 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
         }
@@ -485,7 +594,7 @@ export class GameService {
             this.enemies.delete(enemy);
             this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP - 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
         }
@@ -494,7 +603,7 @@ export class GameService {
             this.enemies.delete(enemy);
             this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP - 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
         }
@@ -504,23 +613,124 @@ export class GameService {
     }, 200);
 
   }
-  //DeclarationMethode movementShip
-  movementShip() {
-    this.PauseShip = setInterval(() => {
-      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width / 2 - 10) {
-        this.ship.posX = this.ship.posX + 10;
-      }
-      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
-        this.ship.posX = this.ship.posX - 10;
-      }
-      if (this.mvUp && this.ship.posY > 0) {
-        this.ship.posY = this.ship.posY - 10;
-      }
-      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
-        this.ship.posY = this.ship.posY + 10;
-      }
-    }, 50);
+
+
+  moveObstacleAndCollision() {
+    this.PausemoveEnemy =   setInterval(() => {
+        for (let obstacle of this.obstacles) {
+          this.moveObstacle(obstacle);
+            if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width> obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1);
+                return;
+              }
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX  + this.ship.width > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }
+            }    
+        }
+      }, 200);
+    
   }
+
+  //moveBonusAndCollision
+moveBonusAndCollision() {
+  this.PausemoveEnemy =   setInterval(() => {
+      for (let bonus of this.bonusArray) {
+        this.moveBonus(bonus);
+          if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width> bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX  + this.ship.width > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }    
+      }
+    }, 200);
+  
+}
+
+  //DeclarationMethode movementShip
+  movementShip(){
+    this.PauseShip = setInterval(() => {
+                        if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
+                          this.ship.posX = this.ship.posX + 10;
+                        }
+                        if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+                          this.ship.posX = this.ship.posX - 10;
+                        }
+                        if (this.mvUp && this.ship.posY > 0) {
+                          this.ship.posY = this.ship.posY - 10;
+                        }
+                        if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+                          this.ship.posY = this.ship.posY + 10;
+                        }
+                      }, 50);
+    }
 
   //DeclarationMethode multiAction
   multiAction() {

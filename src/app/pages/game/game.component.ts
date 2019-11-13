@@ -10,6 +10,8 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
 import { RouterState } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
+import { Obstacle } from 'src/app/shared/obstacle';
+import { Bonus } from 'src/app/shared/bonus';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
@@ -59,6 +61,8 @@ export class GameComponent implements OnInit, AfterViewInit {
   bossAmmos : Set<Ammo> = this.gameService.bossAmmos;
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
+  obstacles: Set<Obstacle> = this.gameService.obstacles;
+  bonusArray: Set<Bonus> = this.gameService.bonusArray;
   game :Game = new Game;
   score : number = this.gameService.enemykill;
   boss: Boss = this.gameService.boss;
@@ -121,29 +125,71 @@ currentState = 'fire';
     
   // ennemy creation
     this.gameService.addEnemy();
+
+  // obstacle creation
+    this.gameService.addObstacle();
+
+  //Bonus creation
+    this.gameService.addBonusMalus();
     
   }
   
   //Get the keyborad key
   @HostListener('document:keydown', ['$event'])
     onKeydownHandler(event: KeyboardEvent) {
-      //space (shoot)
-    if (event.code === 'Space') {
-      this.gameService.isShoot = true;
-    }  
+  
+    if(this.gameService.bonusType === 0)
+    {
+      if (event.code === 'Space') {
+        //space (shoot)
+        this.gameService.isShoot = true;
+      } 
+       // arrows (direction)
+      if (event.code === 'ArrowRight' && this.ship.posX > this.gameService.game.minX + 10) {
+        
+        this.gameService.mvLeft = true;
+      }
+      if (event.code === 'ArrowLeft' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+        
+          this.gameService.mvRight = true;
+      }
+      if (event.code === 'ArrowDown' && this.ship.posY > 0 ) {
+        
+        this.gameService.mvUp = true; 
+      }
+
+      if (event.code === 'ArrowUp' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
+
+          this.gameService.mvDown = true;
+        
+      }
+      setTimeout(() => {
+        this.gameService.bonusType = 1;
+      },10000);
+    } else {
+      if (event.code === 'Space') {
+        this.gameService.isShoot = true;
+      }  
     
-     // arrows (direction)
-    if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
-      this.gameService.mvRight = true;    
-    }
-    if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
-      this.gameService.mvLeft = true;
-    }
-    if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
-      this.gameService.mvDown = true;    
-    }
-    if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
-      this.gameService.mvUp = true;
+      // arrows (direction)
+      if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+        
+          this.gameService.mvRight = true;
+      }
+      if (event.code === 'ArrowLeft' && this.ship.posX > this.gameService.game.minX + 10) {
+        
+          this.gameService.mvLeft = true;
+      }
+      if (event.code === 'ArrowDown' && this.ship.posY < this.gameService.game.maxY - this.gameService.ship.height) {
+  
+        this.gameService.mvDown = true; 
+      }
+
+      if (event.code === 'ArrowUp' && this.ship.posY > 0 ) {
+    
+          this.gameService.mvUp = true;
+        
+      }
     }
 
      //Pause Game
@@ -193,7 +239,7 @@ currentState = 'fire';
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0 && this.gameOver < 1){
           this.gameOver  = this.gameOver + 1;
-          this.openGameOver();
+          //this.openGameOver();
           }
     return this.valueLifePercentage;
   }
@@ -211,13 +257,13 @@ currentState = 'fire';
  
 
   //Game Over Modal
-  openGameOver() {
+  /* openGameOver() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.hasBackdrop = true;
     this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
-   }
+   } */
    //Pause Modal
    openPause() {
     const dialogConfig = new MatDialogConfig();
@@ -230,28 +276,60 @@ currentState = 'fire';
    
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
-        if (event.code === 'Space') {
-          this.gameService.isShoot = false;
-          if ( this.gameService.sound === true){
-            this.gameService.mySoundShoot.play()
+        if(this.gameService.bonusType === 0)
+        {
+          if (event.code === 'Space') {
+            this.gameService.isShoot = false;
+             if ( this.gameService.sound === true){
+              this.gameService.mySoundShoot.play()
+              console.log('le son est joué')
+            }
+            else{
+              this.gameService.mySoundShoot.pause()
+            } 
+            
           }
-          else{
-            this.gameService.mySoundShoot.pause()
+          if (event.code === 'ArrowRight') {
+            this.gameService.mvLeft = false;
           }
-          
+          if (event.code === 'ArrowLeft') {
+            this.gameService.mvRight = false;
+          }
+          if (event.code === 'ArrowDown') {
+            this.gameService.mvUp = false;
+          }
+          if (event.code === 'ArrowUp') {
+            this.gameService.mvDown = false;
+          }
+          setTimeout(() => {
+            this.gameService.bonusType = 1;
+          },10000);  
         }
-        if (event.code === 'ArrowRight') {
-          this.gameService.mvRight = false;
+        else{
+          if (event.code === 'Space') {
+            this.gameService.isShoot = false;
+            if ( this.gameService.sound === true){
+              this.gameService.mySoundShoot.play()
+              console.log('le son est joué')
+            }
+            else{
+              this.gameService.mySoundShoot.pause()
+            } 
+          }
+          if (event.code === 'ArrowRight') {
+            this.gameService.mvRight = false;
+          }
+          if (event.code === 'ArrowLeft') {
+            this.gameService.mvLeft = false;
+          }
+          if (event.code === 'ArrowDown') {
+            this.gameService.mvDown = false;
+          }
+          if (event.code === 'ArrowUp') {
+            this.gameService.mvUp = false;
+          }        
         }
-        if (event.code === 'ArrowLeft') {
-          this.gameService.mvLeft = false;
-        }
-        if (event.code === 'ArrowDown') {
-          this.gameService.mvDown = false;
-        }
-        if (event.code === 'ArrowUp') {
-          this.gameService.mvUp = false;
-        }        
+        
       }
   changeState() {
 
