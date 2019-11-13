@@ -69,6 +69,13 @@ mat-progress-bar{
     text-align: center;
     margin-top: -15%;
 }
+.sound{
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    margin-left: 105%;
+    margin-top: 20%;
+}
 
 dialog { 
     border: none !important;

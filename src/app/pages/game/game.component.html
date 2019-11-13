@@ -13,11 +13,16 @@
         <div class="weelOfElements">
             <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
         </div>
-       <!--  <div>
+       <div>
             <p *ngIf='gamePaused' class='Pause'>PAUSE</p>
             <button *ngIf='gamePaused'><a href="/option">Revenir au Options</a></button>
-        </div> -->
+        </div>
+        <div>
+            <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
+            <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="https://i.dlpng.com/static/png/4001724-logo-son-png-7-png-image-son-png-1600_1600_preview.png" style="display: none"/>
+        </div>
     </div>
 </div>
+
 
 
