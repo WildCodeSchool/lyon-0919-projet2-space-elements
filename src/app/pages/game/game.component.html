@@ -6,7 +6,7 @@
             <div class="progressBar">
                 <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
             </div>
-            <div class="progressBarBoss" >
+            <div class="progressBarBoss" *ngIf='this.gameService.bossCreated' >
                 <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
             </div>
         </div>

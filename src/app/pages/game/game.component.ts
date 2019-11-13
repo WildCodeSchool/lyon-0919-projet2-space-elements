@@ -68,7 +68,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   boss: Boss = this.gameService.boss;
   bossCreated: boolean = this.gameService.bossCreated;
   valueLifePercentage : number = 100;
-  valueLifePercentageBoss : number = 100;
+  valueLifePercentageBoss : number;
   gamePaused : boolean = false;
   gameOver : number = 0;
   wonLevel1 : number = 0;
@@ -197,6 +197,7 @@ currentState = 'fire';
       this.gameService.pauseGame();
       this.openPause()
       this.gamePaused = true;
+      console.log(this.gameService.boss.HP)
       return;
     }
     if(event.code === 'Escape' && this.gamePaused === true){
@@ -239,31 +240,33 @@ currentState = 'fire';
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0 && this.gameOver < 1){
           this.gameOver  = this.gameOver + 1;
-          //this.openGameOver();
+          this.openGameOver();
           }
     return this.valueLifePercentage;
   }
   //Display Boss lifeBar
   getLifePercentageBoss(){
-    this.valueLifePercentageBoss;
-      // if ( this.valueLifePercentageBoss <= 0 && this.gameOver < 1){
-      //     this.gameOver  = this.gameOver + 1;
-      //     //this.openGameOver();
-      //     }
-    return this.valueLifePercentageBoss;
+    if ( this.bossCreated === true){
+      this.gameService.boss.HP
+      if ( this.gameService.boss.HP <= 0 && this.gameOver < 1){
+        this.gameOver  = this.gameOver + 1;
+        this.openGameOver();
+      }
+    }
+      return this.gameService.boss.HP;
   }
 
 
  
 
   //Game Over Modal
-  /* openGameOver() {
+    openGameOver() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.hasBackdrop = true;
     this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
-   } */
+   }
    //Pause Modal
    openPause() {
     const dialogConfig = new MatDialogConfig();
