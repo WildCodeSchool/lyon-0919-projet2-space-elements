@@ -2,8 +2,13 @@
     <div class="gameContainer" #gameContainerElt>
         <h2>Score : {{ getScore() }} </h2>
         <h2 class='Life'> Life : </h2>
-        <div class="progressBar">
-            <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+        <div class ="DoubleBarLife">
+            <div class="progressBar">
+                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+            </div>
+            <div class="progressBarBoss" *ngIf='this.gameService.bossCreated' >
+                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
+            </div>
         </div>
         <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
         <app-obstacle [obstacle]='obstacle' *ngFor="let obstacle of obstacles"></app-obstacle>
@@ -12,12 +17,23 @@
         <app-ship [ship]='ship'></app-ship>
         <app-boss [boss]='gameService.boss'></app-boss>
         <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
+<<<<<<< HEAD
         <div class="weelOfElements">
             <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
         </div>
         <div>
             <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
             <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="https://i.dlpng.com/static/png/4001724-logo-son-png-7-png-image-son-png-1600_1600_preview.png" style="display: none"/>
+=======
+        <div class='imgGame'>
+            <div>
+                <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
+                <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
+            </div>
+            <div class="weelOfElements">
+                <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
+            </div>
+>>>>>>> main
         </div>
     </div>
 </div>
