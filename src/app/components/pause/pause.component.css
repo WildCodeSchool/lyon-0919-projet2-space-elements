@@ -1,0 +1,29 @@
+.container{
+    text-align: center;
+    width: 500px;
+    height: 400px;
+    border-radius : 5%;
+    margin: 0;
+    padding: 0;
+    font-size : 2em;
+    background-image: url("/assets/img/cafe.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color:white
+}
+
+button{
+    cursor: pointer;
+    border-radius: 8px;
+    background: linear-gradient(#82a8eb, white);
+    padding: 8px;
+  
+}
+
+a{
+    outline-style: none;
+}
+
+

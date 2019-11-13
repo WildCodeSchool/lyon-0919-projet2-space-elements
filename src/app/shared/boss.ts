@@ -2,9 +2,10 @@ export class Boss {
     type : Object;
     posX : number;
     posY : number;
+    HP : number = 20;
     life: boolean = true;
-    width: number;
-    height:number;
+    width: number = 300;
+    height:number = 60;
     backgroundColor: string;
     
     constructor(posX : number, posY: number, backgroundColor: string){
