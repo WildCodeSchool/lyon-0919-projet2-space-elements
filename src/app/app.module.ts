@@ -18,6 +18,8 @@ import { EnemyComponent } from './components/enemy/enemy.component';
 import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameOverComponent } from './components/game-over/game-over.component';
+import { PauseComponent } from './components/pause/pause.component';
+import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { GameOverComponent } from './components/game-over/game-over.component';
     ShipComponent,
     EnemyComponent,
     BossComponent,
-    GameOverComponent
+    GameOverComponent,
+    PauseComponent,
+    BossAmmoComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,7 @@ import { GameOverComponent } from './components/game-over/game-over.component';
   ],
   entryComponents: [
     GameOverComponent,
+    PauseComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

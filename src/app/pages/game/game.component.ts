@@ -12,6 +12,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 import { AlertPromise } from 'selenium-webdriver';
+import { PauseComponent } from 'src/app/components/pause/pause.component';
 
 
 
@@ -55,6 +56,7 @@ import { AlertPromise } from 'selenium-webdriver';
 export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Set<Ammo> = this.gameService.ammos;
+  bossAmmos : Set<Ammo> = this.gameService.bossAmmos;
   ship : Ship = this.gameService.ship;
   enemies : Set<Enemy> = this.gameService.enemies;
   game :Game = new Game;
@@ -87,6 +89,7 @@ currentState = 'fire';
   currentPosition = this.ammoPosY;
   type = "fire"
   
+  // bossAmmo position
 
 
   constructor(
@@ -142,18 +145,19 @@ currentState = 'fire';
     }
 
      //Pause Game
-    if (event.code === 'Enter' && this.gamePaused === false) {
+    if (event.code === 'Escape' && this.gamePaused === false) {
       this.gameService.pauseGame();
+      this.openPause()
       this.gamePaused = true;
       return;
     }
-    if(event.code === 'Enter' && this.gamePaused === true){
+    if(event.code === 'Escape' && this.gamePaused === true){
       this.gameService.pauseGameReprise();
       this.gamePaused = false;
       return;
     }
     
-
+    
      // C (change type)
     if (event.code === 'KeyC' && this.ship.type === this.gameService.shipTypes[0]){
       this.ship.type = this.gameService.shipTypes[1];
@@ -200,6 +204,13 @@ currentState = 'fire';
     this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
    }
 
+   openPause() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.hasBackdrop = true;
+    this.dialog.open(PauseComponent, { panelClass: 'custom-dialog-container' });
+   }
    
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {

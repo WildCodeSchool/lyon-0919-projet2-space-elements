@@ -76,3 +76,9 @@ mat-progress-bar{
     margin-left: 105%;
     margin-top: 20%;
 }
+
+dialog { 
+    border: none !important;
+  }
+  
+  
