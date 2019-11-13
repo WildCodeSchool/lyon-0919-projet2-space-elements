@@ -31,6 +31,9 @@ export class GameService {
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
+  sound : boolean = true;
+  mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
+  mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
 
   shipTypes : Object[] = [
     {'name' : 'fire', 'url' : '/assets/img/ship_fire.png' },
@@ -72,7 +75,7 @@ export class GameService {
     height : 133,
     width : 124,
     size : 0,
-    HP: 1,
+    HP: 10,
     type: this.shipTypes[0],
   };
   
@@ -148,6 +151,12 @@ export class GameService {
         if(enemy.HP<=0){
           this.enemies.delete(enemy);
           this.enemykill = this.enemykill + 1;
+          if ( this.sound === true){
+            this.mySoundExplosion.play()
+          }
+          else{
+            this.mySoundExplosion.pause()
+          }
         }
         break;
       }
@@ -351,6 +360,7 @@ moveEnemyAndCollision() {
         if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
           if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP -1 ;
             return;
@@ -359,6 +369,7 @@ moveEnemyAndCollision() {
         if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
           if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP -1 ;
             return;
@@ -367,6 +378,7 @@ moveEnemyAndCollision() {
         if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
           if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP -1 ;
             return;
@@ -375,6 +387,7 @@ moveEnemyAndCollision() {
         if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
           if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP -1 ;
             return;
