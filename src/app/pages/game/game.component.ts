@@ -66,12 +66,9 @@ export class GameComponent implements OnInit, AfterViewInit {
   valueLifePercentage : number = 100;
   gamePaused : boolean = false;
   gameOver : number = 0;
-<<<<<<< HEAD
   wonLevel1 : number = 0;
-=======
   audioGame;
  
->>>>>>> main
  
 
 //Weel animation:
