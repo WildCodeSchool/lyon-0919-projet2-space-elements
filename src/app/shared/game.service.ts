@@ -31,20 +31,24 @@ export class GameService {
   obstacleCount: number = 1;
   bonusCount: number = 1;
   bonusType: number;
+  obstaclePause: any;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
   intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
+  pauseBonus: any;
+  PauseObstacle : any;
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
+  PauseBossAmmoMove : any;
   sound : boolean = true;
   mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
   mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
   pauseBossAmmoMove: any;
-  bossDisplayed : boolean = false;
+
 
   shipTypes: Object[] = [
     { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
@@ -405,7 +409,7 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    /* if (this.enemyCount < 16) {
+    if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -417,24 +421,14 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-<<<<<<< HEAD
-    else  if (this.enemyCount === 1 && this.bossDisplayed === false) {
+    else  if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
         //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         
         this.boss = new Boss(950, -300, this.bossSkin[0]);
-        this.bossDisplayed = true;
+        this.bossCreated = true;
         this.bossMoveDown();
         setTimeout(()=>{ setInterval(() => {
-=======
-    else   */if (this.enemyCount === 1) {
-      setTimeout(() => {
-        let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
-        this.boss = new Boss(bossX - 300, 0, 'red', 100);
-        this.bossCreated = true;
-        console.log(this.bossCreated);
-        setInterval(() => {
->>>>>>> main
           this.bossShoot()
         }, 3000)},2000)
         
@@ -838,8 +832,11 @@ moveBonusAndCollision() {
     clearTimeout(this.PauseFireAmmo);
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
-    
-   
+    clearTimeout(this.PauseBossAmmoMove);
+    clearTimeout(this.pauseBonus);
+    clearTimeout(this.PauseObstacle);
+    clearTimeout(this.obstaclePause);
+
 
 
   };
@@ -852,8 +849,12 @@ moveBonusAndCollision() {
     this.multiAction();
     this.ammoMove();
     this.bossAmmoMove();
-    
+    this.addObstacle();
+    this.moveObstacleAndCollision();
+    this.addBonusMalus();
+    this.moveBonusAndCollision();
   };
 }
+
 
 
