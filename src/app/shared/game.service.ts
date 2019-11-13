@@ -28,10 +28,13 @@ export class GameService {
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
-  PausemoveEnemy: any;
-  PauseFireAmmo: any;
-  PauseShip: any;
-  PauseAmmoMove: any;
+  PausemoveEnemy : any;
+  PauseFireAmmo : any;
+  PauseShip : any;
+  PauseAmmoMove : any;
+  sound : boolean = true;
+  mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
+  mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
   PauseBossAmmoMove: any;
 
   shipTypes: Object[] = [
@@ -160,12 +163,18 @@ export class GameService {
             case this.enemyTypes[truc[i][2]]:
               enemy.HP -= 1;
               break;
+          }      
+        if(enemy.HP<=0){
+          this.enemies.delete(enemy);
+          this.enemykill = this.enemykill + 1;
+          if ( this.sound === true){
+            this.mySoundExplosion.play()
           }
-          if (enemy.HP <= 0) {
-            this.enemies.delete(enemy);
-            this.enemykill = this.enemykill + 1;
+          else{
+            this.mySoundExplosion.pause()
           }
-          break;
+        }
+        break;
       }
     }
     return enemy.HP;
@@ -455,6 +464,7 @@ export class GameService {
         if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
           if (this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP - 1;
             return;
@@ -463,6 +473,7 @@ export class GameService {
         if (this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width > enemy.posX) {
           if (this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP - 1;
             return;
@@ -472,6 +483,7 @@ export class GameService {
         if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
           if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP - 1;
             return;
@@ -480,6 +492,7 @@ export class GameService {
         if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
           if (this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width > enemy.posX) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
             this.enemykill = this.enemykill + 1;
             this.ship.HP = this.ship.HP - 1;
             return;

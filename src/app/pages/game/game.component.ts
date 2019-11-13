@@ -11,6 +11,7 @@ import { RouterState } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
+import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
 
 
@@ -65,7 +66,12 @@ export class GameComponent implements OnInit, AfterViewInit {
   valueLifePercentage : number = 100;
   gamePaused : boolean = false;
   gameOver : number = 0;
+<<<<<<< HEAD
   wonLevel1 : number = 0;
+=======
+  audioGame;
+ 
+>>>>>>> main
  
 
 //Weel animation:
@@ -98,8 +104,7 @@ currentState = 'fire';
     
     
   ngOnInit() {
-    
- 
+    this.SoundGameInit()
   }
 
   //Get the game mensurations
@@ -219,6 +224,13 @@ currentState = 'fire';
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
           this.gameService.isShoot = false;
+          if ( this.gameService.sound === true){
+            this.gameService.mySoundShoot.play()
+          }
+          else{
+            this.gameService.mySoundShoot.pause()
+          }
+          
         }
         if (event.code === 'ArrowRight') {
           this.gameService.mvRight = false;
@@ -253,6 +265,38 @@ currentState = 'fire';
       case "water":
         this.currentState = this.currentState === 'water' ? 'fire' : 'water';
           break;
+    }
+  }
+
+  //SoundGameInit
+  SoundGameInit(){
+    if ( this.gameService.sound === true){
+      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame.play();
+    }
+    else{
+      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame.pause();
+    }
+  }
+
+  //Sound Mute
+  SoundMuted(){
+    if ( this.gameService.sound === true){
+      this.gameService.sound = false;
+      let backElt = document.getElementById('SoundNoMuted');
+      let frontElt = document.getElementById('SoundMuted');
+      backElt.style.display = "none";
+      frontElt.style.display = "block";
+      this.audioGame.pause();
+    }
+    else{
+      this.gameService.sound = true;
+      let backElt = document.getElementById('SoundNoMuted');
+      let frontElt = document.getElementById('SoundMuted');
+      backElt.style.display = "block";
+      frontElt.style.display = "none";
+      this.audioGame.play();
     }
   }
 }
