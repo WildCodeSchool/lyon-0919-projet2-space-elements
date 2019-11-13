@@ -31,12 +31,15 @@ export class GameService {
   obstacleCount: number = 1;
   bonusCount: number = 1;
   bonusType: number;
+  obstaclePause: any;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
   intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
+  pauseBonus: any;
+  PauseObstacle
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
@@ -171,7 +174,7 @@ export class GameService {
 
   //Function to add obstacles
   addObstacle() {
-    setInterval(() => {
+    this.obstaclePause = setInterval(() => {
       let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
       let obstacle = new Obstacle(obstacleX-100 , -100);
       obstacle.pic = this.setObstaclePic(obstacle);
@@ -189,7 +192,7 @@ export class GameService {
       console.log(bonus.pic)
       this.bonusArray.add(bonus);
       this.bonusCount++;
-    }, 5000);
+    }, 50000);
   }
 
 
@@ -645,7 +648,7 @@ export class GameService {
 
 
   moveObstacleAndCollision() {
-    this.PausemoveEnemy =   setInterval(() => {
+    this.PauseObstacle =   setInterval(() => {
         for (let obstacle of this.obstacles) {
           this.moveObstacle(obstacle);
             if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
@@ -683,7 +686,7 @@ export class GameService {
 
   //moveBonusAndCollision
 moveBonusAndCollision() {
-  this.PausemoveEnemy =   setInterval(() => {
+  this.pauseBonus =   setInterval(() => {
       for (let bonus of this.bonusArray) {
         this.moveBonus(bonus);
           if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
@@ -830,6 +833,10 @@ moveBonusAndCollision() {
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
     clearTimeout(this.PauseBossAmmoMove);
+    clearTimeout(this.pauseBonus);
+    clearTimeout(this.PauseObstacle);
+    clearTimeout(this.obstaclePause);
+
 
 
   };
@@ -842,6 +849,10 @@ moveBonusAndCollision() {
     this.multiAction();
     this.ammoMove();
     this.bossAmmoMove();
+    this.addObstacle();
+    this.moveObstacleAndCollision();
+    this.addBonusMalus();
+    this.moveBonusAndCollision();
   };
 }
 
