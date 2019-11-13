@@ -11,6 +11,7 @@ import { RouterState } from '@angular/router';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { HomepageComponent } from '../homepage/homepage.component';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
+import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
 
 
@@ -65,6 +66,9 @@ export class GameComponent implements OnInit, AfterViewInit {
   valueLifePercentage : number = 100;
   gamePaused : boolean = false;
   gameOver : number = 0;
+  wonLevel1 : number = 0;
+  audioGame;
+ 
  
 
 //Weel animation:
@@ -97,8 +101,7 @@ currentState = 'fire';
     
     
   ngOnInit() {
-    
- 
+    this.SoundGameInit()
   }
 
   //Get the game mensurations
@@ -179,12 +182,12 @@ currentState = 'fire';
     }      
   }
 
-  //Affichage du score
+  //Score display
   getScore() {
     return this.gameService.enemykill;
   };
 
-  //Affichage Barre de Vie
+  //Display Ship lifeBar
   getLifePercentage(){
     this.valueLifePercentage = (this.gameService.ship.HP*10);
       if ( this.valueLifePercentage <= 0 && this.gameOver < 1){
@@ -194,6 +197,9 @@ currentState = 'fire';
     return this.valueLifePercentage;
   }
 
+ 
+
+  //Game Over Modal
   openGameOver() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -201,7 +207,7 @@ currentState = 'fire';
     dialogConfig.hasBackdrop = true;
     this.dialog.open(GameOverComponent, { panelClass: 'custom-dialogGameOver-container' });
    }
-
+   //Pause Modal
    openPause() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -210,10 +216,18 @@ currentState = 'fire';
     this.dialog.open(PauseComponent, { panelClass: 'custom-dialog-container' });
    }
    
+   
   @HostListener('document:keyup', ['$event'])
       onKeyupHandler(event: KeyboardEvent) {
         if (event.code === 'Space') {
           this.gameService.isShoot = false;
+          if ( this.gameService.sound === true){
+            this.gameService.mySoundShoot.play()
+          }
+          else{
+            this.gameService.mySoundShoot.pause()
+          }
+          
         }
         if (event.code === 'ArrowRight') {
           this.gameService.mvRight = false;
@@ -248,6 +262,38 @@ currentState = 'fire';
       case "water":
         this.currentState = this.currentState === 'water' ? 'fire' : 'water';
           break;
+    }
+  }
+
+  //SoundGameInit
+  SoundGameInit(){
+    if ( this.gameService.sound === true){
+      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame.play();
+    }
+    else{
+      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame.pause();
+    }
+  }
+
+  //Sound Mute
+  SoundMuted(){
+    if ( this.gameService.sound === true){
+      this.gameService.sound = false;
+      let backElt = document.getElementById('SoundNoMuted');
+      let frontElt = document.getElementById('SoundMuted');
+      backElt.style.display = "none";
+      frontElt.style.display = "block";
+      this.audioGame.pause();
+    }
+    else{
+      this.gameService.sound = true;
+      let backElt = document.getElementById('SoundNoMuted');
+      let frontElt = document.getElementById('SoundMuted');
+      backElt.style.display = "block";
+      frontElt.style.display = "none";
+      this.audioGame.play();
     }
   }
 }
