@@ -3,8 +3,8 @@ export class Boss {
     posX : number;
     posY : number;
     life: boolean = true;
-    width: number;
-    height:number;
+    width: number = 300;
+    height:number = 60;
     backgroundColor: string;
     
     constructor(posX : number, posY: number, backgroundColor: string){

@@ -1,6 +1,8 @@
 .enemy{
-    width: 60px;
-    height: 40px;
+    width: 70px;
+    height: 94px;
     position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
     /* align-self: flex-end; */
 };

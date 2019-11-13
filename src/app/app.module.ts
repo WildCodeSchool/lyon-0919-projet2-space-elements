@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { routes } from './app-routing.module'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,9 @@ import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
 import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GameOverComponent } from './components/game-over/game-over.component';
+import { PauseComponent } from './components/pause/pause.component';
+import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AmmoComponent,
     ShipComponent,
     EnemyComponent,
-    BossComponent
+    BossComponent,
+    GameOverComponent,
+    PauseComponent,
+    BossAmmoComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +43,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatProgressBarModule,
     MatDialogModule,
+    MatButtonModule,
+    
+  ],
+  entryComponents: [
+    GameOverComponent,
+    PauseComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
