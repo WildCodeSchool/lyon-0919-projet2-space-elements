@@ -62,7 +62,27 @@ export class GameService {
   
   enemyHP : Object [] = [
     {'HP' : 3, 'url' : '/assets/img/ammo_fire.png'},
-  ]  
+  ]
+  shipSkin: string[][] = [
+    ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
+    ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
+    ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
+    ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
+  ]
+  enemySkin: string[][] = [
+    ["url('/assets/img/enemy_air.png')", "url('/assets/img/enemy_air1.png')"],
+    ["url('/assets/img/enemy_fire.png')", "url('/assets/img/enemy_fire1.png')"],
+    ["url('/assets/img/enemy_earth.png')", "url('/assets/img/enemy_earth1.png')"],
+    ["url('/assets/img/enemy_water.png')", "url('/assets/img/enemy_water1.png')"],
+    ["url('/assets/img/enemy_air_HP1.png')", "url('/assets/img/enemy_air_HP11.png')"],
+    ["url('/assets/img/enemy_fire_HP1.png')", "url('/assets/img/enemy_fire_HP11.png')"],
+    ["url('/assets/img/enemy_earth_HP1.png')", "url('/assets/img/enemy_earth_HP11.png')"],
+    ["url('/assets/img/enemy_water_HP1.png')", "url('/assets/img/enemy_water_HP11.png')"],
+    ["url('/assets/img/enemy_air_HP2.png')", "url('/assets/img/enemy_air_HP21.png')"],
+    ["url('/assets/img/enemy_fire_HP2.png')", "url('/assets/img/enemy_fire_HP21.png')"],
+    ["url('/assets/img/enemy_earth_HP2.png')", "url('/assets/img/enemy_earth_HP21.png')"],
+    ["url('/assets/img/enemy_water_HP2.png')", "url('/assets/img/enemy_water_HP21.png')"],
+  ]
 
   ship : Ship = {
     id : 0,
@@ -101,30 +121,14 @@ export class GameService {
   // ship animation
   animShip() {
     setInterval(() => {
-        if (this.ship.type['url'] === '/assets/img/ship_fire.png') {
-          this.ship.type['url'] = '/assets/img/ship_fire1.png';
+      for ( let i = 0; i < this.shipSkin.length; i++) {
+        if (this.ship.type['url'] === this.shipSkin[i][0]) {
+          this.ship.type['url'] = this.shipSkin[i][1];
         }
-        else if (this.ship.type['url'] === '/assets/img/ship_fire1.png') {
-          this.ship.type['url'] = '/assets/img/ship_fire.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_water.png') {
-          this.ship.type['url'] = '/assets/img/ship_water1.png';
-        }
-        else if (this.ship.type['url'] === '/assets/img/ship_water1.png') {
-          this.ship.type['url'] = '/assets/img/ship_water.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_earth.png') {
-          this.ship.type['url'] = '/assets/img/ship_earth1.png';
-        }
-        else if (this.ship.type['url'] === '/assets/img/ship_earth1.png') {
-          this.ship.type['url'] = '/assets/img/ship_earth.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_air.png') {
-          this.ship.type['url'] = '/assets/img/ship_air1.png';
-        }
-        else if (this.ship.type['url'] === '/assets/img/ship_air1.png') {
-          this.ship.type['url'] = '/assets/img/ship_air.png';
-        }  
+        else if (this.ship.type['url'] === this.shipSkin[i][1]) {
+          this.ship.type['url'] = this.shipSkin[i][0];
+        } 
+      }  
     }, 200); 
   }
 
@@ -177,31 +181,15 @@ export class GameService {
   animEnemy() {
     setInterval(() => {
       for (let enemy of this.enemies) {
-        if (enemy.pic === "url('/assets/img/enemy_air.png')") {
-          enemy.pic = "url('/assets/img/enemy_air1.png')";
-        }
-        else if (enemy.pic === "url('/assets/img/enemy_air1.png')") {
-          enemy.pic = "url('/assets/img/enemy_air.png')";
+        for ( let i = 0; i < this.enemySkin.length; i++) {
+          if (enemy.pic === this.enemySkin[i][0]) {
+            enemy.pic = this.enemySkin[i][1];
+          }
+          else if (enemy.pic === this.enemySkin[i][1]) {
+            enemy.pic = this.enemySkin[i][0];
+          } 
         }  
-        if (enemy.pic === "url('/assets/img/enemy_fire.png')") {
-          enemy.pic = "url('/assets/img/enemy_fire1.png')";
-        }
-        else if (enemy.pic === "url('/assets/img/enemy_fire1.png')") {
-          enemy.pic = "url('/assets/img/enemy_fire.png')";
-        }  
-        if (enemy.pic === "url('/assets/img/enemy_water.png')") {
-          enemy.pic = "url('/assets/img/enemy_water1.png')";
-        }
-        else if (enemy.pic === "url('/assets/img/enemy_water1.png')") {
-          enemy.pic = "url('/assets/img/enemy_water.png')";
-        }  
-        if (enemy.pic === "url('/assets/img/enemy_earth.png')") {
-          enemy.pic = "url('/assets/img/enemy_earth1.png')";
-        }
-        else if (enemy.pic === "url('/assets/img/enemy_earth1.png')") {
-          enemy.pic = "url('/assets/img/enemy_earth.png')";
-        }  
-      }
+      }  
     }, 200); 
   }
 
