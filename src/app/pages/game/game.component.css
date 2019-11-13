@@ -1,4 +1,6 @@
 .frame{
+    font-size: 10px;
+    width: 100%;
     padding:0;
     margin:0;
     top:0;
@@ -6,59 +8,67 @@
     height: 100vh;
     width: 100%;
     background-color: burlywood;
-    
-
+    display: flex;
+    flex-direction: row;
 }
+
 .gameContainer{
     width: 80%;
     margin: 0 auto;
     height: 100vh;
     background-color: black;
-    /* display: flex; */
-    /* justify-content: center;     */
+  
 }
 
-h2{
-    color: white;
-    margin: auto;
-    margin-left: -12%;
-    font-size: 32px;
-}
 .Life{
     margin-top: 5%;
     margin-left: -9%;
 }
 
-.DoubleBarLife{
-    display : flex;
+.shipLife
+{
+    height: 100vh;
+    margin: auto;
+    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transform: rotate(-90deg);
-    height: 9%;
-    align-items: end;
+    width: 10%;
+    text-align: center;
+    justify-content: space-between
 }
 
+.bossLife
+{
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    text-align: center;
+    justify-content: space-around;
+}
+.imgGame{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.imgGame img{
+      margin: 0px;
+}
+
+
 .progressBar {
-    width: 600px;
-    margin-top: -54%;
+    height: 3%;
+    width: 150px;
+    transform: rotate(-90deg);
 }
 
 .progressBarBoss{
-    width: 600px;
-    margin-bottom: -54%;
+
+    height: 3%;
+    width: 150px;
+    transform: rotate(-90deg);
 } 
-
-mat-progress-bar{
-    height: 30px;
-    width: 90%;
-}
-
-
-.weelOfElements{
-    position: relative;
-    top:30%;
-    left:-10%;
-}
 
 .modal{
     position: fixed;
@@ -86,22 +96,11 @@ mat-progress-bar{
     height: 50px;
     width: 50px;
     cursor: pointer;
-    margin-left: 105%;
-    margin-top: 40%;
 }
 
 dialog { 
     border: none !important;
   }
 
-  .imgGame{
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    align-content: space-between;
-    margin-top: 48%;
-  }
   
   

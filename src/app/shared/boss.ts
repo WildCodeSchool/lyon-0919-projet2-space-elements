@@ -8,7 +8,7 @@ export class Boss {
     height:number = 60;
     backgroundColor: string;
     
-    constructor(posX : number, posY: number, backgroundColor: string, HP){
+    constructor(posX : number, posY: number, backgroundColor: string, HP: number){
         this.posX = posX;
         this.posY = posY;
         this.backgroundColor = backgroundColor;
