@@ -44,6 +44,7 @@ export class GameService {
   mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
   mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
   PauseBossAmmoMove: any;
+  pauseMoveBoss : any;
 
   shipTypes: Object[] = [
     { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
@@ -111,6 +112,10 @@ export class GameService {
     ["url('/assets/img/enemy_fire_HP2.png')", "url('/assets/img/enemy_fire_HP21.png')"],
     ["url('/assets/img/enemy_earth_HP2.png')", "url('/assets/img/enemy_earth_HP21.png')"],
     ["url('/assets/img/enemy_water_HP2.png')", "url('/assets/img/enemy_water_HP21.png')"],
+  ]
+  bossSkin : string[] = [
+    "url('/assets/img/boss_01.png')",
+    "url('/assets/img/boss_02.png')"
   ]
 
   ship: Ship = {
@@ -386,9 +391,9 @@ export class GameService {
     }
   }
   moveBossAmmo(bossAmmo: Ammo): void {
-    bossAmmo.posY = bossAmmo.posY + 30;
+    bossAmmo.posY = bossAmmo.posY + 5;
     if (bossAmmo) {
-      if (bossAmmo.posY > this.game.maxY) {
+      if (bossAmmo.posY > this.game.maxY-35) {
         this.bossAmmos.delete(bossAmmo);
       }
       else {
@@ -400,7 +405,7 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if (this.enemyCount < 16) {
+   /*  if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -412,22 +417,46 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else  if (this.enemyCount === 1) {
+    else  */ if (this.enemyCount === 1) {
       setTimeout(() => {
-        let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
-        this.boss = new Boss(bossX - 300, 0, 'red');
-
-        setInterval(() => {
+        //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
+        
+        this.boss = new Boss(950, -300, this.bossSkin[0]);
+        this.bossMoveDown();
+        setTimeout(()=>{setInterval(() => {
           this.bossShoot()
-        }, 1500)
-      }, 5000);
+        }, 2000)},2000)
+        
+      }, 2000);
+     
     }
   }
 
+  bossMoveDown(){
+    this.pauseMoveBoss = setInterval(()=>{
+      this.boss.posY = this.boss.posY+5;
+      if (this.boss.posY===150){
+        clearTimeout(this.pauseMoveBoss);
+      }
+    },50);
+  }
+  bossMoveHoriz(){
+    this.pauseMoveBoss = setInterval(()=>{
+      this.boss.posY = this.boss.posY+5;
+      if (this.boss.posY===150){
+        clearTimeout(this.pauseMoveBoss);
+      }
+    },200);
+  }
+ 
   bossShoot() {
-
-    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 150, this.boss.posY + 60);
+    
+    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 240, this.boss.posY + 240);
+    let bossAmmo2 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 25, this.boss.posY + 240);
+    let bossAmmo3 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 459, this.boss.posY + 240);
     this.bossAmmos.add(bossAmmo);
+    this.bossAmmos.add(bossAmmo2);
+    this.bossAmmos.add(bossAmmo3);
 
   }
 
@@ -536,8 +565,8 @@ export class GameService {
        enemy.posX = this.game.maxX - (enemy.width+60*2);
      }
    }
-
- 
+  
+  
   moveEnemy(enemy: Enemy) {
     if (enemy) {
       if (enemy.posY > this.game.maxY - enemy.height * 2) {

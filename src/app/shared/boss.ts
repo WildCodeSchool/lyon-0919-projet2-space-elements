@@ -4,13 +4,13 @@ export class Boss {
     posY : number;
     HP : number = 20;
     life: boolean = true;
-    width: number = 300;
-    height:number = 60;
-    backgroundColor: string;
+    width: number = 500;
+    height:number = 307;
+    pic : string;
     
-    constructor(posX : number, posY: number, backgroundColor: string){
+    constructor(posX : number, posY: number, pic: string){
         this.posX = posX;
         this.posY = posY;
-        this.backgroundColor = backgroundColor;
+        this.pic = pic;
     }
 }
