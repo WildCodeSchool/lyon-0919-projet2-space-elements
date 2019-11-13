@@ -31,6 +31,7 @@ export class GameService {
   obstacleCount: number = 1;
   bonusCount: number = 1;
   bonusType: number;
+  obstaclePause: any;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
@@ -168,7 +169,7 @@ export class GameService {
 
   //Function to add obstacles
   addObstacle() {
-    setInterval(() => {
+    this.obstaclePause = setInterval(() => {
       let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
       let obstacle = new Obstacle(obstacleX-100 , -100);
       obstacle.pic = this.setObstaclePic(obstacle);
@@ -806,7 +807,7 @@ moveBonusAndCollision() {
     clearTimeout(this.PauseBossAmmoMove);
     clearTimeout(this.pauseBonus);
     clearTimeout(this.PauseObstacle);
-    
+    clearTimeout(this.obstaclePause);
 
 
 
