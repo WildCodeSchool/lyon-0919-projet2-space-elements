@@ -35,7 +35,7 @@ h2{
     justify-content: space-between;
     transform: rotate(-90deg);
     height: 9%;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .progressBar {

@@ -421,7 +421,7 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else  if (this.enemyCount === 1 && this.bossCreated === false) {
+    else if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
         //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         
