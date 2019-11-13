@@ -37,6 +37,8 @@ export class GameService {
   intervalNumberEnemyLvl4: any;
   intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
+  pauseBonus: any;
+  PauseObstacle
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
@@ -184,7 +186,7 @@ export class GameService {
       console.log(bonus.pic)
       this.bonusArray.add(bonus);
       this.bonusCount++;
-    }, 5000);
+    }, 50000);
   }
 
 
@@ -616,7 +618,7 @@ export class GameService {
 
 
   moveObstacleAndCollision() {
-    this.PausemoveEnemy =   setInterval(() => {
+    this.PauseObstacle =   setInterval(() => {
         for (let obstacle of this.obstacles) {
           this.moveObstacle(obstacle);
             if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
@@ -654,7 +656,7 @@ export class GameService {
 
   //moveBonusAndCollision
 moveBonusAndCollision() {
-  this.PausemoveEnemy =   setInterval(() => {
+  this.pauseBonus =   setInterval(() => {
       for (let bonus of this.bonusArray) {
         this.moveBonus(bonus);
           if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
@@ -801,6 +803,10 @@ moveBonusAndCollision() {
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
     clearTimeout(this.PauseBossAmmoMove);
+    clearTimeout(this.pauseBonus);
+    clearTimeout(this.PauseObstacle);
+    
+
 
 
   };
@@ -813,6 +819,10 @@ moveBonusAndCollision() {
     this.multiAction();
     this.ammoMove();
     this.bossAmmoMove();
+    this.addObstacle();
+    this.moveObstacleAndCollision();
+    this.addBonusMalus();
+    this.moveBonusAndCollision();
   };
 }
 
