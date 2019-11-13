@@ -9,13 +9,14 @@
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
         <app-boss [boss]='gameService.boss'></app-boss>
+        <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
         <div class="weelOfElements">
             <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
         </div>
-        <div>
+       <!--  <div>
             <p *ngIf='gamePaused' class='Pause'>PAUSE</p>
             <button *ngIf='gamePaused'><a href="/option">Revenir au Options</a></button>
-        </div>
+        </div> -->
     </div>
 </div>
 
