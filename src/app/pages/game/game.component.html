@@ -6,6 +6,8 @@
             <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
         </div>
         <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
+        <app-obstacle [obstacle]='obstacle' *ngFor="let obstacle of obstacles"></app-obstacle>
+        <app-bonus [bonus]="bonus" *ngFor="let bonus of bonusArray"></app-bonus>
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
         <app-boss [boss]='gameService.boss'></app-boss>

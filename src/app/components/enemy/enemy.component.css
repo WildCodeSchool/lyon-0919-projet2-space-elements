@@ -2,5 +2,6 @@
     width: 60px;
     height: 40px;
     position: absolute;
+    z-index: 100;
     /* align-self: flex-end; */
 };

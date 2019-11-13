@@ -4,6 +4,8 @@ import { Ship } from './ship';
 import { Enemy} from 'src/app/shared/enemy';
 import { Game } from './game';
 import { Boss } from './boss';
+import { Obstacle } from './obstacle';
+import { Bonus } from './bonus';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,9 @@ import { Boss } from './boss';
 export class GameService {
  
   enemies : Set<Enemy> = new Set<Enemy>();
+  obstacles : Set<Obstacle> = new Set<Obstacle>();
   ammos : Set<Ammo> = new Set<Ammo>();
+  bonusArray : Set<Bonus> = new Set<Bonus>();
   types : string[] = ['fire','water','air','earth'];
   isShoot: boolean = false;
   mvLeft: boolean = false;
@@ -23,14 +27,25 @@ export class GameService {
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
   enemyCount: number = 1;
+  obstacleCount: number = 1;
+  bonusCount: number = 1;
+  bonusType: number;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
+  intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
+
+  obstaclesImg: String[] = [
+    '/assets/img/asteroid2.png',
+    '/assets/img/asteroid3.png'
+  ]
+
+  typeBonus: number[] = [0,1];
 
   shipTypes : Object[] = [
     {'name' : 'fire', 'url' : '/assets/img/ship_fire.png'},
@@ -91,8 +106,70 @@ export class GameService {
     // Ammo moving and killing enemy
     this.ammoMove();
     //Move Enemy and Collision
-    this.moveEnemyAndCollision()    
+    this.moveEnemyAndCollision();
+    this.moveObstacleAndCollision(); 
+    this.moveBonusAndCollision();
 
+  }
+
+  //Gestion des points de vie
+  getShipHP(ship: Ship, value: number){
+    ship.HP = ship.HP + value;
+    if(ship.HP < 0)
+    {
+      ship.HP = 0;
+    }
+    if(ship.HP > 10)
+    { ship.HP = 10}
+    return ship.HP;
+  }
+
+  //Function to add obstacles
+  addObstacle() {
+    setInterval(() => {
+      let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
+      let obstacle = new Obstacle(obstacleX-100 , -100);
+      obstacle.pic = this.setObstaclePic(obstacle);
+      this.obstacles.add(obstacle);
+      this.obstacleCount++;
+    }, 10000);
+  }
+
+  //function to add bonus or malus
+  addBonusMalus() {
+    setInterval(() => {
+      let bonusX = this.randomNumber(this.game.minX+100, this.game.maxX-100*2);    
+      let bonus = new Bonus(bonusX-100 , -100);
+      bonus.pic = this.setBonusPic(bonus);
+      console.log(bonus.pic)
+      this.bonusArray.add(bonus);
+      this.bonusCount++;
+    }, 5000);
+  }
+
+
+  //Function to move obstacles
+  moveObstacle(obstacle: Obstacle){
+    if (obstacle) {
+      if (obstacle.posY>this.game.maxY - obstacle.height) {
+        this.obstacles.delete(obstacle);
+      }
+      else {
+        obstacle.posY = obstacle.posY + 10;
+      }
+    }
+  }
+
+  //Function to move bonus
+  moveBonus(bonus: Bonus){
+    if (bonus) {
+      if (bonus.posY>this.game.maxY - bonus.height) {
+        this.bonusArray.delete(bonus);
+      }
+      else {
+        bonus.posY = bonus.posY + 2;
+      }
+    }
   }
 
   //Function to do damage
@@ -131,10 +208,10 @@ export class GameService {
        case this.enemyTypes[i]:
          switch(enemy.HP){
           case 2 :
-            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][1]);
+            enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][1]);
             break; 
           case 1 :
-            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][2]);
+            enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][2]);
             break; 
          }
      }
@@ -147,7 +224,7 @@ export class GameService {
   }
 
   //get enemy pic url 
-  getEnnemyPicture(url) {
+  getUrlPicture(url) {
     return `url('${url}')`;
   }
   
@@ -235,9 +312,18 @@ export class GameService {
   setEnemyPic(enemy){
     for (let i =0; i<4; i++){
       if (enemy.type === this.enemyTypes[i]){
-        enemy.pic=this.getEnnemyPicture(this.enemyTypes[i]['url'][0]);
+        enemy.pic=this.getUrlPicture(this.enemyTypes[i]['url'][0]);
       }
     }
+  }
+
+  setObstaclePic(obstacle){
+    let index = this.randomNumber(0, this.obstaclesImg.length+1)
+        return obstacle.pic=this.getUrlPicture(this.obstaclesImg[index]);
+  }
+
+  setBonusPic(bonus){
+        return bonus.pic = this.getUrlPicture(bonus.pic);
   }
 
   addEnemyLvl1() {
@@ -246,12 +332,12 @@ export class GameService {
       let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
       this.setEnemyPic(enemy);
       this.enemies.add(enemy);
-      this.enemyCount++;
+      this.enemyCount++; 
       if (this.enemyCount === 16) {
         clearInterval(this.intervalNumberEnemyLvl1);
         this.addEnemy();
       }
-    }, 1700);
+    }, 3000);
   }
   
   addEnemyLvl2() {
@@ -265,7 +351,7 @@ export class GameService {
         clearInterval(this.intervalNumberEnemyLvl2);
         this.addEnemy();
       }
-    }, 1400);
+    }, 3300);
   }
 
   addEnemyLvl3() {
@@ -279,7 +365,7 @@ export class GameService {
         clearInterval(this.intervalNumberEnemyLvl3);
         this.addEnemy();
       }
-    }, 1100);
+    }, 3600);
   }
 
   addEnemyLvl4() {
@@ -332,7 +418,7 @@ export class GameService {
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
-        this.ship.HP = this.ship.HP - 3 ;
+        this.ship.HP = this.getShipHP(this.ship, -3) ;
       }
       else {
         enemy.posY = enemy.posY + 5;
@@ -345,7 +431,7 @@ export class GameService {
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
-        this.ship.HP = this.ship.HP - 3 ;
+        this.ship.HP = this.getShipHP(this.ship, -3) ;
       }
       else {
         enemy.posY = enemy.posY + 8;
@@ -357,7 +443,7 @@ export class GameService {
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
-        this.ship.HP = this.ship.HP - 3 ;
+        this.ship.HP = this.getShipHP(this.ship, -3) ;
       }
       else {
         enemy.posY = enemy.posY + 11;
@@ -369,7 +455,7 @@ export class GameService {
     if (enemy) {
       if (enemy.posY>this.game.maxY - enemy.height*2) {
         this.enemies.delete(enemy);
-        this.ship.HP = this.ship.HP - 3 ;
+        this.ship.HP = this.getShipHP(this.ship, -3);
       }
       else {
         enemy.posY = enemy.posY + 14;
@@ -386,7 +472,7 @@ moveEnemyAndCollision() {
               if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
                 this.enemies.delete(enemy);
                 this.enemykill = this.enemykill + 1;
-                this.ship.HP = this.ship.HP -1 ;
+                this.ship.HP = this.getShipHP(this.ship, -1);
                 return;
               }  
             }
@@ -394,7 +480,7 @@ moveEnemyAndCollision() {
               if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
                 this.enemies.delete(enemy);
                 this.enemykill = this.enemykill + 1;
-                this.ship.HP = this.ship.HP -1 ;
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
                 return;
               }  
             }
@@ -402,7 +488,7 @@ moveEnemyAndCollision() {
               if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
                 this.enemies.delete(enemy);
                 this.enemykill = this.enemykill + 1;
-                this.ship.HP = this.ship.HP -1 ;
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
                 return;
               }
             }
@@ -410,7 +496,7 @@ moveEnemyAndCollision() {
               if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
                 this.enemies.delete(enemy);
                 this.enemykill = this.enemykill + 1;
-                this.ship.HP = this.ship.HP -1 ;
+                this.ship.HP = this.getShipHP(this.ship, -1);
                 return;
               }
             }    
@@ -418,6 +504,106 @@ moveEnemyAndCollision() {
       }, 200);
     
   }
+
+  moveObstacleAndCollision() {
+    this.PausemoveEnemy =   setInterval(() => {
+        for (let obstacle of this.obstacles) {
+          this.moveObstacle(obstacle);
+            if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width> obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1);
+                return;
+              }
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX  + this.ship.width > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }
+            }    
+        }
+      }, 200);
+    
+  }
+
+  //moveBonusAndCollision
+moveBonusAndCollision() {
+  this.PausemoveEnemy =   setInterval(() => {
+      for (let bonus of this.bonusArray) {
+        this.moveBonus(bonus);
+          if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width> bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX  + this.ship.width > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }    
+      }
+    }, 200);
+  
+}
+
   //DeclarationMethode movementShip
   movementShip(){
     this.PauseShip = setInterval(() => {

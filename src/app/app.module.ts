@@ -16,6 +16,8 @@ import { ShipComponent } from './components/ship/ship.component';
 import { EnemyComponent } from './components/enemy/enemy.component';
 import { BossComponent } from './components/boss/boss.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ObstacleComponent } from './components/obstacle/obstacle.component';
+import { BonusComponent } from '../app/components/bonus/bonus.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AmmoComponent,
     ShipComponent,
     EnemyComponent,
-    BossComponent
+    BossComponent,
+    ObstacleComponent,
+    BonusComponent
   ],
   imports: [
     BrowserModule,
