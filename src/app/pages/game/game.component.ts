@@ -73,6 +73,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   gameOver : number = 0;
   wonLevel1 : number = 0;
   audioGame;
+  resultHP : number;
  
  
 
@@ -197,7 +198,6 @@ currentState = 'fire';
       this.gameService.pauseGame();
       this.openPause()
       this.gamePaused = true;
-      console.log(this.gameService.boss.HP)
       return;
     }
     if(event.code === 'Escape' && this.gamePaused === true){
@@ -245,17 +245,18 @@ currentState = 'fire';
     return this.valueLifePercentage;
   }
   //Display Boss lifeBar
-  getLifePercentageBoss(){
-    if ( this.bossCreated === true){
-      this.gameService.boss.HP
+ /*  getLifePercentageBoss(){
+    if ( this.bossCreated === true ){
       if ( this.gameService.boss.HP <= 0 && this.gameOver < 1){
+        this.bossCreated = false;
         this.gameOver  = this.gameOver + 1;
-        this.openGameOver();
+        this.openGameOver(); 
       }
+      
     }
-      return this.gameService.boss.HP;
+    return this.gameService.boss.HP;
   }
-
+ */
 
  
 

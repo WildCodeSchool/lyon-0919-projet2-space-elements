@@ -7,7 +7,7 @@
                 <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
             </div>
             <div class="progressBarBoss" *ngIf='this.gameService.bossCreated' >
-                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
+                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="0"></mat-progress-bar>
             </div>
         </div>
         <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
@@ -15,7 +15,7 @@
         <app-bonus [bonus]="bonus" *ngFor="let bonus of bonusArray"></app-bonus>
         <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
         <app-ship [ship]='ship'></app-ship>
-        <app-boss [boss]='gameService.boss'></app-boss>
+        <app-boss [boss]='gameService.boss' *ngIf="gameService.boss"></app-boss>
         <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
         <div class='imgGame'>
             <div>
