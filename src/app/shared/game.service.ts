@@ -362,7 +362,7 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
-    
+
     let ammo: Ammo;
     switch (this.ship.type) {
       case this.shipTypes[0]:
@@ -408,10 +408,10 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if (this.enemyCount < 16) {
+    /* if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
-    /* else if (this.enemyCount < 36) {
+    else if (this.enemyCount < 36) {
       this.addEnemyLvl2();
     }
     else if (this.enemyCount < 61) {
@@ -419,8 +419,8 @@ export class GameService {
     }
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
-    }  */
-    else if (this.enemyCount === 16 && this.bossCreated === false) {
+    }  
+    else */if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
         //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         this.boss = new Boss(950, -300, this.bossSkin[0]);
@@ -428,33 +428,72 @@ export class GameService {
         this.bossMoveDown();
         setTimeout(() => {
           setInterval(() => {
-            this.bossShoot()
+            this.bossShoot();
+
           }, 1500)
+
         }, 2000)
 
       }, 2000);
-
+      setTimeout(() => { this.bossDance(); }, 6000)
     }
+    
   }
 
   bossMoveDown() {
-    let stopMoveBoss : any;
+    let stopMoveBoss: any;
     stopMoveBoss = setInterval(() => {
       this.boss.posY = this.boss.posY + 5;
       if (this.boss.posY === 50) {
         clearTimeout(stopMoveBoss);
+
       }
     }, 50);
+
   }
+  
+  bossDance() {
+    let diagDownRight = setInterval(() => {
+      this.boss.posX += 6;
+      this.boss.posY += 6;
+      setTimeout(()=>{
+        this.bossUpRight();
+        clearTimeout(diagDownRight);
+      },2500)
+    }, 50)
+  }
+  bossUpRight(){
+      this.boss.posX += 8;
+      this.boss.posY -= 4;
+      setTimeout(()=>{
+        this.bossUpUpLeft();
+      },2500)
+  }
+  bossUpUpLeft(){
+    this.boss.posX -= 8;
+    this.boss.posY -= 4;
+    setTimeout(()=>{
+      this.bossDownLeft();
+    },2500)
+  }
+  bossDownLeft() {
+    this.boss.posX -= 10;
+    this.boss.posY += 8;
+    setTimeout(()=>{
+      this.bossUpLeft();
+    },7000)
+  }  
+  
 
   bossShoot() {
-    
+
     let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 240, this.boss.posY + 240);
     let bossAmmo2 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 25, this.boss.posY + 240);
     let bossAmmo3 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 459, this.boss.posY + 240);
     this.bossAmmos.add(bossAmmo);
     this.bossAmmos.add(bossAmmo2);
     this.bossAmmos.add(bossAmmo3);
+
 
   }
 
@@ -785,7 +824,7 @@ export class GameService {
           }
         }
         // with boss
-        if (this.boss !=undefined) {
+        if (this.boss != undefined) {
           console.log(this.boss.HP)
           if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
             if (ammo.posY < this.boss.posY + this.boss.height) {
