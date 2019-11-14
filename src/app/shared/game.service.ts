@@ -411,7 +411,7 @@ export class GameService {
     if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
-    else if (this.enemyCount < 36) {
+    /* else if (this.enemyCount < 36) {
       this.addEnemyLvl2();
     }
     else if (this.enemyCount < 61) {
@@ -419,8 +419,8 @@ export class GameService {
     }
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
-    } 
-    else if (this.enemyCount === 91 && this.bossCreated === false) {
+    }  */
+    else if (this.enemyCount === 16 && this.bossCreated === false) {
       setTimeout(() => {
         //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         this.boss = new Boss(950, -300, this.bossSkin[0]);
