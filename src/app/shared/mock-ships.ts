@@ -4,7 +4,7 @@ export const SHIPS: Ship[] =
 [
     {
         id: 1,
-        url: "../../assets/ship1.png",
+        url: "../assets/img/ship_air.png",
         posX: 0,
         posY: 0,
         HP: 0,
@@ -15,7 +15,7 @@ export const SHIPS: Ship[] =
     },
     {
         id: 2,
-        url: "../../assets/ship2.png",
+        url: "../assets/img/ship_fire.png",
         posX: 0,
         posY: 0,
         HP: 0,

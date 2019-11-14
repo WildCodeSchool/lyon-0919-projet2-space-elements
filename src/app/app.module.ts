@@ -23,6 +23,7 @@ import { GameOverComponent } from './components/game-over/game-over.component';
 import { PauseComponent } from './components/pause/pause.component';
 import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
