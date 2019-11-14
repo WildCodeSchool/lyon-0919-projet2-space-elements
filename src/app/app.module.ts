@@ -24,6 +24,7 @@ import { PauseComponent } from './components/pause/pause.component';
 import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
 import { VictoryComponent } from './components/victory/victory.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
