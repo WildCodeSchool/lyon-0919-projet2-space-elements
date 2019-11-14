@@ -11,12 +11,12 @@ import { Bonus } from './bonus';
   providedIn: 'root'
 })
 export class GameService {
- 
-  enemies : Set<Enemy> = new Set<Enemy>();
-  obstacles : Set<Obstacle> = new Set<Obstacle>();
-  ammos : Set<Ammo> = new Set<Ammo>();
-  bonusArray : Set<Bonus> = new Set<Bonus>();
-  types : string[] = ['fire','water','air','earth'];
+
+  enemies: Set<Enemy> = new Set<Enemy>();
+  obstacles: Set<Obstacle> = new Set<Obstacle>();
+  ammos: Set<Ammo> = new Set<Ammo>();
+  bonusArray: Set<Bonus> = new Set<Bonus>();
+  types: string[] = ['fire', 'water', 'air', 'earth'];
   bossAmmos: Set<Ammo> = new Set<Ammo>();
   isShoot: boolean = false;
   mvLeft: boolean = false;
@@ -37,16 +37,17 @@ export class GameService {
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
   intervalNumberObstacleLvl1: any;
-  PausemoveEnemy : any;
+  PausemoveEnemy: any;
   pauseBonus: any;
   PauseObstacle
-  PauseFireAmmo : any;
-  PauseShip : any;
-  PauseAmmoMove : any;
-  sound : boolean = true;
-  mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
-  mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
-  PauseBossAmmoMove: any;
+  PauseFireAmmo: any;
+  PauseShip: any;
+  PauseAmmoMove: any;
+  pauseBossAmmoMove: any;
+  sound: boolean = true;
+  mySoundShoot = new Audio(`../../../assets/Bruitage/tir35db.mp3`);
+  mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
+
 
   shipTypes: Object[] = [
     { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
@@ -89,9 +90,9 @@ export class GameService {
     '/assets/img/asteroid3.png'
   ]
 
-  typeBonus: number[] = [0,1];
+  typeBonus: number[] = [0, 1];
 
- 
+
   enemyHP: Object[] = [
     { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
   ]
@@ -114,6 +115,11 @@ export class GameService {
     ["url('/assets/img/enemy_fire_HP2.png')", "url('/assets/img/enemy_fire_HP21.png')"],
     ["url('/assets/img/enemy_earth_HP2.png')", "url('/assets/img/enemy_earth_HP21.png')"],
     ["url('/assets/img/enemy_water_HP2.png')", "url('/assets/img/enemy_water_HP21.png')"],
+  ]
+
+  bossSkin: string[] = [
+    "url('/assets/img/boss_01.png')",
+    "url('/assets/img/boss_02.png')"
   ]
 
   ship: Ship = {
@@ -146,7 +152,7 @@ export class GameService {
     this.bossAmmoMove();
     //Move Enemy and Collision
     this.moveEnemyAndCollision();
-    this.moveObstacleAndCollision(); 
+    this.moveObstacleAndCollision();
     this.moveBonusAndCollision();
     // Ship animation   
     this.animShip();
@@ -156,22 +162,20 @@ export class GameService {
   }
 
   //Gestion des points de vie
-  getShipHP(ship: Ship, value: number){
+  getShipHP(ship: Ship, value: number) {
     ship.HP = ship.HP + value;
-    if(ship.HP < 0)
-    {
+    if (ship.HP < 0) {
       ship.HP = 0;
     }
-    if(ship.HP > 10)
-    { ship.HP = 10}
+    if (ship.HP > 10) { ship.HP = 10 }
     return ship.HP;
   }
 
   //Function to add obstacles
   addObstacle() {
     this.obstaclePause = setInterval(() => {
-      let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
-      let obstacle = new Obstacle(obstacleX-100 , -100);
+      let obstacleX = this.randomNumber(this.game.minX + 130, this.game.maxX - 130 * 2);
+      let obstacle = new Obstacle(obstacleX - 100, -100);
       obstacle.pic = this.setObstaclePic(obstacle);
       this.obstacles.add(obstacle);
       this.obstacleCount++;
@@ -181,8 +185,8 @@ export class GameService {
   //function to add bonus or malus
   addBonusMalus() {
     setInterval(() => {
-      let bonusX = this.randomNumber(this.game.minX+100, this.game.maxX-100*2);    
-      let bonus = new Bonus(bonusX-100 , -100);
+      let bonusX = this.randomNumber(this.game.minX + 100, this.game.maxX - 100 * 2);
+      let bonus = new Bonus(bonusX - 100, -100);
       bonus.pic = this.setBonusPic(bonus);
       console.log(bonus.pic)
       this.bonusArray.add(bonus);
@@ -192,9 +196,9 @@ export class GameService {
 
 
   //Function to move obstacles
-  moveObstacle(obstacle: Obstacle){
+  moveObstacle(obstacle: Obstacle) {
     if (obstacle) {
-      if (obstacle.posY>this.game.maxY - obstacle.height) {
+      if (obstacle.posY > this.game.maxY - obstacle.height) {
         this.obstacles.delete(obstacle);
       }
       else {
@@ -204,16 +208,16 @@ export class GameService {
   }
 
   //Function to move bonus
-  moveBonus(bonus: Bonus){
+  moveBonus(bonus: Bonus) {
     if (bonus) {
-      if (bonus.posY>this.game.maxY - bonus.height) {
+      if (bonus.posY > this.game.maxY - bonus.height) {
         this.bonusArray.delete(bonus);
       }
       else {
         bonus.posY = bonus.posY + 2;
       }
     }
-  
+
   }
 
   // ship animation
@@ -246,18 +250,18 @@ export class GameService {
             case this.enemyTypes[truc[i][2]]:
               enemy.HP -= 1;
               break;
-          }      
-        if(enemy.HP<=0){
-          this.enemies.delete(enemy);
-          this.enemykill = this.enemykill + 1;
-          if ( this.sound === true){
-            this.mySoundExplosion.play()
           }
-          else{
-            this.mySoundExplosion.pause()
+          if (enemy.HP <= 0) {
+            this.enemies.delete(enemy);
+            this.enemykill = this.enemykill + 1;
+            if (this.sound === true) {
+              this.mySoundExplosion.play()
+            }
+            else {
+              this.mySoundExplosion.pause()
+            }
           }
-        }
-        break;
+          break;
       }
     }
     return enemy.HP;
@@ -358,6 +362,7 @@ export class GameService {
 
   //Ammo addition and move
   addAmmo() {
+    
     let ammo: Ammo;
     switch (this.ship.type) {
       case this.shipTypes[0]:
@@ -391,7 +396,7 @@ export class GameService {
   moveBossAmmo(bossAmmo: Ammo): void {
     bossAmmo.posY = bossAmmo.posY + 30;
     if (bossAmmo) {
-      if (bossAmmo.posY > this.game.maxY) {
+      if (bossAmmo.posY > this.game.maxY - 35) {
         this.bossAmmos.delete(bossAmmo);
       }
       else {
@@ -414,28 +419,47 @@ export class GameService {
     }
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
-    }
-    else  if (this.enemyCount === 1) {
+    } 
+    else if (this.enemyCount === 91 && this.bossCreated === false) {
       setTimeout(() => {
-        let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
-        this.boss = new Boss(bossX - 300, 0, 'red', 100);
+        //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
+        this.boss = new Boss(950, -300, this.bossSkin[0]);
+        this.bossCreated = true;
+        this.bossMoveDown();
+        setTimeout(() => {
+          setInterval(() => {
+            this.bossShoot()
+          }, 1500)
+        }, 2000)
 
-        setInterval(() => {
-          this.bossShoot()
-        }, 1500)
-      }, 5000);
+      }, 2000);
+
     }
   }
 
-  bossShoot() {
+  bossMoveDown() {
+    let stopMoveBoss : any;
+    stopMoveBoss = setInterval(() => {
+      this.boss.posY = this.boss.posY + 5;
+      if (this.boss.posY === 50) {
+        clearTimeout(stopMoveBoss);
+      }
+    }, 50);
+  }
 
-    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 150, this.boss.posY + 60);
+  bossShoot() {
+    
+    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 240, this.boss.posY + 240);
+    let bossAmmo2 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 25, this.boss.posY + 240);
+    let bossAmmo3 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 459, this.boss.posY + 240);
     this.bossAmmos.add(bossAmmo);
+    this.bossAmmos.add(bossAmmo2);
+    this.bossAmmos.add(bossAmmo3);
 
   }
 
   bossAmmoMove() {
-    this.PauseBossAmmoMove = setInterval(() => {
+    this.pauseBossAmmoMove = setInterval(() => {
       for (let bossAmmo of this.bossAmmos) {
         this.moveBossAmmo(bossAmmo);
         if ((bossAmmo.posX > this.ship.posX) && (bossAmmo.posX < this.ship.posX + this.ship.width)) {
@@ -459,23 +483,23 @@ export class GameService {
 
 
   //Function to set enemy first pic
-  setEnemyPic(enemy){
-    for (let i =0; i<4; i++){
-      if (enemy.type === this.enemyTypes[i]){
-        enemy.pic=this.getUrlPicture(this.enemyTypes[i]['url'][0]);
+  setEnemyPic(enemy) {
+    for (let i = 0; i < 4; i++) {
+      if (enemy.type === this.enemyTypes[i]) {
+        enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][0]);
       }
     }
   }
 
-  setObstaclePic(obstacle){
-    let index = this.randomNumber(0, this.obstaclesImg.length+1)
-        return obstacle.pic=this.getUrlPicture(this.obstaclesImg[index]);
+  setObstaclePic(obstacle) {
+    let index = this.randomNumber(0, this.obstaclesImg.length + 1)
+    return obstacle.pic = this.getUrlPicture(this.obstaclesImg[index]);
   }
 
-  setBonusPic(bonus){
-        return bonus.pic = this.getUrlPicture(bonus.pic);
+  setBonusPic(bonus) {
+    return bonus.pic = this.getUrlPicture(bonus.pic);
   }
-  
+
   addEnemmies() {
     let enemyX = this.randomNumber(this.game.minX + 60, this.game.maxX);
     let enemy = new Enemy(this.enemyTypes[this.randomNumber(0, 4)], enemyX - 60, -20);
@@ -525,22 +549,19 @@ export class GameService {
   }
 
   // Enemy moves
-   //test Fonction bouger l'ennemi horizontalement
+  //test Fonction bouger l'ennemi horizontalement
 
-   moveEnemyX(enemy: Enemy)
-   {
-    enemy.posX = enemy.posX + Math.floor(Math.random()*20) - 10;
-     if(enemy.posX<this.game.minX)
-     {
-       enemy.posX = this.game.minX;
-     }
-     if(enemy.posX>this.game.maxX-60)
-     {
-       enemy.posX = this.game.maxX - (enemy.width+60*2);
-     }
-   }
+  moveEnemyX(enemy: Enemy) {
+    enemy.posX = enemy.posX + Math.floor(Math.random() * 20) - 10;
+    if (enemy.posX < this.game.minX) {
+      enemy.posX = this.game.minX;
+    }
+    if (enemy.posX > this.game.maxX - 60) {
+      enemy.posX = this.game.maxX - (enemy.width + 60 * 2);
+    }
+  }
 
- 
+
   moveEnemy(enemy: Enemy) {
     if (enemy) {
       if (enemy.posY > this.game.maxY - enemy.height * 2) {
@@ -619,121 +640,117 @@ export class GameService {
 
 
   moveObstacleAndCollision() {
-    this.PauseObstacle =   setInterval(() => {
-        for (let obstacle of this.obstacles) {
-          this.moveObstacle(obstacle);
-            if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
-              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
-                this.obstacles.delete(obstacle);
-                this.ship.HP = this.getShipHP(this.ship, -1) ;
-                return;
-              }  
-            }
-            if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width> obstacle.posX){
-              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
-                this.obstacles.delete(obstacle);
-                this.ship.HP = this.getShipHP(this.ship, -1) ;
-                return;
-              }  
-            }
-            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
-              if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
-                this.obstacles.delete(obstacle);
-                this.ship.HP = this.getShipHP(this.ship, -1);
-                return;
-              }
-            }
-            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
-              if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX  + this.ship.width > obstacle.posX){
-                this.obstacles.delete(obstacle);
-                this.ship.HP = this.getShipHP(this.ship, -1) ;
-                return;
-              }
-            }    
+    this.PauseObstacle = setInterval(() => {
+      for (let obstacle of this.obstacles) {
+        this.moveObstacle(obstacle);
+        if (this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX) {
+          if (this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY) {
+            this.obstacles.delete(obstacle);
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
         }
-      }, 200);
-    
+        if (this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width > obstacle.posX) {
+          if (this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY) {
+            this.obstacles.delete(obstacle);
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
+        }
+        if (this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY) {
+          if (this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX) {
+            this.obstacles.delete(obstacle);
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
+        }
+        if (this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY) {
+          if (this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width > obstacle.posX) {
+            this.obstacles.delete(obstacle);
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
+        }
+      }
+    }, 200);
+
   }
 
   //moveBonusAndCollision
-moveBonusAndCollision() {
-  this.pauseBonus =   setInterval(() => {
+  moveBonusAndCollision() {
+    this.pauseBonus = setInterval(() => {
       for (let bonus of this.bonusArray) {
         this.moveBonus(bonus);
-          if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
-            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
-              this.bonusArray.delete(bonus);
-              bonus.type = this.typeBonus[this.randomNumber(0,2)];
-              this.bonusType = bonus.type;
-              if(this.bonusType === 1)
-              {
-                this.ship.HP = this.getShipHP(this.ship, 2)
-                console.log(this.bonusType)
-              }
-              return;
-            }  
-          }
-          if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width> bonus.posX){
-            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
-              this.bonusArray.delete(bonus);
-              bonus.type = this.typeBonus[this.randomNumber(0,2)];
-              this.bonusType = bonus.type;
-              if(this.bonusType === 1)
-              {
-                this.ship.HP = this.getShipHP(this.ship, 2)
-                console.log(this.bonusType)
-              }
-              return;
-            }  
-          }
-          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
-            if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
-              this.bonusArray.delete(bonus);
-              bonus.type = this.typeBonus[this.randomNumber(0,2)];
-              this.bonusType = bonus.type;
-              if(this.bonusType === 1)
-              {
-                this.ship.HP = this.getShipHP(this.ship, 2)
-                console.log(this.bonusType)
-              }
-              return;
+        if (this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX) {
+          if (this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY) {
+            this.bonusArray.delete(bonus);
+            bonus.type = this.typeBonus[this.randomNumber(0, 2)];
+            this.bonusType = bonus.type;
+            if (this.bonusType === 1) {
+              this.ship.HP = this.getShipHP(this.ship, 2)
+              console.log(this.bonusType)
             }
+            return;
           }
-          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
-            if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX  + this.ship.width > bonus.posX){
-              this.bonusArray.delete(bonus);
-              bonus.type = this.typeBonus[this.randomNumber(0,2)];
-              this.bonusType = bonus.type;
-              if(this.bonusType === 1)
-              {
-                this.ship.HP = this.getShipHP(this.ship, 2)
-                console.log(this.bonusType)
-              }
-              return;
+        }
+        if (this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width > bonus.posX) {
+          if (this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY) {
+            this.bonusArray.delete(bonus);
+            bonus.type = this.typeBonus[this.randomNumber(0, 2)];
+            this.bonusType = bonus.type;
+            if (this.bonusType === 1) {
+              this.ship.HP = this.getShipHP(this.ship, 2)
+              console.log(this.bonusType)
             }
-          }    
+            return;
+          }
+        }
+        if (this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY) {
+          if (this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX) {
+            this.bonusArray.delete(bonus);
+            bonus.type = this.typeBonus[this.randomNumber(0, 2)];
+            this.bonusType = bonus.type;
+            if (this.bonusType === 1) {
+              this.ship.HP = this.getShipHP(this.ship, 2)
+              console.log(this.bonusType)
+            }
+            return;
+          }
+        }
+        if (this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY) {
+          if (this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width > bonus.posX) {
+            this.bonusArray.delete(bonus);
+            bonus.type = this.typeBonus[this.randomNumber(0, 2)];
+            this.bonusType = bonus.type;
+            if (this.bonusType === 1) {
+              this.ship.HP = this.getShipHP(this.ship, 2)
+              console.log(this.bonusType)
+            }
+            return;
+          }
+        }
       }
     }, 200);
-  
-}
+
+  }
 
   //DeclarationMethode movementShip
-  movementShip(){
+  movementShip() {
     this.PauseShip = setInterval(() => {
-                        if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
-                          this.ship.posX = this.ship.posX + 10;
-                        }
-                        if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
-                          this.ship.posX = this.ship.posX - 10;
-                        }
-                        if (this.mvUp && this.ship.posY > 0) {
-                          this.ship.posY = this.ship.posY - 10;
-                        }
-                        if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
-                          this.ship.posY = this.ship.posY + 10;
-                        }
-                      }, 50);
-    }
+      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width / 2 - 10) {
+        this.ship.posX = this.ship.posX + 10;
+      }
+      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+        this.ship.posX = this.ship.posX - 10;
+      }
+      if (this.mvUp && this.ship.posY > 0) {
+        this.ship.posY = this.ship.posY - 10;
+      }
+      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+        this.ship.posY = this.ship.posY + 10;
+      }
+    }, 50);
+  }
 
   //DeclarationMethode multiAction
   multiAction() {
@@ -768,26 +785,26 @@ moveBonusAndCollision() {
           }
         }
         // with boss
-        if (this.boss) {
-        console.log(this.boss.HP)
-        if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
-          if (ammo.posY < this.boss.posY + this.boss.height) {
-            this.boss.HP -= 1;
-            this.ammos.delete(ammo);
-            return;
+        if (this.boss !=undefined) {
+          console.log(this.boss.HP)
+          if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
+            if (ammo.posY < this.boss.posY + this.boss.height) {
+              this.boss.HP -= 1;
+              this.ammos.delete(ammo);
+              return;
+            }
           }
-        }
-        if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
-          if (ammo.posY < this.boss.posY + this.boss.height) {
-            this.boss.HP -= 1;
-            this.ammos.delete(ammo);
+          if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
+            if (ammo.posY < this.boss.posY + this.boss.height) {
+              this.boss.HP -= 1;
+              this.ammos.delete(ammo);
+            }
           }
-        }
-        if (this.boss.HP <= 0) {
-          this.boss = undefined;
+          if (this.boss.HP <= 0) {
+            this.boss = undefined;
+          }
         }
       }
-    }
     }, 100);
   }
 
@@ -803,7 +820,7 @@ moveBonusAndCollision() {
     clearTimeout(this.PauseFireAmmo);
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
-    clearTimeout(this.PauseBossAmmoMove);
+    clearTimeout(this.pauseBossAmmoMove);
     clearTimeout(this.pauseBonus);
     clearTimeout(this.PauseObstacle);
     clearTimeout(this.obstaclePause);
