@@ -47,6 +47,7 @@ export class GameService {
   sound: boolean = true;
   mySoundShoot = new Audio(`../../../assets/Bruitage/tir35db.mp3`);
   mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
+  position : number = 0;
 
 
   shipTypes: Object[] = [
@@ -446,14 +447,39 @@ export class GameService {
       this.boss.posY = this.boss.posY + 5;
       if (this.boss.posY === 50) {
         clearTimeout(stopMoveBoss);
-
+        this.bossDance()
       }
     }, 50);
-
   }
   
   bossDance() {
-    let diagDownRight = setInterval(() => {
+    setInterval(()=>{
+      switch (this.position){
+        case 0:
+          if(this.boss.posX<this.game.maxX-800){
+            this.boss.posX +=4;
+            this.boss.posY +=4;
+          }
+          else{this.position = 1;}
+          break;
+        case 1:
+          if(this.boss.posY>200){
+            this.boss.posX +=4;
+            this.boss.posY -=4;
+          }
+          else{this.position = 2;}
+          break;
+        case 2:
+          if(this.boss.posY>0){
+            this.boss.posX -=4;
+            this.boss.posY -=4;
+          }
+          else{this.position = 3;}
+          break;
+      }
+    },50)
+  }
+    /* let diagDownRight = setInterval(() => {
       this.boss.posX += 6;
       this.boss.posY += 6;
       setTimeout(()=>{
@@ -480,9 +506,16 @@ export class GameService {
     this.boss.posX -= 10;
     this.boss.posY += 8;
     setTimeout(()=>{
-      this.bossUpLeft();
-    },7000)
+      this.bossDownRight();
+    },2500)
   }  
+  bossDownRight() {
+    this.boss.posX -= 10;
+    this.boss.posY -= 6;
+    setTimeout(()=>{
+      this.bossDownRight();
+    },2500)
+  }   */
   
 
   bossShoot() {
