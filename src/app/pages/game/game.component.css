@@ -5,13 +5,14 @@
     width: 100%;
     background:url(src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg);
     display: flex;
+    background-size: cover;
     flex-direction: row;
 }
 
 
 
 .gameContainer{
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     height: 100vh;      
     background:url(src/assets/img/Tileable_Background_Images2.jpg);
