@@ -25,8 +25,8 @@
                         <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
                         <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
                     </div>
-            <h3> Boss Life : </h3>
-                <mat-progress-bar class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="100"></mat-progress-bar>
+            <h3 *ngIf='this.gameService.bossCreated'> Boss Life : </h3>
+                <mat-progress-bar *ngIf='this.gameService.bossCreated' class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
             <div class="bonus">
                 Pas de bonus en cours
             </div>

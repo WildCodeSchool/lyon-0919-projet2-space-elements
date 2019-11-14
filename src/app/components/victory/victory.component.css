@@ -1,0 +1,20 @@
+.containerVictory {
+    height: 570px;
+    width: 1300px;
+    background-image: url('http://sainpublications.com/wp-content/uploads/2017/01/victory-004.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    padding: 0px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+button{
+    width: 256px;
+    height: 50px;
+    font-size: 32px;
+    cursor: pointer;
+    outline-style:none;
+}

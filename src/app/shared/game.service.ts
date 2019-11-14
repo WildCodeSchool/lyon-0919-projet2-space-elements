@@ -6,6 +6,8 @@ import { Game } from './game';
 import { Boss } from './boss';
 import { Obstacle } from './obstacle';
 import { Bonus } from './bonus';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { VictoryComponent } from '../components/victory/victory.component';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +49,7 @@ export class GameService {
   sound: boolean = true;
   mySoundShoot = new Audio(`../../../assets/Bruitage/tir35db.mp3`);
   mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
+  mySoundBossExplosion = new Audio('../../assets/Bruitage/bossexplosion.mp3')
 
 
   shipTypes: Object[] = [
@@ -138,9 +141,10 @@ export class GameService {
   game: Game = new Game;
   enemykill = 0;
   bossCreated: boolean = false;
+  bossKill : number = 0 ;
 
 
-  constructor() {
+  constructor( public dialog : MatDialog,) {
 
     // mouvement
     this.movementShip();
@@ -378,6 +382,12 @@ export class GameService {
         ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 53, this.ship.posY - 10);
         break;
     }
+      if ( this.sound === true){
+        this.mySoundShoot.play();
+      }
+      else{
+        this.mySoundShoot.pause();
+      }   
     return this.ammos.add(ammo);
   }
 
@@ -420,9 +430,8 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     } 
-    else if (this.enemyCount === 91 && this.bossCreated === false) {
+    else  if (this.enemyCount === 91 && this.bossCreated === false) {
       setTimeout(() => {
-        //let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
         this.boss = new Boss(950, -300, this.bossSkin[0]);
         this.bossCreated = true;
         this.bossMoveDown();
@@ -802,13 +811,26 @@ export class GameService {
           }
           if (this.boss.HP <= 0) {
             this.boss = undefined;
+            this.bossCreated = false;
+            this.mySoundBossExplosion.play()
+            this.bossKill = this.bossKill + 1;
+            this.openVictory();
+            return this.bossCreated;
           }
         }
       }
     }, 100);
   }
 
-
+   //Victory Modal
+   openVictory() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.hasBackdrop = true;
+    this.dialog.open(VictoryComponent, { panelClass: 'custom-dialogGameOver-container' });
+    this.pauseGame();
+   }
 
   //Pause du game
   pauseGame() {
