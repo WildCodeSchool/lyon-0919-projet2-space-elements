@@ -15,6 +15,7 @@ import { Bonus } from 'src/app/shared/bonus';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
+import { VictoryComponent } from 'src/app/components/victory/victory.component';
 
 
 
@@ -245,20 +246,12 @@ currentState = 'fire';
     return this.valueLifePercentage;
   }
   //Display Boss lifeBar
- /*  getLifePercentageBoss(){
-    if ( this.bossCreated === true ){
-      if ( this.gameService.boss.HP <= 0 && this.gameOver < 1){
-        this.bossCreated = false;
-        this.gameOver  = this.gameOver + 1;
-        this.openGameOver(); 
-      }
-      
-    }
+  getLifePercentageBoss(){
     return this.gameService.boss.HP;
   }
- */
-
  
+
+
 
   //Game Over Modal
     openGameOver() {
