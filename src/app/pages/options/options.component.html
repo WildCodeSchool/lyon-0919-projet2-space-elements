@@ -1,24 +1,43 @@
-<div class="playerChoice">
+<div id="background">
+    <div class="playerChoice">
 </div>
+
 <div class="options">
-    <div class="shipChoice">
-        <label>Choose your ship</label>
-        <div class="ships">
-            <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)">
-                <img [style.width.px]= "ship.size" src="{{ ship.url }}">
+
+    <h1>OPTIONS</h1> 
+
+</div>
+
+<div id="compContainer">
+
+    <div [@dropMenus]=currentState id="chooseShip">
+
+        <div *ngIf = "showComponents" id="shipChoice">
+
+                <div class="ships">
+                    <h2>Choose your ship</h2>
+                    <div id="twoShips">
+                        <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)">
+                            <img [style.width.px]= "ship.size" src="{{ ship.url }}">
+                        </div>
+                    </div>    
+                </div>                   
             </div>
-        </div>
-        
     </div>
-    <div class="controls">
-            <h2>Controls</h2>
-            <img src="../assets/img/controls.png">
+
+    <div [@dropMenus]=currentState id="displayControls">
+            <div *ngIf = "showComponents" id="controls">
+                <h2>Controls</h2>
+                <img src="../assets/options_page/controls_img.png">
+            </div>
     </div>
+
 </div>
-<div class="stageCode">
-    <label>Stage Code ?</label><br/>
-    <input [(ngModel)]="stageCode" type="text"><br/>
-</div>
-<div class="buttonPlay">
-    <button (click)="goToGame(id)"><a routerLink='/game'>PLAY</a></button>
-</div>
+
+    <div id="stageCode">
+        <input scale-in-hor-centern [(ngModel)]="stageCode" type="text" placeholder="enter stage code to continue your game"><br/>
+    </div>
+    
+ 
+<button class = "scale-in-hor-center" routerLink ='/game' id = "playButton" (click)="goToGame(id)">PLAY</button>
+
