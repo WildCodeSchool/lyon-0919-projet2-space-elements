@@ -1,8 +1,11 @@
 <div class="frame"> 
     <div class="shipLife">
-        <h1>Score : {{ getScore() }} </h1>
-        <h1> My Ship Life : </h1>
-        <mat-progress-bar class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+            <div class="score">
+                    <h3>Score : {{ getScore() }} </h3>
+            </div>
+        <h3> My Ship Life : </h3>
+            <mat-progress-bar class="progressBar" mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+      
         <div class="weelOfElements">
             <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
         </div>
@@ -18,12 +21,16 @@
        
     </div>
     <div class="bossLife">
-        <h2> Boss Life : </h2>
-        <mat-progress-bar class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
-        <div class='imgGame'>
-            <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
-            <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
+            <div class='imgGame'>
+                    <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
+                    <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
+                </div>
+        <h3> Boss Life : </h3>
+            <mat-progress-bar class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
+        <div class="bonus">
+            Pas de bonus en cours
         </div>
+     
     </div>
    
 </div>

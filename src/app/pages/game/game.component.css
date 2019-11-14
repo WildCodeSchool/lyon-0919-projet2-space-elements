@@ -1,11 +1,7 @@
 .frame{
-    font-size: 10px;
-    width: 100%;
-    padding:0;
-    margin:0;
-    top:0;
-    left:0;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
+    height: 100%;
     width: 100%;
     background-color: burlywood;
     display: flex;
@@ -15,60 +11,77 @@
 .gameContainer{
     width: 80%;
     margin: 0 auto;
-    height: 100vh;
+    height: 100%;
     background-color: black;
-  
-}
-
-.Life{
-    margin-top: 5%;
-    margin-left: -9%;
 }
 
 .shipLife
 {
-    height: 100vh;
-    margin: auto;
     display: flex;
     flex-direction: column;
     width: 10%;
-    text-align: center;
-    justify-content: space-between
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+h3{
+    margin: 0;
+    padding: 0;
+}
+
+.bonus
+{
+    margin-bottom: 50px;
 }
 
 .bossLife
 {
-    height: 100vh;
-    margin: auto;
     display: flex;
     flex-direction: column;
     width: 10%;
-    text-align: center;
+    height: 100%;
     justify-content: space-around;
-}
-.imgGame{
-    display: flex;
-    justify-content: center;
-    
+    align-items: center;
 }
 
-.imgGame img{
-      margin: 0px;
+.score{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 
-.progressBar {
-    height: 3%;
-    width: 150px;
-    transform: rotate(-90deg);
+.progressBar
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
 }
 
-.progressBarBoss{
+.progressBarBoss
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
+}
 
-    height: 3%;
-    width: 150px;
-    transform: rotate(-90deg);
-} 
+.bonus
+{
+    text-align: center;
+}
+
+mat-progress-bar{
+    transform: rotate(270deg);
+    height: 15px;
+    width: 100%;
+    border-radius: 5px;
+}
+
 
 .modal{
     position: fixed;
@@ -84,23 +97,26 @@
     height: 900px;
     margin : auto;
     background-color: rgb(115, 143, 113);
-   }
-.Pause{
-    color: white;
-    font-size: 150px;
-    margin: auto;
-    text-align: center;
-    margin-top: -15%;
+  }
+
+.imgGame
+{
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0;
 }
+
 .sound{
-    height: 50px;
-    width: 50px;
+    margin: 2px;
+    padding: 0;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
 }
 
 dialog { 
     border: none !important;
   }
-
   
   

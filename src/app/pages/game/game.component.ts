@@ -106,7 +106,7 @@ currentState = 'fire';
     
     
   ngOnInit() {
-    this.SoundGameInit()
+   // this.SoundGameInit()
   }
 
   //Get the game mensurations
