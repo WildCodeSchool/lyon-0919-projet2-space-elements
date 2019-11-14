@@ -1,38 +1,85 @@
 .frame{
     padding:0;
     margin:0;
-    top:0;
-    left:0;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    background-color: burlywood;
-    
+    background:url(src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg);
+    display: flex;
+    flex-direction: row;
 
 }
+
 .gameContainer{
     width: 80%;
     margin: 0 auto;
-    height: 100vh;
-    background-color: black;
-    /* display: flex; */
-    /* justify-content: center;     */
-}
+    height: 100vh;      
+    background:url(src/assets/img/Tileable_Background_Images2.jpg);
+    background-size: cover;
+    -webkit-animation:200s scroll infinite linear;
+    -moz-animation:200s scroll infinite linear;
+    -o-animation:200s scroll infinite linear;
+    -ms-animation:200s scroll infinite linear;
+    animation:200s scroll infinite linear;
+  }
+  
+
+  
+  @-webkit-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-moz-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-o-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-ms-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
 
 h2{
-    color: white;
-    margin: auto;
+    margin-top:0;
+    color: rgba(239, 92, 16, 0.8);
+    letter-spacing: 5px;
     margin-left: -12%;
     font-size: 32px;
 }
+
+h3{
+    color: rgba(239, 92, 16, 0.8);
+    letter-spacing: 5px;
+    margin-left: -12%; 
+    font-size: 32px;
+}
+
 .Life{
-    margin-top: 5%;
     margin-left: -9%;
 }
+
 
 .DoubleBarLife{
     display : flex;
     flex-direction: column;
     justify-content: space-between;
+    color: blue;
     transform: rotate(-90deg);
     height: 9%;
     align-items: end;
