@@ -312,7 +312,6 @@ currentState = 'fire';
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
             if ( this.gameService.sound === true){
-              this.gameService.mySoundShoot.play()
               console.log('le son est joué')
             }
             else{
@@ -360,11 +359,11 @@ currentState = 'fire';
   //SoundGameInit
   SoundGameInit(){
     if ( this.gameService.sound === true){
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.play();
     }
     else{
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.pause();
     }
   }

@@ -373,6 +373,7 @@ export class GameService {
         ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 53, this.ship.posY - 10);
         break;
     }
+    this.mySoundShoot.play()
     return this.ammos.add(ammo);
   }
 
