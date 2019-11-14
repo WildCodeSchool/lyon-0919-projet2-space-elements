@@ -15,6 +15,7 @@ import { Bonus } from 'src/app/shared/bonus';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
+import { VictoryComponent } from 'src/app/components/victory/victory.component';
 
 
 
@@ -245,20 +246,12 @@ currentState = 'fire';
     return this.valueLifePercentage;
   }
   //Display Boss lifeBar
- /*  getLifePercentageBoss(){
-    if ( this.bossCreated === true ){
-      if ( this.gameService.boss.HP <= 0 && this.gameOver < 1){
-        this.bossCreated = false;
-        this.gameOver  = this.gameOver + 1;
-        this.openGameOver(); 
-      }
-      
-    }
+  getLifePercentageBoss(){
     return this.gameService.boss.HP;
   }
- */
-
  
+
+
 
   //Game Over Modal
     openGameOver() {
@@ -313,7 +306,6 @@ currentState = 'fire';
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
             if ( this.gameService.sound === true){
-              this.gameService.mySoundShoot.play()
               console.log('le son est joué')
             }
             else{
@@ -361,11 +353,11 @@ currentState = 'fire';
   //SoundGameInit
   SoundGameInit(){
     if ( this.gameService.sound === true){
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.play();
     }
     else{
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.pause();
     }
   }

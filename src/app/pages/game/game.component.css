@@ -1,64 +1,126 @@
 .frame{
     padding:0;
     margin:0;
-    top:0;
-    left:0;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    background-color: burlywood;
-    
-
+    background:url(src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg);
+    display: flex;
+    flex-direction: row;
 }
+
+
+
 .gameContainer{
     width: 80%;
     margin: 0 auto;
-    height: 100vh;
-    background-color: black;
-    /* display: flex; */
-    /* justify-content: center;     */
-}
+    height: 100vh;      
+    background:url(src/assets/img/Tileable_Background_Images2.jpg);
+    background-size: cover;
+    -webkit-animation:200s scroll infinite linear;
+    -moz-animation:200s scroll infinite linear;
+    -o-animation:200s scroll infinite linear;
+    -ms-animation:200s scroll infinite linear;
+    animation:200s scroll infinite linear;
+  }
+  
+  
+  @-webkit-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-moz-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-o-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-ms-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
 
-h2{
-    color: white;
-    margin: auto;
-    margin-left: -12%;
-    font-size: 32px;
-}
-.Life{
-    margin-top: 5%;
-    margin-left: -9%;
-}
-
-.DoubleBarLife{
-    display : flex;
+.shipLife
+{
+    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transform: rotate(-90deg);
-    height: 9%;
-    align-items: end;
+    width: 10%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.progressBar {
-    width: 600px;
-    margin-top: -54%;
+
+h3{
+    margin: 0;
+    padding: 0;
 }
 
-.progressBarBoss{
-    width: 600px;
-    margin-bottom: -54%;
-} 
+.bonus
+{
+    margin-bottom: 50px;
+}
+
+.bossLife
+{
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.score{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.progressBar
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
+}
+
+.progressBarBoss
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
+}
+
+.bonus
+{
+    text-align: center;
+}
 
 mat-progress-bar{
-    height: 30px;
-    width: 90%;
+    transform: rotate(270deg);
+    height: 15px;
+    width: 100%;
+    border-radius: 5px;
 }
 
-
-.weelOfElements{
-    position: relative;
-    top:30%;
-    left:-10%;
-}
 
 .modal{
     position: fixed;
@@ -74,34 +136,27 @@ mat-progress-bar{
     height: 900px;
     margin : auto;
     background-color: rgb(115, 143, 113);
-   }
-.Pause{
-    color: white;
-    font-size: 150px;
-    margin: auto;
-    text-align: center;
-    margin-top: -15%;
+  }
+
+.imgGame
+{
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0;
 }
+
 .sound{
-    height: 50px;
-    width: 50px;
+    margin: 2px;
+    padding: 0;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
-    margin-left: 105%;
-    margin-top: 40%;
 }
 
 dialog { 
     border: none !important;
   }
 
-  .imgGame{
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    align-content: space-between;
-    margin-top: 48%;
-  }
   
   

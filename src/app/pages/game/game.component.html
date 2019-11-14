@@ -1,33 +1,41 @@
-<div class="frame">
-    <div class="gameContainer" #gameContainerElt>
-        <h2>Score : {{ getScore() }} </h2>
-        <h2 class='Life'> Life : </h2>
-        <div class ="DoubleBarLife">
-            <div class="progressBar">
-                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
-            </div>
-            <div class="progressBarBoss" *ngIf='this.gameService.bossCreated' >
-                <mat-progress-bar mode="determinate" [color]="'warn'" [value]="0"></mat-progress-bar>
-            </div>
-        </div>
-        <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
-        <app-obstacle [obstacle]='obstacle' *ngFor="let obstacle of obstacles"></app-obstacle>
-        <app-bonus [bonus]="bonus" *ngFor="let bonus of bonusArray"></app-bonus>
-        <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
-        <app-ship [ship]='ship'></app-ship>
-        <app-boss [boss]='gameService.boss' *ngIf="gameService.boss"></app-boss>
-        <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
-        <div class='imgGame'>
-            <div>
-                <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
-                <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
-            </div>
+<div class="frame"> 
+        <div class="shipLife">
+                <div class="score">
+                        <h3>Score : {{ getScore() }} </h3>
+                </div>
+            <h3> My Ship Life : </h3>
+                <mat-progress-bar class="progressBar" mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
+          
             <div class="weelOfElements">
                 <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
             </div>
+        </div>  
+        <div class="gameContainer" #gameContainerElt>
+            <app-enemy [enemy]='enemy' *ngFor = 'let enemy of enemies'></app-enemy>
+            <app-obstacle [obstacle]='obstacle' *ngFor="let obstacle of obstacles"></app-obstacle>
+            <app-bonus [bonus]="bonus" *ngFor="let bonus of bonusArray"></app-bonus>
+            <app-ammo [ammo]='ammo' *ngFor='let ammo of ammos'></app-ammo>   
+            <app-ship [ship]='ship'></app-ship>
+            <app-boss [boss]='gameService.boss'></app-boss>
+            <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
+           
         </div>
+        <div class="bossLife">
+                <div class='imgGame'>
+                        <img class="sound" id='SoundNoMuted' (click)="SoundMuted()" src="https://www.icone-png.com/png/20/20456.png" style="display: block"/>
+                        <img class="sound" id='SoundMuted' (click)="SoundMuted()" src="../../../assets/img/SoundMuted.png" style="display: none"/>
+                    </div>
+            <h3 *ngIf='this.gameService.bossCreated'> Boss Life : </h3>
+                <mat-progress-bar *ngIf='this.gameService.bossCreated' class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
+            <div class="bonus">
+                Pas de bonus en cours
+            </div>
+         
+        </div>
+       
     </div>
-</div>
-
-
-
+    
+    
+    
+    
+    
