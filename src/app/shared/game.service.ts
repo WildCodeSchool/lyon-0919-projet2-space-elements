@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Ammo } from './ammo';
 import { Ship } from './ship';
-import { Enemy} from 'src/app/shared/enemy';
+import { Enemy } from 'src/app/shared/enemy';
 import { Game } from './game';
 import { Boss } from './boss';
+import { Obstacle } from './obstacle';
+import { Bonus } from './bonus';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,11 @@ import { Boss } from './boss';
 export class GameService {
  
   enemies : Set<Enemy> = new Set<Enemy>();
+  obstacles : Set<Obstacle> = new Set<Obstacle>();
   ammos : Set<Ammo> = new Set<Ammo>();
+  bonusArray : Set<Bonus> = new Set<Bonus>();
   types : string[] = ['fire','water','air','earth'];
+  bossAmmos: Set<Ammo> = new Set<Ammo>();
   isShoot: boolean = false;
   mvLeft: boolean = false;
   mvRight: boolean = false;
@@ -23,65 +28,112 @@ export class GameService {
   mvDownRight: boolean = false;
   mvDownLeft: boolean = false;
   enemyCount: number = 1;
+  obstacleCount: number = 1;
+  bonusCount: number = 1;
+  bonusType: number;
+  obstaclePause: any;
   intervalNumberEnemyLvl1: any;
   intervalNumberEnemyLvl2: any;
   intervalNumberEnemyLvl3: any;
   intervalNumberEnemyLvl4: any;
+  intervalNumberObstacleLvl1: any;
   PausemoveEnemy : any;
+  pauseBonus: any;
+  PauseObstacle
   PauseFireAmmo : any;
   PauseShip : any;
   PauseAmmoMove : any;
+  sound : boolean = true;
+  mySoundShoot= new Audio(`../../../assets/Bruitage/tir35db.mp3`);
+  mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
+  PauseBossAmmoMove: any;
 
-  shipTypes : Object[] = [
-    {'name' : 'fire', 'url' : '/assets/img/ship_fire.png' },
-    {'name': 'air', 'url' : '/assets/img/ship_air.png'},
-    {'name': 'earth', 'url' : '/assets/img/ship_earth.png'},
-    {'name' : 'water', 'url' : '/assets/img/ship_water.png'},
-    ];
-  
-  enemyTypes : Object[] = [
-    {'name' : 'fire', 'url' :[ '/assets/img/enemy_fire.png',
-                              '/assets/img/enemy_fire_HP2.png',
-                              '/assets/img/enemy_fire_HP1.png']},
-    {'name': 'air', 'url' : ['/assets/img/enemy_air.png',
-                            '/assets/img/enemy_air_HP2.png',
-                            '/assets/img/enemy_air_HP1.png']},
-    {'name': 'earth', 'url' : ['/assets/img/enemy_earth.png',
-                              '/assets/img/enemy_earth_HP2.png',
-                              '/assets/img/enemy_earth_HP1.png']},
-    {'name' : 'water', 'url' : ['/assets/img/enemy_water.png',
-                                '/assets/img/enemy_water_HP2.png',
-                                '/assets/img/enemy_water_HP1.png']},
-    ];
-  ammoTypes : Object[] = [
-    {'name' : 'fire', 'url' : '/assets/img/ammo_fire.png'},
-    {'name': 'air', 'url' : '/assets/img/ammo_air.png'},
-    {'name': 'earth', 'url' : '/assets/img/ammo_earth.png'},
-    {'name' : 'water', 'url' : '/assets/img/ammo_water.png'},
-    ];
-  
-  enemyHP : Object [] = [
-    {'HP' : 3, 'url' : '/assets/img/ammo_fire.png'},
-  ]  
+  shipTypes: Object[] = [
+    { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
+    { 'name': 'air', 'url': '/assets/img/ship_air.png' },
+    { 'name': 'earth', 'url': '/assets/img/ship_earth.png' },
+    { 'name': 'water', 'url': '/assets/img/ship_water.png' },
+  ];
 
-  ship : Ship = {
-    id : 0,
-    url : '',
+  enemyTypes: Object[] = [
+    {
+      'name': 'fire', 'url': ['/assets/img/enemy_fire.png',
+        '/assets/img/enemy_fire_HP1.png',
+        '/assets/img/enemy_fire_HP2.png']
+    },
+    {
+      'name': 'air', 'url': ['/assets/img/enemy_air.png',
+        '/assets/img/enemy_air_HP1.png',
+        '/assets/img/enemy_air_HP2.png']
+    },
+    {
+      'name': 'earth', 'url': ['/assets/img/enemy_earth.png',
+        '/assets/img/enemy_earth_HP1.png',
+        '/assets/img/enemy_earth_HP2.png']
+    },
+    {
+      'name': 'water', 'url': ['/assets/img/enemy_water.png',
+        '/assets/img/enemy_water_HP1.png',
+        '/assets/img/enemy_water_HP2.png']
+    },
+  ];
+  ammoTypes: Object[] = [
+    { 'name': 'fire', 'url': '/assets/img/ammo_fire.png' },
+    { 'name': 'air', 'url': '/assets/img/ammo_air.png' },
+    { 'name': 'earth', 'url': '/assets/img/ammo_earth.png' },
+    { 'name': 'water', 'url': '/assets/img/ammo_water.png' },
+  ];
+
+  obstaclesImg: String[] = [
+    '/assets/img/asteroid2.png',
+    '/assets/img/asteroid3.png'
+  ]
+
+  typeBonus: number[] = [0,1];
+
+ 
+  enemyHP: Object[] = [
+    { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
+  ]
+  shipSkin: string[][] = [
+    ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
+    ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
+    ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
+    ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
+  ]
+  enemySkin: string[][] = [
+    ["url('/assets/img/enemy_air.png')", "url('/assets/img/enemy_air1.png')"],
+    ["url('/assets/img/enemy_fire.png')", "url('/assets/img/enemy_fire1.png')"],
+    ["url('/assets/img/enemy_earth.png')", "url('/assets/img/enemy_earth1.png')"],
+    ["url('/assets/img/enemy_water.png')", "url('/assets/img/enemy_water1.png')"],
+    ["url('/assets/img/enemy_air_HP1.png')", "url('/assets/img/enemy_air_HP11.png')"],
+    ["url('/assets/img/enemy_fire_HP1.png')", "url('/assets/img/enemy_fire_HP11.png')"],
+    ["url('/assets/img/enemy_earth_HP1.png')", "url('/assets/img/enemy_earth_HP11.png')"],
+    ["url('/assets/img/enemy_water_HP1.png')", "url('/assets/img/enemy_water_HP11.png')"],
+    ["url('/assets/img/enemy_air_HP2.png')", "url('/assets/img/enemy_air_HP21.png')"],
+    ["url('/assets/img/enemy_fire_HP2.png')", "url('/assets/img/enemy_fire_HP21.png')"],
+    ["url('/assets/img/enemy_earth_HP2.png')", "url('/assets/img/enemy_earth_HP21.png')"],
+    ["url('/assets/img/enemy_water_HP2.png')", "url('/assets/img/enemy_water_HP21.png')"],
+  ]
+
+  ship: Ship = {
+    id: 0,
+    url: '',
     posX: 0,
     posY: 880,
-    height : 133,
-    width : 124,
-    size : 0,
-    HP: 1,
+    height: 133,
+    width: 124,
+    size: 0,
+    HP: 10,
     type: this.shipTypes[0],
   };
-  
+
   boss: Boss;
-  game : Game = new Game;
+  game: Game = new Game;
   enemykill = 0;
   bossCreated: boolean = false;
 
-  
+
   constructor() {
 
     // mouvement
@@ -90,51 +142,101 @@ export class GameService {
     this.multiAction();
     // Ammo moving and killing enemy
     this.ammoMove();
+    // BossAmmo moving and damaging ship
+    this.bossAmmoMove();
     //Move Enemy and Collision
-    this.moveEnemyAndCollision() 
+    this.moveEnemyAndCollision();
+    this.moveObstacleAndCollision(); 
+    this.moveBonusAndCollision();
     // Ship animation   
-    this.animShip()
-    console.log(this.shipTypes[0]['url'][1]);
-    console.log(this.ship.type['url']);
+    this.animShip();
+    // Enemy animation
+    this.animEnemy();
+
+  }
+
+  //Gestion des points de vie
+  getShipHP(ship: Ship, value: number){
+    ship.HP = ship.HP + value;
+    if(ship.HP < 0)
+    {
+      ship.HP = 0;
+    }
+    if(ship.HP > 10)
+    { ship.HP = 10}
+    return ship.HP;
+  }
+
+  //Function to add obstacles
+  addObstacle() {
+    this.obstaclePause = setInterval(() => {
+      let obstacleX = this.randomNumber(this.game.minX+130, this.game.maxX-130*2);    
+      let obstacle = new Obstacle(obstacleX-100 , -100);
+      obstacle.pic = this.setObstaclePic(obstacle);
+      this.obstacles.add(obstacle);
+      this.obstacleCount++;
+    }, 10000);
+  }
+
+  //function to add bonus or malus
+  addBonusMalus() {
+    setInterval(() => {
+      let bonusX = this.randomNumber(this.game.minX+100, this.game.maxX-100*2);    
+      let bonus = new Bonus(bonusX-100 , -100);
+      bonus.pic = this.setBonusPic(bonus);
+      console.log(bonus.pic)
+      this.bonusArray.add(bonus);
+      this.bonusCount++;
+    }, 50000);
+  }
+
+
+  //Function to move obstacles
+  moveObstacle(obstacle: Obstacle){
+    if (obstacle) {
+      if (obstacle.posY>this.game.maxY - obstacle.height) {
+        this.obstacles.delete(obstacle);
+      }
+      else {
+        obstacle.posY = obstacle.posY + 10;
+      }
+    }
+  }
+
+  //Function to move bonus
+  moveBonus(bonus: Bonus){
+    if (bonus) {
+      if (bonus.posY>this.game.maxY - bonus.height) {
+        this.bonusArray.delete(bonus);
+      }
+      else {
+        bonus.posY = bonus.posY + 2;
+      }
+    }
+  
   }
 
   // ship animation
   animShip() {
     setInterval(() => {
-        if (this.ship.type['url'] === '/assets/img/ship_fire.png') {
-          this.ship.type['url'] = '/assets/img/ship_fire1.png';
+      for (let i = 0; i < this.shipSkin.length; i++) {
+        if (this.ship.type['url'] === this.shipSkin[i][0]) {
+          this.ship.type['url'] = this.shipSkin[i][1];
         }
-        else if (this.ship.type['url'] === '/assets/img/ship_fire1.png') {
-          this.ship.type['url'] = '/assets/img/ship_fire.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_water.png') {
-          this.ship.type['url'] = '/assets/img/ship_water1.png';
+        else if (this.ship.type['url'] === this.shipSkin[i][1]) {
+          this.ship.type['url'] = this.shipSkin[i][0];
         }
-        else if (this.ship.type['url'] === '/assets/img/ship_water1.png') {
-          this.ship.type['url'] = '/assets/img/ship_water.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_earth.png') {
-          this.ship.type['url'] = '/assets/img/ship_earth1.png';
-        }
-        else if (this.ship.type['url'] === '/assets/img/ship_earth1.png') {
-          this.ship.type['url'] = '/assets/img/ship_earth.png';
-        }  
-        if (this.ship.type['url'] === '/assets/img/ship_air.png') {
-          this.ship.type['url'] = '/assets/img/ship_air1.png';
-        }
-        else if (this.ship.type['url'] === '/assets/img/ship_air1.png') {
-          this.ship.type['url'] = '/assets/img/ship_air.png';
-        }  
-    }, 200); 
+      }
+    }, 200);
   }
 
-  //Function to do damage
-  doDamage(ammo : Ammo,enemy: Enemy){
-    let truc = [[1,2,3],[2,3,0],[3,0,1],[0,1,2]]
-    for(let i=0; i<4; i++){   
-      switch(ammo.type){
+  //Function to do damage to enemies
+  doDamage(ammo: Ammo, enemy: Enemy) {
+    let truc = [[1, 2, 3], [2, 3, 0], [3, 0, 1], [0, 1, 2]]
+    for (let i = 0; i < 4; i++) {
+      switch (ammo.type) {
         case this.ammoTypes[i]:
-          switch(enemy.type){
+          switch (enemy.type) {
             case this.enemyTypes[truc[i][0]]:
               enemy.HP -= 3;
               break;
@@ -148,87 +250,134 @@ export class GameService {
         if(enemy.HP<=0){
           this.enemies.delete(enemy);
           this.enemykill = this.enemykill + 1;
+          if ( this.sound === true){
+            this.mySoundExplosion.play()
+          }
+          else{
+            this.mySoundExplosion.pause()
+          }
         }
         break;
       }
-  }
+    }
     return enemy.HP;
   }
-  //Function ToSeeDamage
-  VisuDamage(enemy : Enemy){
-
-  for(let i=0; i<4; i++){
-    switch(enemy.type){
-      case this.enemyTypes[i]:
-        switch(enemy.HP){
-          case 2 :
-            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][1]);
-            break; 
-          case 1 :
-            enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][2]);
-            break; 
-        }
+  //Function to do damage to ship with boss
+  doShipDamage(ammo: Ammo) {
+    let truc = [[1, 2, 3], [2, 3, 0], [3, 0, 1], [0, 1, 2]]
+    for (let i = 0; i < 4; i++) {
+      switch (ammo.type) {
+        case this.ammoTypes[i]:
+          switch (this.ship.type) {
+            case this.shipTypes[truc[i][0]]:
+              this.ship.HP -= 3;
+              break;
+            case this.shipTypes[truc[i][1]]:
+              this.ship.HP -= 2;
+              break;
+            case this.shipTypes[truc[i][2]]:
+              this.ship.HP -= 1;
+              break;
+          }
+          break;
+      }
     }
+    return this.ship.HP;
   }
-  return enemy.pic;
+
+
+  //Function ToSeeDamage on enemies
+  VisuDamage(enemy: Enemy) {
+    for (let i = 0; i < 4; i++) {
+      switch (enemy.type) {
+        case this.enemyTypes[i]:
+          switch (enemy.HP) {
+            case 2:
+              enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][1]);
+              break;
+            case 1:
+              enemy.pic = this.getUrlPicture(this.enemyTypes[i]['url'][2]);
+              break;
+          }
+      }
+    }
+    return enemy.pic;
   }
+
+  // anim Enemies
+  animEnemy() {
+    setInterval(() => {
+      for (let enemy of this.enemies) {
+        for (let i = 0; i < this.enemySkin.length; i++) {
+          if (enemy.pic === this.enemySkin[i][0]) {
+            enemy.pic = this.enemySkin[i][1];
+          }
+          else if (enemy.pic === this.enemySkin[i][1]) {
+            enemy.pic = this.enemySkin[i][0];
+          }
+        }
+      }
+    }, 200);
+  }
+
   //Function random
-  randomNumber(min : number, max : number) {  
-    return Math.floor(Math.random() * (max - min)+min);
+  randomNumber(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
   //get enemy pic url 
-  getEnnemyPicture(url) {
+  getUrlPicture(url) {
     return `url('${url}')`;
   }
-  
+
   //Functions to define the container size
-  setMaxX(widthTotal, sizeGameContainer){
-    this.game.maxX = (widthTotal*0.1) + sizeGameContainer;
+  setMaxX(widthTotal, sizeGameContainer) {
+    this.game.maxX = (widthTotal * 0.1) + sizeGameContainer;
     return this.game.maxX;
   }
-  setMinX(widthTotal){
-    this.game.minX = (widthTotal*0.1);
+  setMinX(widthTotal) {
+    this.game.minX = (widthTotal * 0.1);
     return this.game.minX;
   }
-  setMaxY(heightTotal){
+  setMaxY(heightTotal) {
     this.game.maxY = heightTotal;
     return this.game.maxY;
   }
-  setMinY(){
+  setMinY() {
     this.game.minY = 0;
     return this.game.minY;
   }
 
   //Position of the ship
-  setShipX(widthTotal){
-    this.ship.posX = widthTotal/2;
+  setShipX(widthTotal) {
+    this.ship.posX = widthTotal / 2;
   }
-  setShipY(heightTotal){
+  setShipY(heightTotal) {
     this.ship.posY = heightTotal - this.ship.height;
   }
 
   //Ammo addition and move
   addAmmo() {
-    let ammo : Ammo;
-    switch(this.ship.type){
-      case this.shipTypes[0] :
+    let ammo: Ammo;
+    switch (this.ship.type) {
+      case this.shipTypes[0]:
         ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 53, this.ship.posY - 10);
         break;
-      case this.shipTypes[1] :
+      case this.shipTypes[1]:
         ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 53, this.ship.posY - 10);
         break;
-    case this.shipTypes[2] :
+      case this.shipTypes[2]:
         ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 53, this.ship.posY - 10);
         break;
-    case this.shipTypes[3] :
+      case this.shipTypes[3]:
         ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 53, this.ship.posY - 10);
         break;
     }
-      return this.ammos.add(ammo);
+    return this.ammos.add(ammo);
   }
-  
-  moveAmmo(ammo: Ammo) : void {
+
+  //Ammo movement and delete
+  moveAmmo(ammo: Ammo): void {
     ammo.posY = ammo.posY - 15;
     if (ammo) {
       if (ammo.posY < 0) {
@@ -239,11 +388,22 @@ export class GameService {
       }
     }
   }
+  moveBossAmmo(bossAmmo: Ammo): void {
+    bossAmmo.posY = bossAmmo.posY + 30;
+    if (bossAmmo) {
+      if (bossAmmo.posY > this.game.maxY) {
+        this.bossAmmos.delete(bossAmmo);
+      }
+      else {
+        bossAmmo.posY = bossAmmo.posY + 5;
+      }
+    }
+  }
 
-  
+
   //Enemy addition
-  addEnemy(){
-    if  (this.enemyCount < 16) {
+  addEnemy() {
+    /* if (this.enemyCount < 16) {
       this.addEnemyLvl1();
     }
     else if (this.enemyCount < 36) {
@@ -255,28 +415,74 @@ export class GameService {
     else if (this.enemyCount < 91) {
       this.addEnemyLvl4();
     }
-    else if (this.enemyCount === 91) {
+    else   */if (this.enemyCount === 1) {
       setTimeout(() => {
-        let bossX = this.randomNumber(this.game.minX+300, this.game.maxX);
-        this.boss = new Boss(bossX-300, 0, 'red');
+        let bossX = this.randomNumber(this.game.minX + 300, this.game.maxX);
+        this.boss = new Boss(bossX - 300, 0, 'red', 100);
+        this.bossCreated = true;
+        console.log(this.bossCreated);
+        setInterval(() => {
+          this.bossShoot()
+        }, 1500)
       }, 5000);
     }
   }
+
+  bossShoot() {
+
+    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 150, this.boss.posY + 60);
+    this.bossAmmos.add(bossAmmo);
+
+  }
+
+  bossAmmoMove() {
+    this.PauseBossAmmoMove = setInterval(() => {
+      for (let bossAmmo of this.bossAmmos) {
+        this.moveBossAmmo(bossAmmo);
+        if ((bossAmmo.posX > this.ship.posX) && (bossAmmo.posX < this.ship.posX + this.ship.width)) {
+          if (bossAmmo.posY > this.ship.posY) {
+            this.ship.HP = this.doShipDamage(bossAmmo)
+            this.bossAmmos.delete(bossAmmo);
+            return;
+          }
+        }
+        if (bossAmmo.posX + bossAmmo.width > this.ship.posX && bossAmmo.posX + bossAmmo.width < this.ship.posX + this.ship.width) {
+          if (bossAmmo.posY > this.ship.posY) {
+            this.ship.HP = this.doShipDamage(bossAmmo)
+            this.bossAmmos.delete(bossAmmo);
+          }
+        }
+
+
+      }
+    }, 100);
+  }
+
+
   //Function to set enemy first pic
   setEnemyPic(enemy){
     for (let i =0; i<4; i++){
       if (enemy.type === this.enemyTypes[i]){
-        enemy.pic = this.getEnnemyPicture(this.enemyTypes[i]['url'][0]);
+        enemy.pic=this.getUrlPicture(this.enemyTypes[i]['url'][0]);
       }
     }
   }
 
+  setObstaclePic(obstacle){
+    let index = this.randomNumber(0, this.obstaclesImg.length+1)
+        return obstacle.pic=this.getUrlPicture(this.obstaclesImg[index]);
+  }
+
+  setBonusPic(bonus){
+        return bonus.pic = this.getUrlPicture(bonus.pic);
+  }
+  
   addEnemmies() {
-    let enemyX = this.randomNumber(this.game.minX+60, this.game.maxX);    
-      let enemy = new Enemy(this.enemyTypes[this.randomNumber(0,4)], enemyX-60 , -20);
-      this.setEnemyPic(enemy);
-      this.enemies.add(enemy);
-      this.enemyCount++;
+    let enemyX = this.randomNumber(this.game.minX + 60, this.game.maxX);
+    let enemy = new Enemy(this.enemyTypes[this.randomNumber(0, 4)], enemyX - 60, -20);
+    this.setEnemyPic(enemy);
+    this.enemies.add(enemy);
+    this.enemyCount++;
   }
   addEnemyLvl1() {
     this.intervalNumberEnemyLvl1 = setInterval(() => {
@@ -287,10 +493,10 @@ export class GameService {
       }
     }, 1700);
   }
-  
+
   addEnemyLvl2() {
     this.intervalNumberEnemyLvl2 = setInterval(() => {
-      this.addEnemmies();     
+      this.addEnemmies();
       if (this.enemyCount === 36) {
         clearInterval(this.intervalNumberEnemyLvl2);
         this.addEnemy();
@@ -300,7 +506,7 @@ export class GameService {
 
   addEnemyLvl3() {
     this.intervalNumberEnemyLvl3 = setInterval(() => {
-      this.addEnemmies();      
+      this.addEnemmies();
       if (this.enemyCount === 61) {
         clearInterval(this.intervalNumberEnemyLvl3);
         this.addEnemy();
@@ -310,7 +516,7 @@ export class GameService {
 
   addEnemyLvl4() {
     this.intervalNumberEnemyLvl4 = setInterval(() => {
-      this.addEnemmies();      
+      this.addEnemmies();
       if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
         console.log(this.enemyCount);
@@ -320,132 +526,276 @@ export class GameService {
   }
 
   // Enemy moves
-  moveEnemy(enemy: Enemy){
+   //test Fonction bouger l'ennemi horizontalement
+
+   moveEnemyX(enemy: Enemy)
+   {
+    enemy.posX = enemy.posX + Math.floor(Math.random()*20) - 10;
+     if(enemy.posX<this.game.minX)
+     {
+       enemy.posX = this.game.minX;
+     }
+     if(enemy.posX>this.game.maxX-60)
+     {
+       enemy.posX = this.game.maxX - (enemy.width+60*2);
+     }
+   }
+
+ 
+  moveEnemy(enemy: Enemy) {
     if (enemy) {
-      if (enemy.posY>this.game.maxY - enemy.height*2) {
+      if (enemy.posY > this.game.maxY - enemy.height * 2) {
         this.enemies.delete(enemy);
-        this.ship.HP = this.ship.HP - 3 ;
+        this.ship.HP = this.ship.HP - 3;
       }
       else {
-        if  (this.enemyCount < 16) {
+        if (this.enemyCount < 16) {
           enemy.posY = enemy.posY + 5;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount < 36) {
           enemy.posY = enemy.posY + 8;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount < 61) {
           enemy.posY = enemy.posY + 11;
+          this.moveEnemyX(enemy);
         }
         else if (this.enemyCount <= 91) {
           enemy.posY = enemy.posY + 14;
+          this.moveEnemyX(enemy);
         }
       }
     }
   }
 
-//moveEnemyAndCollision
-moveEnemyAndCollision() {
-  this.PausemoveEnemy =   setInterval(() => {
-    for (let enemy of this.enemies) {
-      this.moveEnemy(enemy);
-        if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
-          if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
+  //moveEnemyAndCollision
+  moveEnemyAndCollision() {
+    this.PausemoveEnemy = setInterval(() => {
+      for (let enemy of this.enemies) {
+        this.moveEnemy(enemy);
+        if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
+          if (this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP -1 ;
-            return;
-          }  
-        }
-        if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width> enemy.posX){
-          if ( this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY){
-            this.enemies.delete(enemy);
-            this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP -1 ;
-            return;
-          }  
-        }
-        if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
-          if ( this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX){
-            this.enemies.delete(enemy);
-            this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP -1 ;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
         }
-        if ( this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY ){
-          if ( this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX  + this.ship.width > enemy.posX){
+        if (this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width > enemy.posX) {
+          if (this.ship.posY < enemy.posY + enemy.height && this.ship.posY > enemy.posY) {
             this.enemies.delete(enemy);
+            this.mySoundExplosion.play()
             this.enemykill = this.enemykill + 1;
-            this.ship.HP = this.ship.HP -1 ;
+            this.ship.HP = this.getShipHP(this.ship, -1);
             return;
           }
-        }    
+        }
+
+        if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
+          if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
+            this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
+            this.enemykill = this.enemykill + 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
+        }
+        if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
+          if (this.ship.posX + this.ship.width < enemy.posX + enemy.width && this.ship.posX + this.ship.width > enemy.posX) {
+            this.enemies.delete(enemy);
+            this.mySoundExplosion.play();
+            this.enemykill = this.enemykill + 1;
+            this.ship.HP = this.getShipHP(this.ship, -1);
+            return;
+          }
+        }
+
       }
+
     }, 200);
+
+  }
+
+
+  moveObstacleAndCollision() {
+    this.PauseObstacle =   setInterval(() => {
+        for (let obstacle of this.obstacles) {
+          this.moveObstacle(obstacle);
+            if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX + this.ship.width> obstacle.posX){
+              if ( this.ship.posY < obstacle.posY + obstacle.height && this.ship.posY > obstacle.posY){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }  
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX < obstacle.posX + obstacle.width && this.ship.posX > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1);
+                return;
+              }
+            }
+            if ( this.ship.posY + this.ship.height < obstacle.posY + obstacle.height && this.ship.posY + this.ship.height > obstacle.posY ){
+              if ( this.ship.posX + this.ship.width < obstacle.posX + obstacle.width && this.ship.posX  + this.ship.width > obstacle.posX){
+                this.obstacles.delete(obstacle);
+                this.ship.HP = this.getShipHP(this.ship, -1) ;
+                return;
+              }
+            }    
+        }
+      }, 200);
     
   }
+
+  //moveBonusAndCollision
+moveBonusAndCollision() {
+  this.pauseBonus =   setInterval(() => {
+      for (let bonus of this.bonusArray) {
+        this.moveBonus(bonus);
+          if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX + this.ship.width> bonus.posX){
+            if ( this.ship.posY < bonus.posY + bonus.height && this.ship.posY > bonus.posY){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }  
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX < bonus.posX + bonus.width && this.ship.posX > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }
+          if ( this.ship.posY + this.ship.height < bonus.posY + bonus.height && this.ship.posY + this.ship.height > bonus.posY ){
+            if ( this.ship.posX + this.ship.width < bonus.posX + bonus.width && this.ship.posX  + this.ship.width > bonus.posX){
+              this.bonusArray.delete(bonus);
+              bonus.type = this.typeBonus[this.randomNumber(0,2)];
+              this.bonusType = bonus.type;
+              if(this.bonusType === 1)
+              {
+                this.ship.HP = this.getShipHP(this.ship, 2)
+                console.log(this.bonusType)
+              }
+              return;
+            }
+          }    
+      }
+    }, 200);
+  
+}
+
   //DeclarationMethode movementShip
   movementShip(){
     this.PauseShip = setInterval(() => {
-      if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
-        this.ship.posX = this.ship.posX + 10;
-      }
-      if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
-        this.ship.posX = this.ship.posX - 10;
-      }
-      if (this.mvUp && this.ship.posY > 0) {
-        this.ship.posY = this.ship.posY - 10;
-      }
-      if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
-        this.ship.posY = this.ship.posY + 10;
-      }
-    }, 50);
-  }
+                        if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width/2 - 10 ) {
+                          this.ship.posX = this.ship.posX + 10;
+                        }
+                        if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
+                          this.ship.posX = this.ship.posX - 10;
+                        }
+                        if (this.mvUp && this.ship.posY > 0) {
+                          this.ship.posY = this.ship.posY - 10;
+                        }
+                        if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
+                          this.ship.posY = this.ship.posY + 10;
+                        }
+                      }, 50);
+    }
 
   //DeclarationMethode multiAction
-  multiAction(){
+  multiAction() {
     this.PauseFireAmmo = setInterval(() => {
       if (this.isShoot) {
         this.addAmmo();
       }
     }, 120);
   }
-  //DeclarationMethode multiAction
-  ammoMove(){
-    this.PauseAmmoMove =  setInterval(() => {
+
+  //Ammo collision
+  ammoMove() {
+    this.PauseAmmoMove = setInterval(() => {
       for (let ammo of this.ammos) {
-            this.moveAmmo(ammo);
-        for (let enemy of this.enemies){
-          if((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)){
-            if(ammo.posY < enemy.posY + enemy.height){       
-              enemy.HP = this.doDamage(ammo,enemy)
+        this.moveAmmo(ammo);
+        // with enemies
+        for (let enemy of this.enemies) {
+          if ((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)) {
+            if (ammo.posY < enemy.posY + enemy.height) {
+              enemy.HP = this.doDamage(ammo, enemy)
               enemy.pic = this.VisuDamage(enemy);
               this.ammos.delete(ammo);
               return;
             }
           }
-          if(ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width){
-            if(ammo.posY < enemy.posY + enemy.height){       
-              enemy.HP = this.doDamage(ammo,enemy)
+          if (ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width) {
+            if (ammo.posY < enemy.posY + enemy.height) {
+              enemy.HP = this.doDamage(ammo, enemy)
               enemy.pic = this.VisuDamage(enemy);
               this.ammos.delete(ammo);
             }
-          }        
-
+          }
+        }
+        // with boss
+        if (this.boss) {
+        console.log(this.boss.HP)
+        if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+            return;
+          }
+        }
+        if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+          }
+        }
+        if (this.boss.HP <= 0) {
+          this.boss = undefined;
         }
       }
+    }
     }, 100);
   }
 
-  //Ouverture fenetre Modale GameOver
-  fenetreModale(): void {
-    let modaleGameOver = document.getElementById('GameOver');
-    modaleGameOver.style.display="block";
-    this.pauseGame();
-  }
-  
+
+
   //Pause du game
-  pauseGame(){
+  pauseGame() {
     clearTimeout(this.PausemoveEnemy);
     clearTimeout(this.intervalNumberEnemyLvl1);
     clearTimeout(this.intervalNumberEnemyLvl2);
@@ -454,15 +804,27 @@ moveEnemyAndCollision() {
     clearTimeout(this.PauseFireAmmo);
     clearTimeout(this.PauseShip);
     clearTimeout(this.PauseAmmoMove);
+    clearTimeout(this.PauseBossAmmoMove);
+    clearTimeout(this.pauseBonus);
+    clearTimeout(this.PauseObstacle);
+    clearTimeout(this.obstaclePause);
+
+
+
   };
 
   //Reprise du game
-  pauseGameReprise(){
+  pauseGameReprise() {
     this.moveEnemyAndCollision();
     this.addEnemy();
     this.movementShip();
     this.multiAction();
     this.ammoMove();
+    this.bossAmmoMove();
+    this.addObstacle();
+    this.moveObstacleAndCollision();
+    this.addBonusMalus();
+    this.moveBonusAndCollision();
   };
 }
 
