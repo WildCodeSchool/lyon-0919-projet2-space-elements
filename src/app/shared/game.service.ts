@@ -433,7 +433,7 @@ export class GameService {
     }  
     else */if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
-        this.boss = new Boss(950, -300, this.bossSkin[0]);
+        this.boss = new Boss(710, -300, this.bossSkin[0]);
         this.bossCreated = true;
         this.bossMoveDown();
         setTimeout(() => {
@@ -442,7 +442,7 @@ export class GameService {
 
           }, 1500)
 
-        }, 2000)
+        }, 5000)
 
       }, 2000);
       setTimeout(() => { this.bossDance(); }, 6000)
@@ -465,25 +465,53 @@ export class GameService {
     setInterval(()=>{
       switch (this.position){
         case 0:
-          if(this.boss.posX<this.game.maxX-800){
-            this.boss.posX +=4;
-            this.boss.posY +=4;
+          if(this.boss.posX<1000){
+            this.boss.posX +=5;
+            this.boss.posY +=5;
           }
           else{this.position = 1;}
           break;
         case 1:
-          if(this.boss.posY>200){
-            this.boss.posX +=4;
-            this.boss.posY -=4;
+          if(this.boss.posX<this.game.maxX-500){
+            this.boss.posX +=5;
+            this.boss.posY -=5;
           }
           else{this.position = 2;}
           break;
         case 2:
           if(this.boss.posY>0){
-            this.boss.posX -=4;
-            this.boss.posY -=4;
+            this.boss.posX -=5;
+            this.boss.posY -=5;
           }
           else{this.position = 3;}
+          break;
+        case 3:
+          if(this.boss.posX>400){
+            this.boss.posX -=7;
+            this.boss.posY +=3;
+          }
+          else{this.position = 4;}
+          break;
+        case 4:
+          if(this.boss.posX>this.game.minX){
+            this.boss.posX -=5;
+            this.boss.posY -=5;
+          }
+          else{this.position = 5;}
+          break;
+        case 5:
+          if(this.boss.posY>0){
+            this.boss.posX +=5;
+            this.boss.posY -=5;
+          }
+          else{this.position = 6;}
+          break;
+        case 6:
+          if(this.boss.posX<710){
+            this.boss.posX +=5;
+            this.boss.posY +=5;
+          }
+          else{this.position = 0;}
           break;
       }
     },50)
