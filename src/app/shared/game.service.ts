@@ -195,7 +195,7 @@ export class GameService {
       console.log(bonus.pic)
       this.bonusArray.add(bonus);
       this.bonusCount++;
-    }, 50000);
+    }, 20000);
   }
 
 
@@ -418,20 +418,20 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    // if (this.enemyCount < 16) {
-    //   this.addEnemyLvl1();
-    // }
-    // else if (this.enemyCount < 36) {
-    //   this.addEnemyLvl2();
-    // }
-    // else if (this.enemyCount < 61) {
-    //   this.addEnemyLvl3();
-    // }
-    // else if (this.enemyCount < 91) {
-    //   this.addEnemyLvl4();
-    // }  
-    // else
-    if (this.enemyCount === 1 && this.bossCreated === false) {
+    if (this.enemyCount < 16) {
+      this.addEnemyLvl1();
+    }
+    else if (this.enemyCount < 36) {
+      this.addEnemyLvl2();
+    }
+    else if (this.enemyCount < 61) {
+      this.addEnemyLvl3();
+    }
+    else if (this.enemyCount < 91) {
+      this.addEnemyLvl4();
+    }  
+    else
+    if (this.enemyCount === 91 && this.bossCreated === false) {
       setTimeout(() => {
         this.boss = new Boss(710, -300, this.bossSkin[0]);
         this.bossCreated = true;
