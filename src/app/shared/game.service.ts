@@ -419,35 +419,27 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if (this.enemyCount < 16) {
-      this.addEnemyLvl1();
-    }
-    else if (this.enemyCount < 36) {
-      this.addEnemyLvl2();
-    }
-    else if (this.enemyCount < 61) {
-      this.addEnemyLvl3();
-    }
-    else if (this.enemyCount < 91) {
-      this.addEnemyLvl4();
-    }  
-    else if (this.enemyCount === 91 && this.bossCreated === false) {
+    // if (this.enemyCount < 16) {
+    //   this.addEnemyLvl1();
+    // }
+    // else if (this.enemyCount < 36) {
+    //   this.addEnemyLvl2();
+    // }
+    // else if (this.enemyCount < 61) {
+    //   this.addEnemyLvl3();
+    // }
+    // else if (this.enemyCount < 91) {
+    //   this.addEnemyLvl4();
+    // }  
+    // else
+    if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
         this.boss = new Boss(710, -300, this.bossSkin[0]);
         this.bossCreated = true;
         this.bossMoveDown();
-        setTimeout(() => {
-          setInterval(() => {
-            this.bossShoot();
-
-          }, 1500)
-
-        }, 5000)
-
-      }, 2000);
-      setTimeout(() => { this.bossDance(); }, 6000)
+        this.bossShoot();
+      }, 5000)
     }
-    
   }
 
   bossMoveDown() {
@@ -456,115 +448,90 @@ export class GameService {
       this.boss.posY = this.boss.posY + 5;
       if (this.boss.posY === 50) {
         clearTimeout(stopMoveBoss);
-        this.bossDance()
       }
     }, 50);
+    this.bossDance()
   }
   
   bossDance() {
-    setInterval(()=>{
-      switch (this.position){
-        case 0:
-          if(this.boss.posX<1000){
-            this.boss.posX +=5;
-            this.boss.posY +=5;
-          }
-          else{this.position = 1;}
-          break;
-        case 1:
-          if(this.boss.posX<this.game.maxX-500){
-            this.boss.posX +=5;
-            this.boss.posY -=5;
-          }
-          else{this.position = 2;}
-          break;
-        case 2:
-          if(this.boss.posY>0){
-            this.boss.posX -=5;
-            this.boss.posY -=5;
-          }
-          else{this.position = 3;}
-          break;
-        case 3:
-          if(this.boss.posX>400){
-            this.boss.posX -=7;
-            this.boss.posY +=3;
-          }
-          else{this.position = 4;}
-          break;
-        case 4:
-          if(this.boss.posX>this.game.minX){
-            this.boss.posX -=5;
-            this.boss.posY -=5;
-          }
-          else{this.position = 5;}
-          break;
-        case 5:
-          if(this.boss.posY>0){
-            this.boss.posX +=5;
-            this.boss.posY -=5;
-          }
-          else{this.position = 6;}
-          break;
-        case 6:
-          if(this.boss.posX<710){
-            this.boss.posX +=5;
-            this.boss.posY +=5;
-          }
-          else{this.position = 0;}
-          break;
+    setInterval(() => {
+    switch (this.position) {
+      case 0:
+        if(this.boss.posX<this.game.maxX-500){
+          this.boss.posX +=5;
+        }
+        else{this.position = 1;}
+        break;
+      case 1:
+        if(this.boss.posX>this.game.minX) {
+          this.boss.posX -=5;
+        }
+        else{this.position = 0;}
+        break;
       }
-    },50)
+    // switch (this.position) {
+    //   case 0:
+    //     if(this.boss.posX<1000){
+    //       this.boss.posX +=5;
+    //       this.boss.posY +=5;
+    //     }
+    //     else{this.position = 1;}
+    //     break;
+    //   case 1:
+    //     if(this.boss.posX<this.game.maxX-500){
+    //       this.boss.posX +=5;
+    //       this.boss.posY -=5;
+    //     }
+    //     else{this.position = 2;}
+    //     break;
+    //   case 2:
+    //     if(this.boss.posY>0){
+    //       this.boss.posX -=5;
+    //       this.boss.posY -=5;
+    //     }
+    //     else{this.position = 3;}
+    //     break;
+    //   case 3:
+    //     if(this.boss.posX>400){
+    //       this.boss.posX -=7;
+    //       this.boss.posY +=3;
+    //     }
+    //     else{this.position = 4;}
+    //     break;
+    //   case 4:
+    //     if(this.boss.posX>this.game.minX){
+    //       this.boss.posX -=5;
+    //       this.boss.posY -=5;
+    //     }
+    //     else{this.position = 5;}
+    //     break;
+    //   case 5:
+    //     if(this.boss.posY>0){
+    //       this.boss.posX +=5;
+    //       this.boss.posY -=5;
+    //     }
+    //     else{this.position = 6;}
+    //     break;
+    //   case 6:
+    //     if(this.boss.posX<710){
+    //       this.boss.posX +=5;
+    //       this.boss.posY +=5;
+    //     }
+    //     else{this.position = 0;}
+    //     break;
+    // }
+  }, 50);
   }
-    /* let diagDownRight = setInterval(() => {
-      this.boss.posX += 6;
-      this.boss.posY += 6;
-      setTimeout(()=>{
-        this.bossUpRight();
-        clearTimeout(diagDownRight);
-      },2500)
-    }, 50)
-  }
-  bossUpRight(){
-      this.boss.posX += 8;
-      this.boss.posY -= 4;
-      setTimeout(()=>{
-        this.bossUpUpLeft();
-      },2500)
-  }
-  bossUpUpLeft(){
-    this.boss.posX -= 8;
-    this.boss.posY -= 4;
-    setTimeout(()=>{
-      this.bossDownLeft();
-    },2500)
-  }
-  bossDownLeft() {
-    this.boss.posX -= 10;
-    this.boss.posY += 8;
-    setTimeout(()=>{
-      this.bossDownRight();
-    },2500)
-  }  
-  bossDownRight() {
-    this.boss.posX -= 10;
-    this.boss.posY -= 6;
-    setTimeout(()=>{
-      this.bossDownRight();
-    },2500)
-  }   */
-  
 
   bossShoot() {
-
-    let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 240, this.boss.posY + 240);
-    let bossAmmo2 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 25, this.boss.posY + 240);
-    let bossAmmo3 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 459, this.boss.posY + 240);
-    this.bossAmmos.add(bossAmmo);
-    this.bossAmmos.add(bossAmmo2);
-    this.bossAmmos.add(bossAmmo3);
-
-
+    setInterval(() => {
+      let bossAmmo = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 240, this.boss.posY + 240);
+      let bossAmmo2 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 25, this.boss.posY + 240);
+      let bossAmmo3 = new Ammo(this.ammoTypes[this.randomNumber(0, 4)], this.boss.posX + 459, this.boss.posY + 240);
+      this.bossAmmos.add(bossAmmo);
+      this.bossAmmos.add(bossAmmo2);
+      this.bossAmmos.add(bossAmmo3);
+    }, 1500)
   }
 
   bossAmmoMove() {
@@ -584,8 +551,6 @@ export class GameService {
             this.bossAmmos.delete(bossAmmo);
           }
         }
-
-
       }
     }, 100);
   }
@@ -721,7 +686,6 @@ export class GameService {
             return;
           }
         }
-
         if (this.ship.posY + this.ship.height < enemy.posY + enemy.height && this.ship.posY + this.ship.height > enemy.posY) {
           if (this.ship.posX < enemy.posX + enemy.width && this.ship.posX > enemy.posX) {
             this.enemies.delete(enemy);
@@ -740,9 +704,7 @@ export class GameService {
             return;
           }
         }
-
       }
-
     }, 200);
 
   }
@@ -797,7 +759,6 @@ export class GameService {
             this.bonusType = bonus.type;
             if (this.bonusType === 1) {
               this.ship.HP = this.getShipHP(this.ship, 2)
-              console.log(this.bonusType)
             }
             return;
           }
@@ -809,7 +770,6 @@ export class GameService {
             this.bonusType = bonus.type;
             if (this.bonusType === 1) {
               this.ship.HP = this.getShipHP(this.ship, 2)
-              console.log(this.bonusType)
             }
             return;
           }
@@ -821,7 +781,6 @@ export class GameService {
             this.bonusType = bonus.type;
             if (this.bonusType === 1) {
               this.ship.HP = this.getShipHP(this.ship, 2)
-              console.log(this.bonusType)
             }
             return;
           }
@@ -833,7 +792,6 @@ export class GameService {
             this.bonusType = bonus.type;
             if (this.bonusType === 1) {
               this.ship.HP = this.getShipHP(this.ship, 2)
-              console.log(this.bonusType)
             }
             return;
           }
