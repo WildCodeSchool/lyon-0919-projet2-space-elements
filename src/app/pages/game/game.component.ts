@@ -28,25 +28,29 @@ import { VictoryComponent } from 'src/app/components/victory/victory.component';
 
       state('fire', style({
         transform: 'rotate(0deg)',
-        width: '100px',
-        height: '100px',
+        width: '200px',
+        height: '200px',
+        opacity: '0.7',
       })),  
       state('air', style({      
-        transform: 'rotate(90deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-60deg)',
+        width: '200px',
+        height: '200px',
+        opacity: '0.7',
       })),
 
       state('earth', style({
-        transform: 'rotate(270deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-270deg)',
+        width: '200px',
+        height: '200px',
+        opacity: '0.7',
       })),
 
       state('water', style({
-        transform: 'rotate(180deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-180deg)',
+        width: '200px',
+        height: '200px',
+        opacity: '0.7',
       })),
    
       transition ('fire=>air', animate('000ms')),
