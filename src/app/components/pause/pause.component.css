@@ -1,16 +1,17 @@
 .container{
     text-align: center;
-    width: 800px;
-    height: 400px;
+    width:600px;
+    height: 600px;
     margin: 0;
     padding: 0;
     font-size : 2em;
-    background-image: url("http://static1.squarespace.com/static/51b3dc8ee4b051b96ceb10de/51ce6099e4b0d911b4489b79/596623ad3a04116acaf59b6c/1553719584579/the-history-of-the-pause-and-save-feature-revealed-in-fascinating-video-social.jpg?format=1500w");
-    background-size: cover;
+    background-image: url("../../../assets/img/alienpause.png");
+    background-size: contain;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    color:white
+    color:black
 }
 
 button{
@@ -36,4 +37,10 @@ a{
 @font-face{
     font-family: "digitalFont";
     src: url("../../../../src/assets/Digitaltech-rm0K.otf") format('truetype');
+}
+
+p{
+    color: white;
+    margin-bottom: 47%;
+    font-size: 5rem;
 }
