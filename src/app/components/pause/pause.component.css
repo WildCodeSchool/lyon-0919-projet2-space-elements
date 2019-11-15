@@ -1,12 +1,11 @@
 .container{
     text-align: center;
-    width: 500px;
+    width: 800px;
     height: 400px;
-    border-radius : 5%;
     margin: 0;
     padding: 0;
     font-size : 2em;
-    background-image: url("/assets/img/cafe.jpg");
+    background-image: url("http://static1.squarespace.com/static/51b3dc8ee4b051b96ceb10de/51ce6099e4b0d911b4489b79/596623ad3a04116acaf59b6c/1553719584579/the-history-of-the-pause-and-save-feature-revealed-in-fascinating-video-social.jpg?format=1500w");
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -16,14 +15,25 @@
 
 button{
     cursor: pointer;
-    border-radius: 8px;
-    background: linear-gradient(#82a8eb, white);
-    padding: 8px;
+	border-radius:12px 0 12px 0;
+	background:#fc8f00;
+	border:none;
+    color:#fff;
+    font-size: 2rem;
+    padding:6px 0 6px 0;
+    height: 100px;
+    width: 150px;
+    font-family: "digitalFont";
+
   
 }
 
 a{
     outline-style: none;
+    font-family: "digitalFont";
 }
 
-
+@font-face{
+    font-family: "digitalFont";
+    src: url("../../../../src/assets/Digitaltech-rm0K.otf") format('truetype');
+}
