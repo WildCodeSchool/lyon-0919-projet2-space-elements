@@ -68,11 +68,13 @@
 h3{
     margin: 0;
     padding: 0;
+    color : white;
 }
 
 .bonus
 {
     margin-bottom: 50px;
+    color : white;
 }
 
 .bossLife
@@ -88,6 +90,7 @@ h3{
 .score{
     border: 1px solid black;
     border-radius: 5px;
+    border-color: white;
     padding-left: 20px;
     padding-right: 20px;
 }
