@@ -22,7 +22,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderColor: 'rgba(255, 86, 24, 0.65)',
         borderStyle: 'outset',
-        height: '540px',
+        height: '500px',
         width: '600px',
         
       })),

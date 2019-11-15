@@ -20,17 +20,15 @@
     justify-content: center;
 }
 
-.shipChoice
-{
-    margin: 0 !important;
+.shipChoice{
     width :45%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.ships
-{
+.ships{
+    
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -38,8 +36,9 @@
     justify-content: center;
 }
 
-#twoShips{
 
+#twoShips{
+   
     margin-top: 50px;
     display: flex;
 }
@@ -81,7 +80,6 @@ h2{
 /* Options Page styling:*/
 
 h1{
-     margin-top: 110px;
     font-size: 70px;
     color:rgba(239, 92, 16, 0.8);
 }
@@ -100,25 +98,31 @@ h2{
 }
 
 #displayControls{    
-    background-color: rgba(236, 112, 11, 0.6);
     height: 10px;
     width: 400px;
+    background-image: url("src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg");
+    opacity: 0.9;
+}
+
+#chooseShip{
+    background-image: url("src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg");
 }
 
 #shipChoice{
+    
     display: flex;
     flex-direction: column;
-    opacity: 0.7;
+    
 }
 
 #controls{
 text-align: center;
-opacity: 0.7;
+margin-right: 10px;
 }
 
 
 #stageCode input{
-margin-top: 30px;
+margin-top: 60px;
 width: 20%;
 padding: 10px;
 background-color:rgba(239, 92, 16, 0.8);
@@ -146,7 +150,8 @@ border-radius: 8px;
     font-size: 80px;
     font-weight: 100;
     padding: 0px;
-    background-color:rgba(255, 86, 24, 0.65);
+    background-image: url("src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg");
+    color:rgba(239, 92, 16, 0.8) ;
     border: solid rgb(0, 0, 0) 1px;
     cursor: pointer;
     margin-top: 20px;
