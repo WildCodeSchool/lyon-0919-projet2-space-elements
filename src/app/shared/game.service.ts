@@ -804,16 +804,16 @@ export class GameService {
   movementShip() {
     this.PauseShip = setInterval(() => {
       if (this.mvRight && this.ship.posX < this.game.maxX - this.ship.width / 2 - 10) {
-        this.ship.posX = this.ship.posX + 10;
+        this.ship.posX = this.ship.posX + 15;
       }
       if (this.mvLeft && this.ship.posX > this.game.minX + 10) {
-        this.ship.posX = this.ship.posX - 10;
+        this.ship.posX = this.ship.posX - 15;
       }
       if (this.mvUp && this.ship.posY > 0) {
-        this.ship.posY = this.ship.posY - 10;
+        this.ship.posY = this.ship.posY - 15;
       }
       if (this.mvDown && this.ship.posY < this.game.maxY - this.ship.height) {
-        this.ship.posY = this.ship.posY + 10;
+        this.ship.posY = this.ship.posY + 15;
       }
     }, 50);
   }
