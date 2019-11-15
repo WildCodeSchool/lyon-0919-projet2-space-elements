@@ -12,9 +12,8 @@ html, body { height: 100%; }
 body { margin: 0; font-family: "digitalFont"; }
 
 .custom-dialog-container .mat-dialog-container {
-   background-color: orange;
+    padding: 0;
 }
 .custom-dialogGameOver-container .mat-dialog-container {
-    background-color: orange;
     padding: 0;
  }
