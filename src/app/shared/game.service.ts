@@ -163,7 +163,6 @@ export class GameService {
     this.animShip();
     // Enemy animation
     this.animEnemy();
-
   }
 
   //Gestion des points de vie

@@ -109,6 +109,8 @@ currentState = 'fire';
     
   ngOnInit() {
     this.SoundGameInit()
+
+    this.choosenShipGame()
   }
 
   //Get the game mensurations
@@ -380,6 +382,12 @@ currentState = 'fire';
       frontElt.style.display = "none";
       this.audioGame.play();
     }
+  }
+
+  //ChoosenShipGame
+  choosenShipGame(){
+    //if ( this.shipService. === 1)
+
   }
 }
 
