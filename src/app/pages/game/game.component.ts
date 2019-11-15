@@ -60,7 +60,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   ammo : Ammo 
   ammos : Set<Ammo> = this.gameService.ammos;
   bossAmmos : Set<Ammo> = this.gameService.bossAmmos;
-  ship : Ship = this.gameService.ship;
+  ship : Ship = this.shipService.choosenShip;
   enemies : Set<Enemy> = this.gameService.enemies;
   obstacles: Set<Obstacle> = this.gameService.obstacles;
   bonusArray: Set<Bonus> = this.gameService.bonusArray;
@@ -109,6 +109,7 @@ currentState = 'fire';
     
   ngOnInit() {
     this.SoundGameInit()
+    console.log(this.ship)
   }
 
   //Get the game mensurations
@@ -124,7 +125,6 @@ currentState = 'fire';
     this.gameService.setShipX(this.widthTotal);
     this.gameService.setShipY(this.heightTotal);
 
-    
   // ennemy creation
     this.gameService.addEnemy();
 

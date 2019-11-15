@@ -8,4 +8,5 @@ export class Ship {
     size : number;
     HP: number;
     type:Object;
+    shipSkin : string[][];
 }

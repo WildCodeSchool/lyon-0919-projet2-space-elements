@@ -16,9 +16,11 @@ export class ShipService {
   {
     if (this.choosenShip) {
       this.choosenShip.size = 100;
-    }
+    } 
     this.choosenShip = ship;
     this.choosenShip.size = 150;
-    return this.choosenShip;
+    console.log(this.choosenShip)
+    
+
   }
 }

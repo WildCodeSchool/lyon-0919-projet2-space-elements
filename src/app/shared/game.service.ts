@@ -8,6 +8,7 @@ import { Obstacle } from './obstacle';
 import { Bonus } from './bonus';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { VictoryComponent } from '../components/victory/victory.component';
+import { ShipService } from './ship.service';
 
 @Injectable({
   providedIn: 'root'
@@ -100,12 +101,7 @@ export class GameService {
   enemyHP: Object[] = [
     { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
   ]
-  shipSkin: string[][] = [
-    ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
-    ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
-    ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
-    ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
-  ]
+  
   enemySkin: string[][] = [
     ["url('/assets/img/enemy_air.png')", "url('/assets/img/enemy_air1.png')"],
     ["url('/assets/img/enemy_fire.png')", "url('/assets/img/enemy_fire1.png')"],
@@ -126,17 +122,7 @@ export class GameService {
     "url('/assets/img/boss_02.png')"
   ]
 
-  ship: Ship = {
-    id: 0,
-    url: '',
-    posX: 0,
-    posY: 880,
-    height: 133,
-    width: 124,
-    size: 0,
-    HP: 10,
-    type: this.shipTypes[0],
-  };
+  ship : Ship = this.shipService.choosenShip;
 
   boss: Boss;
   game: Game = new Game;
@@ -145,8 +131,9 @@ export class GameService {
   bossKill : number = 0 ;
 
 
-  constructor( public dialog : MatDialog,) {
+  constructor(public shipService: ShipService, public dialog : MatDialog,) {
 
+    console.log(this.ship)
     // mouvement
     this.movementShip();
     // multi actions
@@ -163,9 +150,10 @@ export class GameService {
     this.animShip();
     // Enemy animation
     this.animEnemy();
-
+    
+    
   }
-
+  
   //Gestion des points de vie
   getShipHP(ship: Ship, value: number) {
     ship.HP = ship.HP + value;
@@ -228,12 +216,13 @@ export class GameService {
   // ship animation
   animShip() {
     setInterval(() => {
-      for (let i = 0; i < this.shipSkin.length; i++) {
-        if (this.ship.type['url'] === this.shipSkin[i][0]) {
-          this.ship.type['url'] = this.shipSkin[i][1];
+      console.log(this.ship.url)
+      for (let i = 0; i < this.ship.shipSkin.length; i++) {
+        if (this.ship.type['url'] === this.ship.shipSkin[i][0]) {
+          this.ship.type['url'] = this.ship.shipSkin[i][1];
         }
-        else if (this.ship.type['url'] === this.shipSkin[i][1]) {
-          this.ship.type['url'] = this.shipSkin[i][0];
+        else if (this.ship.type['url'] === this.ship.shipSkin[i][1]) {
+          this.ship.type['url'] = this.ship.shipSkin[i][0];
         }
       }
     }, 200);

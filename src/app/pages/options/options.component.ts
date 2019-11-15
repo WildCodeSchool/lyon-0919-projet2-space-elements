@@ -56,7 +56,7 @@ export class OptionsComponent implements OnInit {
 
   stageCodes: string [] = ['butterfly', 'kitten', 'wasabi', 'emmental'];
   stageCode : string;
-  choosenShip: Ship;
+  choosenShip: Ship = new Ship();
   ships: Ship[];
   shipSelected: boolean = false;
   currentState = 'initial';
@@ -89,8 +89,8 @@ changeState() {
     setTimeout(()=> {this.changePlayState()}, 2000);
     
   }
-  goToGame(ship: Ship){
-    this.shipService.setChoosenShip(ship);
+  goToGame(){
+
     let stage;
     if(this.stageCode){
       for (let i=0; i<this.stageCodes.length; i++){
@@ -99,15 +99,13 @@ changeState() {
         }
       }
     }
-    console.log(stage);
     return stage;
   }
 
   onSelectedShip(ship: Ship)
   {
-    this.choosenShip = this.shipService.setChoosenShip(ship);
-    console.log(ship.id);
-    return this.choosenShip;
+    this.choosenShip = ship;
+    this.shipService.setChoosenShip(ship);
   }
 
 
