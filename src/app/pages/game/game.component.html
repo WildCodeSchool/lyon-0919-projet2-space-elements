@@ -5,7 +5,7 @@
                 </div>
             <h3> My Ship Life : </h3>
                 <mat-progress-bar class="progressBar" mode="determinate" [color]="'warn'" [value]="getLifePercentage()"></mat-progress-bar>
-          
+
             <div class="weelOfElements">
                 <img [@animateWeel]=currentState src = "/assets/img/elementsWeel/fourElWeel.png" id="weelAnimation">    
             </div>
@@ -18,7 +18,7 @@
             <app-ship [ship]='ship'></app-ship>
             <app-boss [boss]='gameService.boss'></app-boss>
             <app-boss-ammo [bossAmmo]='bossAmmo' *ngFor="let bossAmmo of gameService.bossAmmos"></app-boss-ammo>
-           
+
         </div>
         <div class="bossLife">
                 <div class='imgGame'>
@@ -30,9 +30,9 @@
             <div class="bonus">
                 Pas de bonus en cours
             </div>
-         
+
         </div>
-       
+
     </div>
     
     
