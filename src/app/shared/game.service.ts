@@ -637,7 +637,7 @@ export class GameService {
 
   moveEnemy(enemy: Enemy) {
     if (enemy) {
-      if (enemy.posY > this.game.maxY - enemy.height * 2) {
+      if (enemy.posY > this.game.maxY - enemy.height * 2.8) {
         this.enemies.delete(enemy);
         this.ship.HP = this.ship.HP - 3;
       }
