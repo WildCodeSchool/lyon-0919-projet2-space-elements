@@ -284,8 +284,7 @@ currentState = 'fire';
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
              if ( this.gameService.sound === true){
-              this.gameService.mySoundShoot.play()
-              console.log('le son est joué')
+              this.gameService.mySoundShoot.play();
             }
             else{
               this.gameService.mySoundShoot.pause()
@@ -311,10 +310,7 @@ currentState = 'fire';
         else{
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
-            if ( this.gameService.sound === true){
-              console.log('le son est joué')
-            }
-            else{
+            if ( this.gameService.sound === false){
               this.gameService.mySoundShoot.pause()
             } 
           }

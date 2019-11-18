@@ -8,6 +8,7 @@ import { Obstacle } from './obstacle';
 import { Bonus } from './bonus';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { VictoryComponent } from '../components/victory/victory.component';
+import { ShipService } from './ship.service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,13 +52,19 @@ export class GameService {
   mySoundExplosion = new Audio(`../../../assets/Bruitage/explosion25db.mp3`);
   position : number = 0;
   mySoundBossExplosion = new Audio('../../assets/Bruitage/bossexplosion.mp3')
-
+  shipChoice: boolean = true;
 
   shipTypes: Object[] = [
     { 'name': 'fire', 'url': '/assets/img/ship_fire.png' },
     { 'name': 'air', 'url': '/assets/img/ship_air.png' },
     { 'name': 'earth', 'url': '/assets/img/ship_earth.png' },
     { 'name': 'water', 'url': '/assets/img/ship_water.png' },
+  ];
+  ship2Types: Object[] = [
+    { 'name': 'fire', 'url': '/assets/img/ship2_fire.png' },
+    { 'name': 'air', 'url': '/assets/img/ship2_air.png' },
+    { 'name': 'earth', 'url': '/assets/img/ship2_earth.png' },
+    { 'name': 'water', 'url': '/assets/img/ship2_water.png' },
   ];
 
   enemyTypes: Object[] = [
@@ -100,12 +107,7 @@ export class GameService {
   enemyHP: Object[] = [
     { 'HP': 3, 'url': '/assets/img/ammo_fire.png' },
   ]
-  shipSkin: string[][] = [
-    ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
-    ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
-    ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
-    ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
-  ]
+  shipSkin: string[][] = []; 
   enemySkin: string[][] = [
     ["url('/assets/img/enemy_air.png')", "url('/assets/img/enemy_air1.png')"],
     ["url('/assets/img/enemy_fire.png')", "url('/assets/img/enemy_fire1.png')"],
@@ -145,7 +147,12 @@ export class GameService {
   bossKill : number = 0 ;
 
 
-  constructor( public dialog : MatDialog,) {
+  constructor( 
+    public dialog : MatDialog,
+    public shipService: ShipService
+    ) {
+    // Ship skin
+    this.setShipSkin();
 
     // mouvement
     this.movementShip();
@@ -160,11 +167,35 @@ export class GameService {
     this.moveObstacleAndCollision();
     this.moveBonusAndCollision();
     // Ship animation   
-    this.animShip();
     // Enemy animation
     this.animEnemy();
   }
-
+  
+  setShipSkin() {
+    this.shipChoice = this.shipService.shipChoice;
+    if (this.shipChoice === true ){
+      this.shipSkin = [
+        ['/assets/img/ship_fire.png', '/assets/img/ship_fire1.png'],
+        ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
+        ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
+        ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
+      ];
+      
+    }
+    else if (this.shipChoice === false){
+      this.ship.type['url'] = '/assets/img/ship2_fire.png';
+      for (let i = 1; i < 4; i++){
+      this.shipTypes[i] = this.ship2Types[i];
+      }
+      this.shipSkin = [
+        ['/assets/img/ship2_fire.png', '/assets/img/ship2_fire1.png'],
+        ['/assets/img/ship2_water.png', '/assets/img/ship2_water1.png'],
+        ['/assets/img/ship2_air.png', '/assets/img/ship2_air1.png'],
+        ['/assets/img/ship2_earth.png', '/assets/img/ship2_earth1.png']
+      ]
+    }
+    this.animShip();
+  }
   //Gestion des points de vie
   getShipHP(ship: Ship, value: number) {
     ship.HP = ship.HP + value;
@@ -192,7 +223,6 @@ export class GameService {
       let bonusX = this.randomNumber(this.game.minX + 100, this.game.maxX - 100 * 2);
       let bonus = new Bonus(bonusX - 100, -100);
       bonus.pic = this.setBonusPic(bonus);
-      console.log(bonus.pic)
       this.bonusArray.add(bonus);
       this.bonusCount++;
     }, 20000);
@@ -379,6 +409,20 @@ export class GameService {
         ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 53, this.ship.posY - 10);
         break;
       case this.shipTypes[3]:
+        ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 53, this.ship.posY - 10);
+        break;
+    }
+    switch (this.ship.type) {
+      case this.ship2Types[0]:
+        ammo = new Ammo(this.ammoTypes[0], this.ship.posX + 53, this.ship.posY - 10);
+        break;
+      case this.ship2Types[1]:
+        ammo = new Ammo(this.ammoTypes[1], this.ship.posX + 53, this.ship.posY - 10);
+        break;
+      case this.ship2Types[2]:
+        ammo = new Ammo(this.ammoTypes[2], this.ship.posX + 53, this.ship.posY - 10);
+        break;
+      case this.ship2Types[3]:
         ammo = new Ammo(this.ammoTypes[3], this.ship.posX + 53, this.ship.posY - 10);
         break;
     }
@@ -615,7 +659,6 @@ export class GameService {
       this.addEnemmies();
       if (this.enemyCount === 91) {
         clearInterval(this.intervalNumberEnemyLvl4);
-        console.log(this.enemyCount);
         this.addEnemy();
       }
     }, 800);
@@ -852,7 +895,6 @@ export class GameService {
         }
         // with boss
         if (this.boss != undefined) {
-          console.log(this.boss.HP)
           if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
             if (ammo.posY < this.boss.posY + this.boss.height) {
               this.boss.HP -= 1;
