@@ -153,11 +153,11 @@ currentState = 'fire';
         this.gameService.isShoot = true;
       } 
        // arrows (direction)
-      if (event.code === 'ArrowRight' && this.ship.posX > this.gameService.game.minX + 10) {
+      if (event.code === 'ArrowRight' && this.ship.posX > this.gameService.game.minX) {
         
         this.gameService.mvLeft = true;
       }
-      if (event.code === 'ArrowLeft' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+      if (event.code === 'ArrowLeft' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width) {
         
           this.gameService.mvRight = true;
       }
@@ -180,7 +180,7 @@ currentState = 'fire';
       }  
     
       // arrows (direction)
-      if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+      if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width) {
         
           this.gameService.mvRight = true;
       }

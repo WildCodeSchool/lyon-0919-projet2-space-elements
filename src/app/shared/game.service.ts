@@ -370,11 +370,11 @@ export class GameService {
 
   //Functions to define the container size
   setMaxX(widthTotal, sizeGameContainer) {
-    this.game.maxX = (widthTotal * 0.1) + sizeGameContainer;
+    this.game.maxX = (widthTotal * 0.15 - this.ship.width / 2) + sizeGameContainer;
     return this.game.maxX;
   }
   setMinX(widthTotal) {
-    this.game.minX = (widthTotal * 0.1);
+    this.game.minX = (widthTotal * 0.15);
     return this.game.minX;
   }
   setMaxY(heightTotal) {
@@ -388,7 +388,7 @@ export class GameService {
 
   //Position of the ship
   setShipX(widthTotal) {
-    this.ship.posX = widthTotal / 2;
+    this.ship.posX = widthTotal / 2 - this.ship.width / 2;
   }
   setShipY(heightTotal) {
     this.ship.posY = heightTotal - this.ship.height;

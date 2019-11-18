@@ -1,7 +1,8 @@
 .obstacle{
-    width: 125px;
-    height: 125px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     z-index: 99;
+    background-size: contain;
     /* align-self: flex-end; */
 };
