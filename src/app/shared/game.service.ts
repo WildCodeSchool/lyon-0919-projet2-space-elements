@@ -8,6 +8,7 @@ import { Obstacle } from './obstacle';
 import { Bonus } from './bonus';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { VictoryComponent } from '../components/victory/victory.component';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -105,7 +106,7 @@ export class GameService {
     ['/assets/img/ship_water.png', '/assets/img/ship_water1.png'],
     ['/assets/img/ship_air.png', '/assets/img/ship_air1.png'],
     ['/assets/img/ship_earth.png', '/assets/img/ship_earth1.png']
-  ]
+  ];
   enemySkin: string[][] = [
     ["url('/assets/img/enemy_air.png')", "url('/assets/img/enemy_air1.png')"],
     ["url('/assets/img/enemy_fire.png')", "url('/assets/img/enemy_fire1.png')"],
@@ -152,7 +153,7 @@ export class GameService {
     // multi actions
     this.multiAction();
     // Ammo moving and killing enemy
-    this.ammoMove();
+    //this.startAmmoMoveInterval();
     // BossAmmo moving and damaging ship
     this.bossAmmoMove();
     //Move Enemy and Collision
@@ -418,20 +419,20 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if (this.enemyCount < 16) {
-      this.addEnemyLvl1();
-    }
-    else if (this.enemyCount < 36) {
-      this.addEnemyLvl2();
-    }
-    else if (this.enemyCount < 61) {
-      this.addEnemyLvl3();
-    }
-    else if (this.enemyCount < 91) {
-      this.addEnemyLvl4();
-    }  
-    else
-    if (this.enemyCount === 91 && this.bossCreated === false) {
+    // if (this.enemyCount < 16) {
+    //   this.addEnemyLvl1();
+    // }
+    // else if (this.enemyCount < 36) {
+    //   this.addEnemyLvl2();
+    // }
+    // else if (this.enemyCount < 61) {
+    //   this.addEnemyLvl3();
+    // }
+    // else if (this.enemyCount < 91) {
+    //   this.addEnemyLvl4();
+    // }  
+    // else
+    if (this.enemyCount === 1 && this.bossCreated === false) {
       setTimeout(() => {
         this.boss = new Boss(710, -300, this.bossSkin[0]);
         this.bossCreated = true;
@@ -654,7 +655,8 @@ export class GameService {
           enemy.posY = enemy.posY + 11;
           this.moveEnemyX(enemy);
         }
-        else if (this.enemyCount <= 91) {
+        else 
+        if (this.enemyCount <= 91) {
           enemy.posY = enemy.posY + 14;
           this.moveEnemyX(enemy);
         }
@@ -828,55 +830,57 @@ export class GameService {
   }
 
   //Ammo collision
-  ammoMove() {
-    this.PauseAmmoMove = setInterval(() => {
-      for (let ammo of this.ammos) {
-        this.moveAmmo(ammo);
-        // with enemies
-        for (let enemy of this.enemies) {
-          if ((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)) {
-            if (ammo.posY < enemy.posY + enemy.height) {
-              enemy.HP = this.doDamage(ammo, enemy)
-              enemy.pic = this.VisuDamage(enemy);
-              this.ammos.delete(ammo);
-              return;
-            }
-          }
-          if (ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width) {
-            if (ammo.posY < enemy.posY + enemy.height) {
-              enemy.HP = this.doDamage(ammo, enemy)
-              enemy.pic = this.VisuDamage(enemy);
-              this.ammos.delete(ammo);
-            }
+  startAmmoMoveInterval() {
+    this.PauseAmmoMove = setInterval(this.moveAmmos, 100);
+  }
+
+  moveAmmos() {
+    for (let ammo of this.ammos) {
+      this.moveAmmo(ammo);
+      // with enemies
+      for (let enemy of this.enemies) {
+        if ((ammo.posX > enemy.posX) && (ammo.posX < enemy.posX + enemy.width)) {
+          if (ammo.posY < enemy.posY + enemy.height) {
+            enemy.HP = this.doDamage(ammo, enemy)
+            enemy.pic = this.VisuDamage(enemy);
+            this.ammos.delete(ammo);
+            return;
           }
         }
-        // with boss
-        if (this.boss != undefined) {
-          console.log(this.boss.HP)
-          if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
-            if (ammo.posY < this.boss.posY + this.boss.height) {
-              this.boss.HP -= 1;
-              this.ammos.delete(ammo);
-              return;
-            }
-          }
-          if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
-            if (ammo.posY < this.boss.posY + this.boss.height) {
-              this.boss.HP -= 1;
-              this.ammos.delete(ammo);
-            }
-          }
-          if (this.boss.HP <= 0) {
-            this.boss = undefined;
-            this.bossCreated = false;
-            this.mySoundBossExplosion.play()
-            this.bossKill = this.bossKill + 1;
-            this.openVictory();
-            return this.bossCreated;
+        if (ammo.posX + ammo.width > enemy.posX && ammo.posX + ammo.width < enemy.posX + enemy.width) {
+          if (ammo.posY < enemy.posY + enemy.height) {
+            enemy.HP = this.doDamage(ammo, enemy)
+            enemy.pic = this.VisuDamage(enemy);
+            this.ammos.delete(ammo);
           }
         }
       }
-    }, 100);
+      // with boss
+      if (this.boss != undefined) {
+        console.log(this.boss.HP)
+        if ((ammo.posX > this.boss.posX) && (ammo.posX < this.boss.posX + this.boss.width)) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+            return;
+          }
+        }
+        if (ammo.posX + ammo.width > this.boss.posX && ammo.posX + ammo.width < this.boss.posX + this.boss.width) {
+          if (ammo.posY < this.boss.posY + this.boss.height) {
+            this.boss.HP -= 1;
+            this.ammos.delete(ammo);
+          }
+        }
+        if (this.boss.HP <= 0) {
+          this.boss = undefined;
+          this.bossCreated = false;
+          this.mySoundBossExplosion.play()
+          this.bossKill = this.bossKill + 1;
+          this.openVictory();
+          return this.bossCreated;
+        }
+      }
+    }
   }
 
    //Victory Modal
@@ -914,13 +918,40 @@ export class GameService {
     this.addEnemy();
     this.movementShip();
     this.multiAction();
-    this.ammoMove();
+    this.startAmmoMoveInterval();
     this.bossAmmoMove();
     this.addObstacle();
     this.moveObstacleAndCollision();
     this.addBonusMalus();
     this.moveBonusAndCollision();
   };
+
+  lastAmmoMoov : number = 0;
+  $frameUpdate = new Subject<number>();
+  loopInterval: any;
+
+  gameLoop(){
+    const d = new Date().getTime();
+    if (d - this.lastAmmoMoov > 100){
+      this.moveAmmos()
+      this.lastAmmoMoov = new Date().getTime();
+    }
+    
+    this.$frameUpdate.next(1);
+  }
+
+  startLoop(){
+    if (!this.loopInterval){
+    setInterval(this.gameLoop, 100);
+    }
+  }
+
+  stopLoop(){
+    if (this.loopInterval){
+      clearInterval(this.loopInterval);
+      this.loopInterval = null;
+    }
+  }
 }
 
 

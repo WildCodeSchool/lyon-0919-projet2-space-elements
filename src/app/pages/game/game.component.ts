@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, Input, } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Ship } from '../../shared/ship';
 import { ShipService } from '../../shared/ship.service';
 import { Ammo } from 'src/app/shared/ammo';
@@ -108,13 +108,19 @@ currentState = 'fire';
     public shipService: ShipService,
     public gameService: GameService,
     public dialog : MatDialog,
+    private ref: ChangeDetectorRef
     ) {}
     
     
   ngOnInit() {
+    this.ref.detach();
     this.SoundGameInit()
 
     this.choosenShipGame()
+    this.gameService.$frameUpdate.subscribe(() => {
+      this.ref.detectChanges();
+    })
+    this.gameService.startLoop();
   }
 
   //Get the game mensurations
