@@ -22,6 +22,8 @@ import { BonusComponent } from '../app/components/bonus/bonus.component';
 import { GameOverComponent } from './components/game-over/game-over.component';
 import { PauseComponent } from './components/pause/pause.component';
 import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
+import { VictoryComponent } from './components/victory/victory.component';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
     BonusComponent,
     GameOverComponent,
     PauseComponent,
-    BossAmmoComponent
+    BossAmmoComponent,
+    VictoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import { BossAmmoComponent } from './components/boss-ammo/boss-ammo.component';
   ],
   entryComponents: [
     GameOverComponent,
-    PauseComponent
+    PauseComponent,
+    VictoryComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

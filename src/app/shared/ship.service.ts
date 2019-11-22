@@ -9,6 +9,7 @@ export class ShipService {
 
   ships: Ship[] = SHIPS;
   choosenShip : Ship;
+  shipChoice: boolean = true;
 
   constructor() { }
 
@@ -19,6 +20,12 @@ export class ShipService {
     }
     this.choosenShip = ship;
     this.choosenShip.size = 150;
+    if (this.choosenShip.id === 1) {
+      this.shipChoice = true;
+    }
+    else {
+      this.shipChoice = false;
+    }
     return this.choosenShip;
   }
 }

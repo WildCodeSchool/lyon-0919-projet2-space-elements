@@ -15,6 +15,7 @@ import { Bonus } from 'src/app/shared/bonus';
 import { GameOverComponent } from 'src/app/components/game-over/game-over.component';
 import { AlertPromise } from 'selenium-webdriver';
 import { PauseComponent } from 'src/app/components/pause/pause.component';
+import { VictoryComponent } from 'src/app/components/victory/victory.component';
 
 
 
@@ -27,25 +28,29 @@ import { PauseComponent } from 'src/app/components/pause/pause.component';
 
       state('fire', style({
         transform: 'rotate(0deg)',
-        width: '100px',
-        height: '100px',
+        width: '150px',
+        height: '150px',
+        opacity: '0.7',
       })),  
       state('air', style({      
-        transform: 'rotate(90deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-60deg)',
+        width: '150px',
+        height: '150px',
+        opacity: '0.7',
       })),
 
       state('earth', style({
-        transform: 'rotate(270deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-270deg)',
+        width: '150px',
+        height: '150px',
+        opacity: '0.7',
       })),
 
       state('water', style({
-        transform: 'rotate(180deg)',
-        width: '100px',
-        height: '100px',
+        transform: 'rotate(-180deg)',
+        width: '150px',
+        height: '150px',
+        opacity: '0.7',
       })),
    
       transition ('fire=>air', animate('000ms')),
@@ -73,6 +78,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   gameOver : number = 0;
   wonLevel1 : number = 0;
   audioGame;
+  resultHP : number;
  
  
 
@@ -107,6 +113,8 @@ currentState = 'fire';
     
   ngOnInit() {
     this.SoundGameInit()
+
+    this.choosenShipGame()
   }
 
   //Get the game mensurations
@@ -145,11 +153,11 @@ currentState = 'fire';
         this.gameService.isShoot = true;
       } 
        // arrows (direction)
-      if (event.code === 'ArrowRight' && this.ship.posX > this.gameService.game.minX + 10) {
+      if (event.code === 'ArrowRight' && this.ship.posX > this.gameService.game.minX) {
         
         this.gameService.mvLeft = true;
       }
-      if (event.code === 'ArrowLeft' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+      if (event.code === 'ArrowLeft' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width) {
         
           this.gameService.mvRight = true;
       }
@@ -172,7 +180,7 @@ currentState = 'fire';
       }  
     
       // arrows (direction)
-      if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width/2 - 10 ) {
+      if (event.code === 'ArrowRight' && this.ship.posX < this.gameService.game.maxX - this.gameService.ship.width) {
         
           this.gameService.mvRight = true;
       }
@@ -197,7 +205,6 @@ currentState = 'fire';
       this.gameService.pauseGame();
       this.openPause()
       this.gamePaused = true;
-      console.log(this.gameService.boss.HP)
       return;
     }
     if(event.code === 'Escape' && this.gamePaused === true){
@@ -246,18 +253,11 @@ currentState = 'fire';
   }
   //Display Boss lifeBar
   getLifePercentageBoss(){
-    if ( this.bossCreated === true){
-      this.gameService.boss.HP
-      if ( this.gameService.boss.HP <= 0 && this.gameOver < 1){
-        this.gameOver  = this.gameOver + 1;
-        this.openGameOver();
-      }
-    }
-      return this.gameService.boss.HP;
+    return this.gameService.boss.HP;
   }
-
-
  
+
+
 
   //Game Over Modal
     openGameOver() {
@@ -284,8 +284,7 @@ currentState = 'fire';
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
              if ( this.gameService.sound === true){
-              this.gameService.mySoundShoot.play()
-              console.log('le son est joué')
+              this.gameService.mySoundShoot.play();
             }
             else{
               this.gameService.mySoundShoot.pause()
@@ -311,11 +310,7 @@ currentState = 'fire';
         else{
           if (event.code === 'Space') {
             this.gameService.isShoot = false;
-            if ( this.gameService.sound === true){
-              this.gameService.mySoundShoot.play()
-              console.log('le son est joué')
-            }
-            else{
+            if ( this.gameService.sound === false){
               this.gameService.mySoundShoot.pause()
             } 
           }
@@ -360,11 +355,11 @@ currentState = 'fire';
   //SoundGameInit
   SoundGameInit(){
     if ( this.gameService.sound === true){
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.play();
     }
     else{
-      this.audioGame = new Audio('../../../assets/Musique/knight15db.mp3');
+      this.audioGame = new Audio('../../../assets/Musique/knight20.mp3');
       this.audioGame.pause();
     }
   }
@@ -387,6 +382,11 @@ currentState = 'fire';
       frontElt.style.display = "none";
       this.audioGame.play();
     }
+  }
+
+  //ChoosenShipGame
+  choosenShipGame(){
+    //if ( this.shipService. === 1)
   }
 }
 
