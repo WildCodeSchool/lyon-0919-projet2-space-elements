@@ -1,0 +1,46 @@
+.container{
+    text-align: center;
+    width:600px;
+    height: 600px;
+    margin: 0;
+    padding: 0;
+    font-size : 2em;
+    background-image: url("../../../assets/img/alienpause.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color:black
+}
+
+button{
+    cursor: pointer;
+	border-radius:12px 0 12px 0;
+	background:#fc8f00;
+	border:none;
+    color:#fff;
+    font-size: 2rem;
+    padding:6px 0 6px 0;
+    height: 100px;
+    width: 150px;
+    font-family: "digitalFont";
+
+  
+}
+
+a{
+    outline-style: none;
+    font-family: "digitalFont";
+}
+
+@font-face{
+    font-family: "digitalFont";
+    src: url("../../../../src/assets/Digitaltech-rm0K.otf") format('truetype');
+}
+
+p{
+    color: white;
+    margin-bottom: 47%;
+    font-size: 5rem;
+}

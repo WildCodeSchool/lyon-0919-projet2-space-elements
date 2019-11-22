@@ -1,0 +1,170 @@
+.frame{
+    padding:0;
+    margin:0;
+    height: 100%;
+    width: 100%;
+    background:url(src/assets/img/LargeGrungeMetalTexturebyKelkith_rgpfk.jpg);
+    display: flex;
+    background-size: cover;
+    flex-direction: row;
+  }
+  
+  
+  
+  .gameContainer{
+    width: 100%;
+    flex-basis: 70%;
+    margin: 0 auto;
+    height: 100vh;      
+    background:url(src/assets/img/Tileable_Background_Images2.jpg);
+    background-size: cover;
+    -webkit-animation:200s scroll infinite linear;
+    -moz-animation:200s scroll infinite linear;
+    -o-animation:200s scroll infinite linear;
+    -ms-animation:200s scroll infinite linear;
+    animation:200s scroll infinite linear;
+  }
+  
+  .shipLife
+  {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-basis: 15%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .bossLife
+  {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-basis: 15%;
+      height: 100%;
+      justify-content: space-around;
+      align-items: center;
+  }
+  
+  @-webkit-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-moz-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-o-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @-ms-keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+  
+  @keyframes scroll{
+    100%{
+      background-position:0px 9000px;
+    }
+  }
+
+
+
+h3{
+    margin: 0;
+    padding: 0;
+    color : white;
+}
+
+.bonus
+{
+    margin-bottom: 50px;
+    color : white;
+}
+
+
+.score{
+    border: 1px solid black;
+    border-radius: 5px;
+    border-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.progressBar
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
+}
+
+.progressBarBoss
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    width: 250px;
+}
+
+.bonus
+{
+    text-align: center;
+}
+
+mat-progress-bar{
+    transform: rotate(270deg);
+    height: 15px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+.modal{
+    position: fixed;
+    top : 0;
+    left : 0;
+    width : 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, 0.8);
+    display:none;
+}
+.modal-wrapper{
+    width: 900px;
+    height: 900px;
+    margin : auto;
+    background-color: rgb(115, 143, 113);
+  }
+
+.imgGame
+{
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.sound{
+    margin: 2px;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+dialog { 
+    border: none !important;
+  }
+
+  
+  

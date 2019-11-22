@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+
+@font-face{
+    font-family: "digitalFont";
+    src: url("../src/assets/Digitaltech-rm0K.otf") format('truetype');
+}
+body{
+    width: 100%;
+    margin: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: "digitalFont"; }
+
+.custom-dialog-container .mat-dialog-container {
+    background-color: black;
+    padding: 0;
+}
+.custom-dialogGameOver-container .mat-dialog-container {
+    background-color: black;
+    padding: 0;
+ }

@@ -1,0 +1,7 @@
+.ammo {
+    height: 30px;
+    width: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+}

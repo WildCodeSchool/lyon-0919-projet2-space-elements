@@ -1,0 +1,9 @@
+.enemy{
+    width: 70px;
+    height: 94px;
+    position: absolute;
+    z-index: 100;
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* align-self: flex-end; */
+};

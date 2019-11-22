@@ -1,0 +1,8 @@
+.boss{
+    width: 500px;
+    height:307px;
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 101;
+};

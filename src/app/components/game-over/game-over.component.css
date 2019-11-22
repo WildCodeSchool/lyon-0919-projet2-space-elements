@@ -1,0 +1,26 @@
+.containerGameOver {
+    height: 570px;
+    width: 1300px;
+    background-image: url('https://cdn.hipwallpaper.com/i/21/57/mtH3uW.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    padding: 0px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+button{
+    cursor: pointer;
+	border-radius:12px 0 12px 0;
+	background:#fc8f00;
+	border:none;
+    color:#fff;
+    font-size: 2rem;
+    padding:6px 0 6px 0;
+    height: 100px;
+    width: 150px;
+    font-family: "digitalFont";
+    outline-style: none;
+}

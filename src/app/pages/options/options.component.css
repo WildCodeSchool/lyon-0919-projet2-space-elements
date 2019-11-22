@@ -1,0 +1,193 @@
+#background{
+    background-image: url("src/assets/options_page/OptionsPage_Background.png");
+    background-size: cover;
+    background-position:center;
+    width: 100%;
+    height: 100%;
+}
+
+*
+{
+    text-align: center;
+    width: 100%;
+    
+}
+
+.options{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.shipChoice{
+    width :45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ships{
+    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#twoShips{
+   
+    margin-top: 50px;
+    display: flex;
+}
+
+.ship{
+    cursor: pointer;
+}
+button{
+    width: 50px;
+}
+
+.stageCode input{
+    width: 150px;
+}
+h2{
+    text-align: center;
+}
+
+.controls{
+    width :45%;   
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+.controls img{
+    width: 80%;
+}
+
+.code{
+    width: 100%;
+    background-color: burlywood;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+.play{
+    text-align: center;
+}
+
+/* Options Page styling:*/
+
+h1{
+    margin-top:150px;
+    font-size: 70px;
+    color:rgba(239, 92, 16, 0.8);
+}
+
+h2{
+    color:rgba(239, 92, 16, 0.8);
+    font-size: 40px;
+}
+
+
+#compContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+#displayControls{    
+    height: 10px;
+    width: 400px;
+    background-color:rgba(0, 0, 0, 0.6);
+    opacity: 0.9;
+}
+
+#chooseShip{
+    background-color:rgba(0, 0, 0, 0.6)
+}
+
+#shipChoice{
+    
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#controls{
+text-align: center;
+margin-right: 10px;
+}
+
+
+
+
+#stageCode ::placeholder{
+    color:black;
+    font-family: inherit;
+}
+
+#playButton { 
+    
+    opacity: 0.6;
+    width: 400px;
+    height: 100px;
+    text-align: center;
+    letter-spacing: 8px;
+    border-radius: 15px;
+    color:rgb(0, 0, 0);
+    font-family: inherit;
+    font-size: 80px;
+    font-weight: 100;
+    padding: 0px;
+    background-color: rgba(239, 92, 16, 0.8);
+    color: black;
+    border: solid rgb(0, 0, 0) 1px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+
+#playButton {
+	-webkit-animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+@-webkit-keyframes scale-in-hor-center {
+    0% {
+      -webkit-transform: scaleX(0);
+              transform: scaleX(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scaleX(1);
+              transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+  @keyframes scale-in-hor-center {
+    0% {
+      -webkit-transform: scaleX(0);
+              transform: scaleX(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scaleX(1);
+              transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+  
+
+
+
+
+
+
+

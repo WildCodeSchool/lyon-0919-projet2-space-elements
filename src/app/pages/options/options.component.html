@@ -1,0 +1,38 @@
+<div id="background">
+    <div class="playerChoice">
+</div>
+
+<div class="options">
+
+    <h1>OPTIONS</h1> 
+
+</div>
+
+<div id="compContainer">
+
+    <div [@dropMenus]=currentState id="chooseShip">
+
+        <div *ngIf = "showComponents" id="shipChoice">
+
+                <div class="ships">
+                    <h2>Choose your ship</h2>
+                    <div id="twoShips">
+                        <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)" class="ship">
+                            <img [style.width.px]= "ship.size" src="{{ ship.url }}">
+                        </div>
+                    </div>    
+                </div>                   
+            </div>
+    </div>
+
+    <div [@dropMenus]=currentState id="displayControls">
+            <div *ngIf = "showComponents" id="controls">
+                <h2>Controls</h2>
+                <img src="../assets/options_page/controls_img.png">
+            </div>
+    </div>
+
+</div>
+ 
+<button class = "scale-in-hor-center" routerLink ='/game' id = "playButton" (click)="goToGame(id)">PLAY</button>
+
