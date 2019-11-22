@@ -462,20 +462,20 @@ export class GameService {
 
   //Enemy addition
   addEnemy() {
-    if (this.enemyCount < 16) {
+    if (this.enemyCount < 5) {
       this.addEnemyLvl1();
     }
-    else if (this.enemyCount < 36) {
+    else if (this.enemyCount < 10) {
       this.addEnemyLvl2();
     }
-    else if (this.enemyCount < 61) {
+    else if (this.enemyCount < 15) {
       this.addEnemyLvl3();
     }
-    else if (this.enemyCount < 91) {
+    else if (this.enemyCount < 20) {
       this.addEnemyLvl4();
     }  
     else
-    if (this.enemyCount === 91 && this.bossCreated === false) {
+    if (this.enemyCount === 20 && this.bossCreated === false) {
       setTimeout(() => {
         this.boss = new Boss(710, -300, this.bossSkin[0]);
         this.bossCreated = true;
@@ -627,7 +627,7 @@ export class GameService {
   addEnemyLvl1() {
     this.intervalNumberEnemyLvl1 = setInterval(() => {
       this.addEnemmies();
-      if (this.enemyCount === 16) {
+      if (this.enemyCount === 5) {
         clearInterval(this.intervalNumberEnemyLvl1);
         this.addEnemy();
       }
@@ -637,7 +637,7 @@ export class GameService {
   addEnemyLvl2() {
     this.intervalNumberEnemyLvl2 = setInterval(() => {
       this.addEnemmies();
-      if (this.enemyCount === 36) {
+      if (this.enemyCount === 10) {
         clearInterval(this.intervalNumberEnemyLvl2);
         this.addEnemy();
       }
@@ -647,7 +647,7 @@ export class GameService {
   addEnemyLvl3() {
     this.intervalNumberEnemyLvl3 = setInterval(() => {
       this.addEnemmies();
-      if (this.enemyCount === 61) {
+      if (this.enemyCount === 15) {
         clearInterval(this.intervalNumberEnemyLvl3);
         this.addEnemy();
       }
@@ -657,7 +657,7 @@ export class GameService {
   addEnemyLvl4() {
     this.intervalNumberEnemyLvl4 = setInterval(() => {
       this.addEnemmies();
-      if (this.enemyCount === 91) {
+      if (this.enemyCount === 20) {
         clearInterval(this.intervalNumberEnemyLvl4);
         this.addEnemy();
       }
@@ -685,19 +685,19 @@ export class GameService {
         this.ship.HP = this.ship.HP - 3;
       }
       else {
-        if (this.enemyCount < 16) {
+        if (this.enemyCount < 10) {
           enemy.posY = enemy.posY + 5;
           this.moveEnemyX(enemy);
         }
-        else if (this.enemyCount < 36) {
+        else if (this.enemyCount < 15) {
           enemy.posY = enemy.posY + 8;
           this.moveEnemyX(enemy);
         }
-        else if (this.enemyCount < 61) {
+        else if (this.enemyCount < 30) {
           enemy.posY = enemy.posY + 11;
           this.moveEnemyX(enemy);
         }
-        else if (this.enemyCount <= 91) {
+        else if (this.enemyCount <= 40) {
           enemy.posY = enemy.posY + 14;
           this.moveEnemyX(enemy);
         }
