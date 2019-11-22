@@ -387,7 +387,6 @@ currentState = 'fire';
   //ChoosenShipGame
   choosenShipGame(){
     //if ( this.shipService. === 1)
-
   }
 }
 
