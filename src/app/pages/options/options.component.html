@@ -17,7 +17,7 @@
                 <div class="ships">
                     <h2>Choose your ship</h2>
                     <div id="twoShips">
-                        <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)">
+                        <div *ngFor="let ship of ships" (click)="onSelectedShip(ship)" class="ship">
                             <img [style.width.px]= "ship.size" src="{{ ship.url }}">
                         </div>
                     </div>    
