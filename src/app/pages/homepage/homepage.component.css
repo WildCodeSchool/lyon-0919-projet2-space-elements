@@ -18,5 +18,6 @@ button{
  width: 300px;
  border-radius: 10%;  
  font-size: 200%; 
+ cursor: pointer;
 }
 

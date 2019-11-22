@@ -43,6 +43,9 @@
     display: flex;
 }
 
+.ship{
+    cursor: pointer;
+}
 button{
     width: 50px;
 }
