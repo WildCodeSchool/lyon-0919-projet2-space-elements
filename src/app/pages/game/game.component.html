@@ -27,9 +27,6 @@
                     </div>
             <h3 *ngIf='this.gameService.bossCreated'> Boss Life : </h3>
                 <mat-progress-bar *ngIf='this.gameService.bossCreated' class="progressBarBoss" mode="determinate" [color]="'warn'" [value]="getLifePercentageBoss()"></mat-progress-bar>
-            <div class="bonus">
-                Pas de bonus en cours
-            </div>
 
         </div>
 

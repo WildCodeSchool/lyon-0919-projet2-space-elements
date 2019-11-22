@@ -248,7 +248,7 @@ export class GameService {
         this.bonusArray.delete(bonus);
       }
       else {
-        bonus.posY = bonus.posY + 2;
+        bonus.posY = bonus.posY + 5;
       }
     }
 
